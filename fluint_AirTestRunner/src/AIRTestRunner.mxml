@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestRunnerWindow 
+		xmlns="*"
+		xmlns:mx="http://www.adobe.com/2006/mxml" 
+	    width="100%" height="100%"
+	    headless="true" reportDir="C:/temp/fluint"  >
+
+	<mx:Script>
+		<![CDATA[	
+			import net.digitalprimates.fluint.unitTests.frameworkSuite.FrameworkSuite;
+			
+			[Bindable]
+			private var ba:ByteArray = new ByteArray();
+			
+			protected override function startTestProcess( event:Event ):void 
+			{
+				var suiteArray:Array = new Array();
+					suiteArray.push( new FrameworkSuite() );
+				testRunner.startTests( suiteArray );
+			}
+		]]>
+	</mx:Script>
+</TestRunnerWindow>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns="*" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:fluint="http://www.digitalprimates.net/2008/fluint" paddingLeft="10" paddingRight="10" paddingTop="10">
+<mx:VBox xmlns="*" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:dp="http://www.digitalprimates.net/2008/fluint" paddingLeft="10" paddingRight="10" paddingTop="10">
 	<mx:Script>
 		<![CDATA[
+			import mx.collections.ArrayCollection;
 			import net.digitalprimates.fluint.monitor.TestCaseResult;
 			import net.digitalprimates.fluint.monitor.TestSuiteResult;
-			import mx.collections.ArrayCollection;
 			import net.digitalprimates.fluint.events.ChooseTestMethodResultEvent;
 			import net.digitalprimates.fluint.monitor.TestMethodResult;
 			import net.digitalprimates.fluint.monitor.TestMonitor;
@@ -45,17 +45,45 @@
 			protected function applyFilter( event:Event ):void {
 				switch ( testFilterGroup.selectedValue ) {
 					case 'all': {
+						applyTestSuiteCollectionFilter( null );
 						break;
 					}
 
 					case 'pass': {
+						applyTestSuiteCollectionFilter( filterAllPassed );
 						break;
 					}
 
 					case 'fail': {
+						applyTestSuiteCollectionFilter( filterAllFailed );
 						break;
 					}
 				}
+			}
+			
+			protected function applyTestSuiteCollectionFilter( filterFunction:Function ) : void
+			{
+				var testSuiteLength:int = testMonitor.testSuiteCollection.length;
+				
+				//	Go through all possible Test Suites
+				for( var i:int = 0; i < testSuiteLength; i++ ) {
+					var tsr:TestSuiteResult = testMonitor.testSuiteCollection[i] as TestSuiteResult;
+					if( tsr is TestSuiteResult )	{
+						tsr.children.filterFunction = filterFunction;
+						tsr.children.refresh();
+					}
+					testTree.expandItem(tsr,false);
+				}
+			}
+			
+			protected function filterAllPassed( item:Object ) : Boolean
+			{
+				return item.status
+			}
+			
+			protected function filterAllFailed( item:Object ) : Boolean
+			{
+				return item.status == false;
 			}
 		]]>
 	</mx:Script>
@@ -65,7 +93,7 @@
 		<mx:Spacer width="100%"/>
 		<mx:Label text="{testMonitor.totalFailureCount} Failure(s)" fontWeight="{testMonitor.totalFailureCount>0?'bold':'normal'}"/>
 	</mx:HBox>
-	<fluint:TestProgressBar width="100%" height="50" 
+	<dp:TestProgressBar width="100%" height="50" 
 			dataProvider="{testMonitor.testSuiteCollection}" 
 			numberTestCases="{testMonitor.totalTestCount}"
 			chooseTestMethodResult="handleTestMethodResultSelection( event )"/>
@@ -77,9 +105,9 @@
 			<mx:Label text="Test Result Filter"/>
 			<mx:HBox width="100%">
 				<mx:RadioButtonGroup id="testFilterGroup" change="applyFilter(event)"/>
-				<mx:RadioButton id="all" label="All Tests" selected="true"/>
-				<mx:RadioButton id="pass" label="Only Pass"/>
-				<mx:RadioButton id="fail" label="Only Failure"/>
+				<mx:RadioButton id="all" label="All Tests" selected="true" value="all" groupName="testFilterGroup"/>
+				<mx:RadioButton id="pass" label="Only Pass" value="pass" groupName="testFilterGroup"/>
+				<mx:RadioButton id="fail" label="Only Failure" value="fail" groupName="testFilterGroup"/>
 			</mx:HBox>
 		</mx:VBox>
 		<mx:VBox width="100%" height="100%">

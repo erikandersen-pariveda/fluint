@@ -1,0 +1,4 @@
+#summary Definition of a TestSuite
+
+== Test Suite ==
+A TestSuite is a collection of TestCases. The fluint framework has a FrameworkSuite which contains TestCases pertaining to different aspects of the library, such as asynchronous tests or UIComponent tests. Each of those TestCases then contain TestMethods which share a common setup to be executed. 

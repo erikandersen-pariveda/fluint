@@ -40,8 +40,8 @@ This tool provides a custom Ant task that can be used to invoke and run your flu
 }}}
 
 The attributes of the <fluint> tag are:
-	* {{{debug="true|false"}}} - Return debug information to the console
-	* {{{headless="true|false"}}} - To run the AIR application in a headless (no UI) mode, or to launch and run the AIR application as a full application. (Please note, this does not mean this can be launched from a truly headless server. Fluint will still instantiate visual objects, just not waste the time showing you a tree and progress bar.)
-	* {{{testRunner=""}}} - The path to your installed copy of the fluint AIR application
-	* {{{outputDir=""}}} - The location where the test runner should write to disk all of the test results.
-	* {{{<fileset>}}} - A fileset of all the Flex test suites modules (compiled as mx:Modules). Pleaase note, the use of the {{{fileSet}}} tag will be explained in detail along with the upcoming updates to fluint.
+	* debug="true|false" - Return debug information to the console
+	* headless="true|false" - To run the AIR application in a headless (no UI) mode, or to launch and run the AIR application as a full application. (Please note, this does not mean this can be launched from a truly headless server. Fluint will still instantiate visual objects, just not waste the time showing you a tree and progress bar.)
+	* testRunner="" - The path to your installed copy of the fluint AIR application
+	* outputDir="" - The location where the test runner should write to disk all of the test results.
+	* <fileset> - A fileset of all the Flex test suites modules (compiled as mx:Modules). Pleaase note, the use of the {{{fileSet}}} tag will be explained in detail along with the upcoming updates to fluint.

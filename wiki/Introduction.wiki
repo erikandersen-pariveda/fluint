@@ -15,7 +15,7 @@ Initially, we tried to extend FlexUnit to accomplish our goals, but ultimately d
 Take a look at the following pages to learn more about this project:
 
  * [GettingStarted Getting Started]
- * [TheTestRunner The TestRunner]
+ * [FlexTestRunner The Test Runner]
  * [BasicTest Writing a Basic Test]
  * [AsyncTest Writing an Asynchronous Test]
  * [AsyncSetup Using Asynchronous Startup]

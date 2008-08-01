@@ -1,0 +1,7 @@
+#summary Definition of SampleTestRunner
+
+== SampleTestRunner ==
+
+SampleTestRunner is a sample implementation of a TestRunner using the fluint framework. It is designed to work in Adobe Flex or AIR and implement a UI for the developer.
+
+Click on the [http://code.google.com/p/fluint/downloads/list Downloads] tab to download this file.

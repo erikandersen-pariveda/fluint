@@ -16,7 +16,7 @@ In this example, we are going to use the TextInput. It is a relatively simple UI
 
 == Create a New Test Case ==
  * Inside of your test runner project, browse to the sampleSuite/tests directory (the location where you previously created your TestCase1.as). 
- * Create a new ActionScript class named TestAsyncSetup.as with a superclass of net.digitalprimates.flex2.fluint.tests.TestCase.
+ * Create a new ActionScript class named TestAsyncSetup.as with a superclass of `net.digitalprimates.fluint.tests.TestCase`.
  * Import the TextInput, the FlexEvent and the Event classes.
 {{{
 	import mx.controls.TextInput;

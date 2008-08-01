@@ -28,4 +28,4 @@ Next, you will need to add this library to your build path. Do this by:
 
 This new Flex project, created with either the source code or the SWC library, will hold your tests and your test runner.
 
-[Introduction Previous] | [TheTestRunner Next]
+[Introduction Previous] | [FlexTestRunner Next]

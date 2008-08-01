@@ -3,7 +3,7 @@
 == Creating a Test Case ==
  * In the same project as your test runner, create a directory called sampleSuite.
  * Create a directory inside of sampleSuite named tests.
- * In the sampleSuite/tests directory, create a new ActionScript class named TestCase1, with a superclass of net.digitalprimates.flex2.fluint.tests.TestCase.
+ * In the sampleSuite/tests directory, create a new ActionScript class named TestCase1, with a superclass of `net.digitalprimates.fluint.tests.TestCase`.
 == Creating a Test Method ==
  * Inside of TestCase1, create a new method called `testMath()` that looks like this:
 {{{

@@ -1,0 +1,47 @@
+#summary Ant Tasks for use with the AIR TestRunner
+
+= Introduction =
+This tool provides a custom Ant task that can be used to invoke and run your fluint tests from an Ant build file. This set of Ant tasks has some features (such as the <fileset> tag) which are currently ignored by the test runner but will be available in upcoming releases of fluint. 
+
+==Requirements:==
+	* The [http://code.google.com/p/fluint/downloads/list fluint Test Runner for AIR].
+	* [http://ant.apache.org/ Ant] 1.6.x or later.
+
+==How to use the fluint Ant tag <fluint>:==
+
+	* Place fluintAnt.jar in your system class path so Ant can find it, or import it into the Ant script at runtime with a <PATH> tag
+{{{
+	<path id="libraries">
+		<fileset dir="${targetdir}">
+	        	<include name="**/*.jar"/>
+	        </fileset>
+	</path>
+}}}
+	* Import and define the fluint Ant tag in your build script with the classname "net.digitalprimates.ant.tasks.fluint.Fluint".
+{{{
+	<taskdef name="fluint"
+		classname="net.digitalprimates.ant.tasks.fluint.Fluint"
+		classpathref="libraries" />
+}}}
+
+	* Now that the fluint Ant tag has been defined in your build file you can call it with the <fluint> tag, like so:
+{{{
+	<target name="runTests">
+		<fluint
+			debug="true"
+			headless="false"
+			testRunner="C:/Program Files/fluintAir/fluintAir.exe"
+			outputDir="${basedir}">
+			<fileset dir="${basedir}">
+	            		<include name="**/*.swf"/>
+			</fileset>
+		</fluint>
+	</target>
+}}}
+
+The attributes of the <fluint> tag are:
+	* {{{debug="true|false"}}} - Return debug information to the console
+	* {{{headless="true|false"}}} - To run the AIR application in a headless (no UI) mode, or to launch and run the AIR application as a full application. (Please note, this does not mean this can be launched from a truly headless server. Fluint will still instantiate visual objects, just not waste the time showing you a tree and progress bar.)
+	* {{{testRunner=""}}} - The path to your installed copy of the fluint AIR application
+	* {{{outputDir=""}}} - The location where the test runner should write to disk all of the test results.
+	* {{{<fileset>}}} - A fileset of all the Flex test suites modules (compiled as mx:Modules). Pleaase note, the use of the {{{fileSet}}} tag will be explained in detail along with the upcoming updates to fluint.

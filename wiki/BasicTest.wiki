@@ -15,7 +15,7 @@
 }}}
  * While ridiculously simple, this test shows that the ‘+’ operator in ActionScript works correctly. You assert that the result of this `Math` operation should be equal to 8.
 == Creating a Test Suite ==
- * One directory above, in the sampleSuite directory, create a new ActionScript class named SampleSuite. Set the superclass to net.digitalprimates.flex2.fluint.tests.TestSuite.
+ * One directory above, in the sampleSuite directory, create a new ActionScript class named SampleSuite. Set the superclass to net.digitalprimates.fluint.tests.TestSuite.
  * Import the TestCase1 class you just created with the following code:
 {{{
 	import sampleSuite.tests.TestCase1;

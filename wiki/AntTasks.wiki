@@ -1,4 +1,4 @@
-#summary Ant Tasks for use with the AIR TestRunner
+#summary Ant Tasks for use with the AIR Test Runner
 
 = Introduction =
 This tool provides a custom Ant task that can be used to invoke and run your fluint tests from an Ant build file. This set of Ant tasks has some features (such as the <fileset> tag) which are currently ignored by the test runner but will be available in upcoming releases of fluint. 

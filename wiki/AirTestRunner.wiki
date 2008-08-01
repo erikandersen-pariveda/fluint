@@ -10,4 +10,4 @@ Right now, you still need to compile your tests into this test runner, much like
 
 At that point, your build scripts will only recompile your tests, not the TestRunner. Unfortunately, that is still in the coming soon pile. This is intended to be used with the Ant tasks also available in the downloads section.
 
-You can pass a command line parameter called reportDir, which is where the resultant XML file will be placed. (dpUintResults.xml) In future versions, the renaming of that file as well as the ability to produce multiple files (per suite or case) will also be supported.
+You can pass a command line parameter called reportDir, which is where the resultant XML file will be placed. (fluintResults.xml) In future versions, the renaming of that file as well as the ability to produce multiple files (per suite or case) will also be supported.

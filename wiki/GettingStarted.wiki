@@ -1,0 +1,31 @@
+#summary Installing the project
+
+== Installing the Library Project using the Source files ==
+dpUInt is a Flex Library project. Clicking on the [http://code.google.com/p/fluint/source/checkout Source] tab above will provide directions for synchronizing directly with the SVN repository, which will ensure continual access to the latest versions.
+
+Create a new Flex project and copy the source files into the project. 
+
+Next, you will need to add this library to your build path. Do this by:
+
+ * Project properties->Flex Build Path.
+ * Click the Library Path Tab.
+ * Click the Add Project button.
+ * From the popup, select the library project that was just created, and click OK.
+ * Click OK on the properties panel to close it.
+
+== Installing the Library Project using the SWC ==
+If you prefer, you can download the SWC library version. There is a different version built for Flex 2 and Flex 3, so be sure to grab the correct version.
+
+Create a new Flex project and copy the library SWC file into the project. 
+
+Next, you will need to add this library to your build path. Do this by:
+
+ * Project properties->Flex Build Path.
+ * Click the Library Path Tab.
+ * Click the Add SWC button.
+ * Browse to the downloaded file and click OK.
+ * Click OK on the properties panel to close it.
+
+This new Flex project, created with either the source code or the SWC library, will hold your tests and your test runner.
+
+[Introduction Previous] | [TheTestRunner Next]

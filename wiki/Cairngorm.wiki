@@ -51,7 +51,7 @@ In the AddContactPanel (the view) of this particular application, the ‘AddCont
 Next, we will create a TestCase for our Cairngorm sample. We will be testing a command and the entire flow from user input through the change to the ModelLocator.
 
  * Move back up to the sampleSuite/tests directory.
- * Create a new ActionScript class named TestCairngorm.as with a superclass of net.digitalprimates.flex2.fluint.tests.TestCase.
+ * Create a new ActionScript class named TestCairngorm.as with a superclass of `net.digitalprimates.fluint.tests.TestCase`.
  * Start by importing the following classes. If you are using FlexBuilder, it will handle this for you. If not, this will save you a few minutes of hunting and typing.
 {{{
 	import com.adobe.cairngorm.samples.addcontact.control.AddContactControl;
@@ -64,10 +64,10 @@ Next, we will create a TestCase for our Cairngorm sample. We will be testing a c
 	import mx.events.CollectionEvent;
 	import mx.events.FlexEvent;
 
-	import net.digitalprimates.flex2.fluint.sequence.SequenceEventDispatcher;
-	import net.digitalprimates.flex2.fluint.sequence.SequenceRunner;
-	import net.digitalprimates.flex2.fluint.sequence.SequenceSetter;
-	import net.digitalprimates.flex2.fluint.sequence.SequenceWaiter;
+	import net.digitalprimates.fluint.sequence.SequenceEventDispatcher;
+	import net.digitalprimates.fluint.sequence.SequenceRunner;
+	import net.digitalprimates.fluint.sequence.SequenceSetter;
+	import net.digitalprimates.fluint.sequence.SequenceWaiter;
 }}}
 
  * Inside of the class definition for TestCairngorm, create three new private variables as shown below:

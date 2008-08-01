@@ -50,7 +50,7 @@ Our test will set the username and password. Once the values have been committed
      This is just a simple login form that allows the entry of a username and password and broadcasts an event when the login button is clicked. The event we chose to broadcast is a TextEvent. We chose this event because it has an extra property where we can store the password. This isn’t a real world use case for the event, but it will work for our purposes.
 
  * Move back up to the sampleSuite/tests directory.
- * Create a new ActionScript class named TestSequences.as with a superclass of net.digitalprimates.flex2.fluint.tests.TestCase.
+ * Create a new ActionScript class named TestSequences.as with a superclass of `net.digitalprimates.fluint.tests.TestCase`.
  * Start by importing the following classes.
 {{{
 	import flash.events.Event;
@@ -94,10 +94,10 @@ Our test will set the username and password. Once the values have been committed
 
  * Now, create a new public method called `testLogin()` and add all of the following code. Unlike the previous steps, we are just going to show the entire code block to perform this test sequence and then proceed to explain it line by line. Line numbers are shown for easy reference in the following explanation.
 {{{
-	import net.digitalprimates.flex2.fluint.sequence.SequenceEventDispatcher;
-	import net.digitalprimates.flex2.fluint.sequence.SequenceRunner;
-	import net.digitalprimates.flex2.fluint.sequence.SequenceSetter;
-	import net.digitalprimates.flex2.fluint.sequence.SequenceWaiter;
+	import net.digitalprimates.fluint.sequence.SequenceEventDispatcher;
+	import net.digitalprimates.fluint.sequence.SequenceRunner;
+	import net.digitalprimates.fluint.sequence.SequenceSetter;
+	import net.digitalprimates.fluint.sequence.SequenceWaiter;
 
 
 	public function testLogin():void {

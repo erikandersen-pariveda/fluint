@@ -28,4 +28,4 @@ At that point, your build scripts will only recompile your tests, not the TestRu
 
 You can pass a command line parameter called reportDir, which is where the resultant XML file will be placed. (fluintResults.xml) In future versions, the renaming of that file as well as the ability to produce multiple files (per suite or case) will also be supported.
 
-[Terminology Previous] | Next
+[Terminology Previous] | [BasicTest Next]

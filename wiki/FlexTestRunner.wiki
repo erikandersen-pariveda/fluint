@@ -1,6 +1,5 @@
-#summary Exploring testing and the test runner
+#summary Basic terms and concepts
 
-== Terminology ==
 Before diving too much further into this process, we should discuss some terminology.
 In fluint, we deal with test suites, test cases and test methods. These are represented by the classes named TestSuite, TestCase and TestMethod in the fluint framework.
 

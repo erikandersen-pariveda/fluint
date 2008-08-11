@@ -1,7 +1,7 @@
 #summary Installing the project
 
 == Installing the Library Project using the Source files ==
-dpUInt is a Flex Library project. Clicking on the [http://code.google.com/p/fluint/source/checkout Source] tab above will provide directions for synchronizing directly with the SVN repository, which will ensure continual access to the latest versions.
+Fluint is a Flex Library project. Clicking on the [http://code.google.com/p/fluint/source/checkout Source] tab above will provide directions for synchronizing directly with the SVN repository, which will ensure continual access to the latest versions.
 
 Create a new Flex project and copy the source files into the project. 
 

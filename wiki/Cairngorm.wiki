@@ -214,7 +214,7 @@ Lines 1-3, we create a new instance of a value object called `someVO`.
 
 On Line 5, we define a variable of type IResponder and call our `asyncResponder` method to create a new class that implements the IResponder interface. Much like our `asyncHandler` method, this class takes several parameters. 
 
- * The first is an object which implements either the mx.rpc.IResponder interface or an object which implements the net.digitalprimates.flex2.fluint.async.ITestResponder interface. We will describe the differences between these two interfaces shortly. In this case, we create an instance of the TestResponder class and pass it the `handleResult` and `handleFault` methods as result and fault handlers, respectively.
+ * The first is an object which implements either the mx.rpc.IResponder interface or an object which implements the net.digitalprimates.fluint.async.ITestResponder interface. We will describe the differences between these two interfaces shortly. In this case, we create an instance of the TestResponder class and pass it the `handleResult` and `handleFault` methods as result and fault handlers, respectively.
 
  * The second is the time, in milliseconds, we are willing to wait for our responder to be called. 
 

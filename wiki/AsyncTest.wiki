@@ -53,7 +53,7 @@ To simulate asynchronous events without the need for services or dealing with th
 	var asyncHandler:Function = asyncHandler( handleTimerComplete, 500, null, handleTimeout );
 }}}
 
-     This code calls a method of the TestCase called `asyncHandler` to create a special class (the AsyncHandler class) that will monitor your test for an asynchronous event. The first parameter of this method is the event handler to call if everything works as planned (we received our asynchronous event). The second parameter is the number of milliseconds we are willing to wait, in this case 500. The third parameter is a generic object for passing additional data called `passThroughData`; we will deal with that shortly. The last parameter is the timeout handler. This is the method that will be called if the timeout (500ms) is reached before our asynchronous handler is called.
+     This code calls a method of the TestCase called `asyncHandler()` to create a special class (the AsyncHandler class) that will monitor your test for an asynchronous event. The first parameter of this method is the event handler to call if everything works as planned (we received our asynchronous event). The second parameter is the number of milliseconds we are willing to wait, in this case 500. The third parameter is a generic object for passing additional data called `passThroughData`; we will deal with that shortly. The last parameter is the timeout handler. This is the method that will be called if the timeout (500ms) is reached before our asynchronous handler is called.
  * As the next line in our function, we will add an event listener to the timer instance for a `TIMER_COMPLETE` event. When this event occurs, we will call the `asyncHandler` function we defined on the line above.
 {{{
 	timer.addEventListener(TimerEvent.TIMER_COMPLETE, asyncHandler, false, 0, true );			
@@ -82,15 +82,15 @@ To simulate asynchronous events without the need for services or dealing with th
 
 }}}
 
-     Note that the `handleTimerComplete` method takes two parameters, an `event` object and an object called `passThroughData`. The `handleTimeout` method only has a single parameter, the `passThroughData`.
- * We will leave the body of the handleTimerComplete message blank for now, but add a `fail` method call to the `handleTimeout` method so that it looks like the following code
+     Note that the `handleTimerComplete()` method takes two parameters, an `event` object and an object called `passThroughData`. The `handleTimeout()` method only has a single parameter, the `passThroughData`.
+ * We will leave the body of the `handleTimerComplete()` message blank for now, but add a `fail()` method call to the `handleTimeout()` method so that it looks like the following code
 {{{
 	protected function handleTimeout( passThroughData:Object ):void {
 		fail( "Timeout readed before event");			
 	}
 }}}
 
-     This tells the TestCase that this particular method should fail if it ever reaches the `handleTimeout` method
+     This tells the TestCase that this particular method should fail if it ever reaches the `handleTimeout()` method
 == Add the Test Case to the Suite ==
 Before we can run this TestCase, we need to add it to a TestSuite.
  * Open the sampleSuite/SampleSuite.as file
@@ -98,7 +98,7 @@ Before we can run this TestCase, we need to add it to a TestSuite.
 {{{
 	import sampleSuite.tests.TestAsync;
 }}}
- * Add a new `addTestCase` method call directly below the existing one to add a new instance of your TestAsync:
+ * Add a new `addTestCase()` method call directly below the existing one to add a new instance of your TestAsync:
 {{{
 	public function SampleSuite() {
 		addTestCase( new TestCase1() );
@@ -117,7 +117,7 @@ Your SampleSuite now includes two distinct test cases.
  * Run your SampleTestRunner application and you should see a failure for this test as the timeout expired before the timer event fires. Clicking on the red item in the progress bar will provide more information about the failure.
  * Change your Timer back to 100ms and let’s discuss a way of combining this into a single statement
 == Combined Syntax ==
-Above we created a test method by defining the `asyncHandler` and `addEventListener` on two separate lines. This can have some advantages if the developer is trying to manually remove and manage listeners. However, in the average case, this can be combined into a single statement like in the method below, `testTimerShortWay`:
+Above we created a test method by defining the `asyncHandler()` and `addEventListener()` on two separate lines. This can have some advantages if the developer is trying to manually remove and manage listeners. However, in the average case, this can be combined into a single statement like in the method below, `testTimerShortWay()`:
 {{{
 	public function testTimerShortWay():void {
 		timer.addEventListener(TimerEvent.TIMER_COMPLETE, asyncHandler( handleTimerComplete, 500, null, handleTimeout ), false, 0, true );
@@ -127,11 +127,11 @@ Above we created a test method by defining the `asyncHandler` and `addEventListe
 
 Add this method to your TestAsync case and re-run the SampleTestRunner. You should now see three passing tests. Note that you re-used both the `eventHandler` and `timeoutHandler` from the previous example. You should see significant reuse in well-crafted handlers as you continue to develop test cases.
 == Pass Through Data ==
-Learning to use the `passThroughData` parameter of the `asyncHandler` method will give you the most flexibility in writing reusable handlers. Any data passed into the handler will be passed to either the `eventHandler` on success or the `timeoutHandler` on a timeout.
+Learning to use the `passThroughData` parameter of the `asyncHandler()` method will give you the most flexibility in writing reusable handlers. Any data passed into the handler will be passed to either the `eventHandler` on success or the `timeoutHandler` on a timeout.
 
 Building on the previous example, here is another Timer test that uses the Timer's current count property. We'll call this test `testTimerCount()`. The first thing this method will do is create a generic object and add a property called `repeatCount` to that object.
 
-We will set the `repeatCount` property of the timer to the value contained in this object. Previously, we always passed a null to the `passThroughData` property of the `asyncHandler` method. This time, however, we will pass the object `o` that you created at the beginning of the method. We instruct `asyncHandler` to call `handleTimerCheckCount` when the `TIMER_COMPLETE` event occurs.
+We will set the `repeatCount` property of the timer to the value contained in this object. Previously, we always passed a null to the `passThroughData` property of the `asyncHandler()` method. This time, however, we will pass the object `o` that you created at the beginning of the method. We instruct `asyncHandler()` to call `handleTimerCheckCount` when the `TIMER_COMPLETE` event occurs.
 
 {{{
         public function testTimerCount() : void {
@@ -144,7 +144,7 @@ We will set the `repeatCount` property of the timer to the value contained in th
 	}
 }}}
 
-Next, create a `handleTimerCheckCount` method. It will call `assertEquals` and compare the `currentCount` property of the Timer to the `repeatCount` property of our passthrough data.
+Next, create a `handleTimerCheckCount()` method. It will call `assertEquals()` and compare the `currentCount` property of the Timer to the `repeatCount` property of our passthrough data.
 
 {{{
 	protected function handleTimerCheckCount( event:TimerEvent, passThroughData:Object ):void {
@@ -152,7 +152,7 @@ Next, create a `handleTimerCheckCount` method. It will call `assertEquals` and c
 	}
 }}}
 
-In our test, we tell the timer to count to repeat three times before it broadcasts the `TIMER_COMPLETE` message. Then, in our `handleTimerCheckCount` method, we ensure that the Timer's `currentCount` (the number of times the Timer has repeated) is correct. The important part is that we have now created a generic handler function which uses data created during the test. This same handler could be used for many different tests. Many more examples of this concept will be reviewed when we start testing UIComponents in the next sections.
+In our test, we tell the timer to count to repeat three times before it broadcasts the `TIMER_COMPLETE` message. Then, in our `handleTimerCheckCount()` method, we ensure that the Timer's `currentCount` (the number of times the Timer has repeated) is correct. The important part is that we have now created a generic handler function which uses data created during the test. This same handler could be used for many different tests. Many more examples of this concept will be reviewed when we start testing UIComponents in the next sections.
 
 Note: Fluint supports asynchronous responder testing in addition to the event testing discussed in this section. While this concept is applicable to many areas of testing, it will be covered in the Cairngorm section of this documentation.
 

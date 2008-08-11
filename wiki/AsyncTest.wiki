@@ -4,7 +4,7 @@
 This entry assumes you have followed the steps so far to download the SampleTestRunner and to build your first test suite and case. If you have not, feel free to read on, but a clearer picture can be obtained by reviewing this from [GettingStarted the beginning].
 == Asynchronous Test Defined ==
 An asynchronous test is a test that depends on some action that may not happen synchronously. An excellent example of this is an HTTPService in Flex. You make a call to the server to get data and, when the data is available, you are notified via an event. The original method which made that server call may have completed long ago.
-Many of the common properties set on UIComponents in Flex are actually asynchronous. When setting a property on a given control, often the intended value is stored in a private variable and applied later during the `commitProperties` method. Inherently this means we need asynchronous capability to truly test these features.
+Many of the common properties set on UIComponents in Flex are actually asynchronous. When setting a property on a given control, often the intended value is stored in a private variable and applied later during the `commitProperties()` method. Inherently this means we need asynchronous capability to truly test these features.
 == Approach ==
 To simulate asynchronous events without the need for services or dealing with the complexity of UIComponents, we are going to use timers. This will help to illustrate the major points while keeping the code to a minimum.
 == Create a New Test Case ==

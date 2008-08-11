@@ -68,4 +68,4 @@ testSuite2/
 
 }}}
 
-[FlexTestRunner Previous] | [AsyncTest Next]
+[TestRunners Previous] | [AsyncTest Next]

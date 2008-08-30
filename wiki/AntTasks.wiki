@@ -9,7 +9,7 @@ This tool provides a custom Ant task that can be used to invoke and run your flu
 
 ==How to use the fluint Ant tag <fluint>:==
 
-	* Place fluintAnt.jar in your system class path so Ant can find it, or import it into the Ant script at runtime with a <PATH> tag
+	Place fluintAnt.jar in your system class path so Ant can find it, or import it into the Ant script at runtime with a <PATH> tag
 {{{
 	<path id="libraries">
 		<fileset dir="${targetdir}">
@@ -17,14 +17,14 @@ This tool provides a custom Ant task that can be used to invoke and run your flu
 	        </fileset>
 	</path>
 }}}
-	* Import and define the fluint Ant tag in your build script with the classname "net.digitalprimates.ant.tasks.fluint.Fluint".
+	Import and define the fluint Ant tag in your build script with the classname "net.digitalprimates.ant.tasks.fluint.Fluint".
 {{{
 	<taskdef name="fluint"
 		classname="net.digitalprimates.ant.tasks.fluint.Fluint"
 		classpathref="libraries" />
 }}}
 
-	* Now that the fluint Ant tag has been defined in your build file you can call it with the <fluint> tag, like so:
+	Now that the fluint Ant tag has been defined in your build file you can call it with the <fluint> tag, like so:
 {{{
 	<target name="runTests">
 		<fluint

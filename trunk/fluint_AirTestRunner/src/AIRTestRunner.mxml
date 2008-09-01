@@ -2,21 +2,16 @@
 <TestRunnerWindow 
 		xmlns="*"
 		xmlns:mx="http://www.adobe.com/2006/mxml" 
-	    width="100%" height="100%"
-	    headless="true" reportDir="C:/temp/fluint"  >
+	    width="500" height="500"
+	    headless="false" reportDir="C:/temp/fluint" fileSet="{getFileSet()}"  >
 
 	<mx:Script>
 		<![CDATA[	
-			import net.digitalprimates.fluint.unitTests.frameworkSuite.FrameworkSuite;
-			
-			[Bindable]
-			private var ba:ByteArray = new ByteArray();
-			
-			protected override function startTestProcess( event:Event ):void 
-			{
-				var suiteArray:Array = new Array();
-					suiteArray.push( new FrameworkSuite() );
-				testRunner.startTests( suiteArray );
+			public function getFileSet():Array {
+				var fs:Array = new Array();
+				fs.push( "C:/Users/mlabriola/Documents/workspaces/net/digitalprimates/Fluint/fluint_AirTestRunner/bin-debug/modules/" );
+				
+				return fs;
 			}
 		]]>
 	</mx:Script>

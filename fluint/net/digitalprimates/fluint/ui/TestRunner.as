@@ -304,6 +304,11 @@ package net.digitalprimates.fluint.ui {
 		 * Starts running the setup phase of a given test method 
 		 */
 		protected function runSetup():void {
+			trace( "Now Setting Up " + testMethod.methodName );
+			
+			if ( testMethod.methodName == "testInValidationSequence" ) {
+				trace("here");
+			}
 			testCase.addEventListener( TestCase.TEST_COMPLETE, handleTestProcess, false, 0, true );
 			testCase.runSetup();
 		}
@@ -312,6 +317,11 @@ package net.digitalprimates.fluint.ui {
 		 * Starts running the method phase of a given test method 
 		 */
 		protected function runTestMethod():void {
+			if ( testMethod.methodName == "testInValidationSequence" ) {
+				trace("here");
+			}
+
+			trace( "Now Running " + testMethod.methodName );
 			testCase.addEventListener( TestCase.TEST_COMPLETE, handleTestProcess, false, 0, true );
 			testCase.runTestMethod( testMethod.method );
 		}
@@ -320,6 +330,7 @@ package net.digitalprimates.fluint.ui {
 		 * Starts running the teardown phase of a given test method 
 		 */
 		protected function runTearDown():void {
+			trace( "Now Tearing Down " + testMethod.methodName );
 			testCase.addEventListener( TestCase.TEST_COMPLETE, handleTestProcess, false, 0, true );
 			testCase.runTearDown();
 		}

@@ -32,6 +32,20 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
      */
 	public class TestAssert extends TestCase
 	{
+		[Test(description="Test is supposed to Fail",issueID="0012443")]
+	    public function fails2():void
+	    {
+	        try 
+	        {
+	            fail();
+	        } 
+	        catch ( e : AssertionFailedError ) 
+	        {
+	            return;
+	        }
+	        throw new AssertionFailedError("fail uncaught");
+	    }
+
 	    public function testFail():void
 	    {
 	        try 
@@ -46,7 +60,6 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 	    }
 	
 	//------------------------------------------------------------------------------
-	
 	    public function testAssertEquals():void
 	    {
 	        var  o : Object = new Object();

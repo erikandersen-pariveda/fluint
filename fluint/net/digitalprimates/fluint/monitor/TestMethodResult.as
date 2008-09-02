@@ -58,6 +58,11 @@ package net.digitalprimates.fluint.monitor
 		public var traceInformation:String;
 
 		/** 
+		 * Metadata associated with this test method
+		 */
+		public var metadata:XML;
+
+		/** 
 		 * Time in milliseconds required to complete this test.
 		 */
 		public var testDuration:int;
@@ -137,6 +142,7 @@ package net.digitalprimates.fluint.monitor
 			displayName = testMethod.methodName;
 			this.status = status;
 			this.traceInformation = traceInformation;
+			this.metadata = testMethod.metadata;
 		}
 	}
 }

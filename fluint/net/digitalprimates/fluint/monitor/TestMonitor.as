@@ -28,8 +28,6 @@ package net.digitalprimates.fluint.monitor {
 	import flash.utils.*;
 	
 	import mx.collections.ArrayCollection;
-	import mx.collections.XMLListCollection;
-	import mx.core.Application;
 	import mx.events.CollectionEvent;
 	
 	import net.digitalprimates.fluint.tests.TestCase;
@@ -182,7 +180,7 @@ package net.digitalprimates.fluint.monitor {
 		 * @return An instance of the TestMethodResult class.
 		 */		
 		public function createTestMethodResult( testCase:TestCase, testMethod:TestMethod ):TestMethodResult {
-			var testMethodResult:TestMethodResult = new TestMethodResult( testMethod );
+			var testMethodResult:TestMethodResult = new TestMethodResult( testMethod, true, null );
 
 			testMethodDictionary[ testMethod ] = testMethodResult;
 			

@@ -14,7 +14,23 @@
 			protected var testMonitor:TestMonitor = TestMonitor.getInstance();
 			
 			protected function displayTraceInformation( selectedItem:Object ):String {
-				return selectedItem.traceInformation;
+				var displayString:String;
+				
+				if ( !selectedItem.metadata ) {
+					displayString = selectedItem.traceInformation;
+				} else {
+					displayString = selectedItem.traceInformation + '\n';
+					if ( selectedItem.metadata.arg ) {
+						displayString += '\n';
+						var arg:XML;
+						for ( var i:int=0; i<selectedItem.metadata.arg.length(); i++ ) {
+							arg = selectedItem.metadata.arg[ i ];
+							displayString += ( arg.@key + ': ' + arg.@value + '\n' ); 
+						}
+					}
+				}
+				
+				return displayString;
 			} 
 			
 			protected function handleTestMethodResultSelection( event:ChooseTestMethodResultEvent ):void {

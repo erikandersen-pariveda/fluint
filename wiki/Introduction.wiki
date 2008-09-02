@@ -3,7 +3,7 @@
 
 == What it's all about? ==
 
-Fluint was created by [http://www.digitalprimates.net Digital Primates] to push testing with Flex and ActionScript past basic unit testing and into the world of integration testing. It provides full support for unit testing in the tradition of [http://code.google.com/p/as3flexunitlib/ FlexUnit], but goes further with richer asynchronous support and support for integration-level testing.
+Fluint (named dpUInt during its pre-release stage) was created by [http://www.digitalprimates.net Digital Primates] to push testing with Flex and ActionScript past basic unit testing and into the world of integration testing. It provides full support for unit testing in the tradition of [http://code.google.com/p/as3flexunitlib/ FlexUnit], but goes further with richer asynchronous support and support for integration-level testing.
 
 == Why not just use FlexUnit? ==
 [http://code.google.com/p/as3flexunitlib/ FlexUnit] is an excellent tool for creating unit tests for Flex, but its support for asynchronous testing was too limited to handle the level of integration we desired. Our goal was to test instances of UIComponent subclasses which, in Flex, are almost all asynchronous internally. By default, FlexUnit doesn’t have support for asynchronous setup or teardown nor the ability to pend on multiple asynchronous events. 

@@ -25,8 +25,8 @@
 package net.digitalprimates.fluint.sequence {
 	import flash.events.IEventDispatcher;
 	
+	import mx.binding.utils.ChangeWatcher;
 	import mx.events.PropertyChangeEvent;
-	import mx.events.PropertyChangeEventKind;
 	
 	import net.digitalprimates.fluint.tests.TestCase;
 	
@@ -114,7 +114,12 @@ package net.digitalprimates.fluint.sequence {
 		 * Called by the SequenceRunner to cause the setup of event listeners
 		 **/ 
 		public function setupListeners( testCase:TestCase, sequence:SequenceRunner ):void {
-			target.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, testCase.asyncHandler( testCase.handleBindableNextSequence, timeout, sequence, timeoutHandler ), false, 0, true );
+			if ( ChangeWatcher.canWatch( target, propertyName ) ) {
+				ChangeWatcher.watch( target, propertyName, testCase.asyncHandler( testCase.handleBindableNextSequence, timeout, sequence, timeoutHandler ) );
+			} else {
+				throw new Error( "Attempting to watch un-watchable property" );
+			}
+			//target.addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, testCase.asyncHandler( testCase.handleBindableNextSequence, timeout, sequence, timeoutHandler ), false, 0, true );
 		}
 		/**
 		 * Constructor.

@@ -15,6 +15,7 @@ package
 	import flash.system.LoaderContext;
 	import flash.utils.ByteArray;
 	
+	import mx.controls.Alert;
 	import mx.core.IFlexModuleFactory;
 	import mx.core.WindowedApplication;
 	import mx.events.ModuleEvent;
@@ -65,10 +66,16 @@ package
 			return _fileSet;
 		}
 		
-		public function set fileSet(files:Array):void
+		public function set fileSet(value:Array):void
 		{
-			_fileSet = files;
+			_fileSet = value;
 			_fileSetChange = true;
+			/*
+			for ( var i:int=0;i<value.length;i++ ) {
+				Alert.show( i + ': ' + value[i] );	
+			} 
+			*/
+			
 			invalidateProperties();
 		}
 		
@@ -130,18 +137,38 @@ package
 		{
 			for(var i:int=0;i<event.arguments.length;i++)
 			{
-				switch(event.arguments[i].toLowerCase()){
-					case "-headless":
-						this.headless=true;												
-						break;
-						
-					case "-reportdir":
-						this.reportDir= event.arguments[i+1];
-						break;
-						
-					case "-modules":
-						fileSet = String(event.arguments[i+1]).split(";");
-						break;		
+				//Alert.show( i + ': ' + event.arguments[i] );	
+
+				var headlessExp:RegExp = new RegExp( '^-headless' );
+				var reportExp:RegExp = new RegExp( '^-reportDir' );
+				var filesetExp:RegExp = new RegExp( '^-fileSet' );
+
+				if ( headlessExp.test( event.arguments[i] ) ) {
+					this.headless = true;	
+				}
+
+				if ( reportExp.test( event.arguments[i] ) ) {
+					var reportArray:Array = event.arguments[i].split( "=" );
+					if ( reportArray.length == 2 ) {
+						var reportString:String = reportArray[1];
+						if ( reportString.length > 3 ) {
+							reportString = reportString.substr( 1, reportString.length - 2 );
+						}
+
+						this.reportDir = reportString; 
+					}
+				}
+
+				if ( filesetExp.test( event.arguments[i] ) ) {
+					var filesetArray:Array = event.arguments[i].split( "=" );
+					if ( filesetArray.length == 2 ) {
+						var filesetString:String = filesetArray[1];
+						if ( filesetString.length > 3 ) {
+							filesetString = filesetString.substr( 1, filesetString.length - 2 );
+						}
+
+						fileSet = filesetString.split(",");						 
+					}
 				}
 			}
 		}

@@ -20,7 +20,7 @@ The TestRunner, TestSuite and TestCase classes all also have a public property n
         f(item:Object):Boolean
 }}}
 
-If the function returns true, the relevant item is kept. If it returns false, the item will not be counted in the testing. The TestRunner and TestSuite filter functions currently always return true. The TestCase filter function returns true for any method that begins with the letters ‘test’. 
+If the function returns true, the relevant item is kept. If it returns false, the item will not be counted in the testing. The TestRunner and TestSuite filter functions currently always return true. The TestCase filter function returns true for any method that begins with the letters ‘test’ or that is immediately proceeded by the [Test] metadata. 
 
 If you do not wish to provide a filter function, or wish to manipulate this filtering through inheritance, the `defaultFilterFunction` is also defined in each of these classes in the following method:
 {{{

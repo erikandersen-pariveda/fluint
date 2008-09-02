@@ -42,13 +42,13 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite
 			super();
 
 			addTestCase( new TestAssert() );
-			//addTestCase( new TestEmptyCase() );
-			//addTestCase( new TestAsynchronous() );
-			//addTestCase( new TestSynchronousSetUpTearDown() );
-			//addTestCase( new TestAsynchronousSetUpTearDown() );
-			//addTestCase( new TestASComponentUse() );
-			//addTestCase( new TestMXMLComponentUse() );
-			//addTestCase( new TestBindingUse() );
+			addTestCase( new TestEmptyCase() );
+			addTestCase( new TestAsynchronous() );
+			addTestCase( new TestSynchronousSetUpTearDown() );
+			addTestCase( new TestAsynchronousSetUpTearDown() );
+			addTestCase( new TestASComponentUse() );
+			addTestCase( new TestMXMLComponentUse() );
+			addTestCase( new TestBindingUse() );
 		}
 	}
 }

@@ -1,4 +1,5 @@
 #summary Ant Tasks for use with the AIR Test Runner
+#labels Featured
 
 = Introduction =
 The combination of the AIRTestRunner and the provided Ant Tasks are a powerful way to use Fluint with an automated build system. If you have not yet done so, be sure to synchronize the source for these projects.

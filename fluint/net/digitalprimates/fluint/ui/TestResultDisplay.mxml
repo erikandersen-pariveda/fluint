@@ -103,7 +103,7 @@
 			}
 		]]>
 	</mx:Script>
-	<mx:Label text="Unit and Test Integration Environment"/>
+	<mx:Label text="Unit and Integration Test Environment"/>
 	<mx:HBox width="100%">
 		<mx:Label text="Running {testMonitor.totalTestCount} Tests"/>
 		<mx:Spacer width="100%"/>

@@ -9,6 +9,21 @@ A TestMethod is the smallest unit of the testing framework. A test method exerci
 
 Though a single test method may setup several conditions, exercise several pieces of code, or even wait for an asynchronous event, it should ultimately make only a single assertion. This is a point of contention and many disagree, but a single assertion per method ensures the best granularity in resolving test failures, among other benefits. 
 
+When using Fluint, your tests must either begin with the letters 'test', as in testMe() or testYou() or they can be decorated by a piece of [Test] metadata. For example:
+{{{
+[Test]
+public function fails2():void {}
+}}}
+
+The first method allows a very simple way to quickly create tests. The second method allows you to control your tests in more granular detail and provide additional information about why they exist. For example:
+
+{{{
+[Test(description="Test is supposed to Fail",issueID="0012443")]
+public function fails2():void {}
+}}}
+
+The [Test] metadata allows you to embed descriptions of the test as well as other useful information for reporting, such as the issueID or bug number that this test addresses. Fluint does not dictate what information can be present in the test metadata. It simply preserves all attributes that you specify within the Test metadata tag.
+
 == Test Case ==
 A TestCase is a collection of [TestMethod TestMethods] that share a common test environment. Each TestCase has a `setUp()` and `tearDown()` method which can be overridden to create a specific environment for your [TestMethod TestMethods]. So, for example, if you wanted to write a series of [TestMethod TestMethods] to test the Flex Timer class, they could all exist in a single TestCase. In the `setUp()` method you would create a Timer instance to test with. In the `tearDown()` method, you would stop that timer and remove references so it can be garbage collected. If your TestCase has two [TestMethod TestMethods], the fluint framework would execute the TestCase in the following way:
 {{{

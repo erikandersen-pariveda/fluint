@@ -9,7 +9,14 @@ A TestMethod is the smallest unit of the testing framework. A test method exerci
 
 Though a single test method may setup several conditions, exercise several pieces of code, or even wait for an asynchronous event, it should ultimately make only a single assertion. This is a point of contention and many disagree, but a single assertion per method ensures the best granularity in resolving test failures, among other benefits. 
 
-When using Fluint, your tests must either begin with the letters 'test', as in testMe() or testYou() or they can be decorated by a piece of [Test] metadata. For example:
+When using Fluint, your tests must either begin with the letters 'test', for example:
+
+{{{
+public function testMe():void {}
+public function testYou():void {}
+}}}
+
+are both valid names for test methods or your methods can be decorated by a piece of [Test] metadata. For example:
 {{{
 [Test]
 public function fails2():void {}

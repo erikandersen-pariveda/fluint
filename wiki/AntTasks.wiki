@@ -1,7 +1,11 @@
 #summary Ant Tasks for use with the AIR Test Runner
 
 = Introduction =
-This tool provides a custom Ant task that can be used to invoke and run your fluint tests from an Ant build file. This set of Ant tasks has some features (such as the <fileset> tag) which are currently ignored by the test runner but will be available in upcoming releases of fluint. 
+The combination of the AIRTestRunner and the provided Ant Tasks are a powerful way to use Fluint with an automated build system. If you have not yet done so, be sure to synchronize the source for these projects.
+
+The full source for both the AIRTestRunner and the ANT Tasks are available in the directory reporsitory.
+
+However, should you prefer, both of these items are also available as a JAR and AIR file repsectively from the downlaods page.
 
 ==Requirements:==
 	* The [http://code.google.com/p/fluint/downloads/list fluint Test Runner for AIR].
@@ -9,7 +13,7 @@ This tool provides a custom Ant task that can be used to invoke and run your flu
 
 ==How to use the fluint Ant tag <fluint>:==
 
-	Place fluintAnt.jar in your system class path so Ant can find it, or import it into the Ant script at runtime with a <PATH> tag
+	Place FluintAnt.jar in your system class path so Ant can find it, or import it into the Ant script at runtime with a <PATH> tag
 {{{
 	<path id="libraries">
 		<fileset dir="${targetdir}">
@@ -21,20 +25,20 @@ This tool provides a custom Ant task that can be used to invoke and run your flu
 {{{
 	<taskdef name="fluint"
 		classname="net.digitalprimates.ant.tasks.fluint.Fluint"
-		classpathref="libraries" />
+		classpathref="libraries" />	
 }}}
 
 	Now that the fluint Ant tag has been defined in your build file you can call it with the <fluint> tag, like so:
 {{{
-	<target name="runTests">
+	<target name="test">
 		<fluint
 			debug="true"
-			headless="false"
-			testRunner="C:/Program Files/fluintAir/fluintAir.exe"
-			outputDir="${basedir}">
-			<fileset dir="${basedir}">
-	            		<include name="**/*.swf"/>
-			</fileset>
+			headless="true"
+			testRunner="C:\Program Files\FluintAIRTestRunner\FluintAIRTestRunner.exe"
+			outputDir="C:\temp\test">
+				<fileset dir="C:\temp\test">
+	            	<include name="**/*.*"/>
+				</fileset>
 		</fluint>
 	</target>
 }}}
@@ -44,11 +48,12 @@ The attributes of the <fluint> tag are:
 
 	* headless="true|false" - To run the AIR application in a headless (no UI) mode, or to launch and run the AIR application as a full application. 
 
-(Please note, this does not mean this can be launched from a truly headless server. Fluint will still instantiate visual objects, just not waste the time showing you a tree and progress bar.)
-	* testRunner="" - The path to your installed copy of the fluint AIR application
+*Note:* this does not mean this can be launched from a truly headless server. Fluint will still instantiate visual objects, just not waste the time showing you a tree and progress bar. Further, the application will close immediately upon completion of the tests.
 
-	* reportdir="" - The location where the test runner should write to disk all of the test results.
+	* testRunner="" - The path to your installed copy of the fluint AIR TestRunner application.
 
-	* fileset - A fileset of all the Flex test suites modules (compiled as mx:Modules). 
+	* outputDir="" - The location where the test runner should write the test results. A file named fluintResults.xml will be created by default that contains the results of the latest testing session.
 
-Please note, the use of the {{{fileSet}}} tag will be explained in detail along with the upcoming updates to fluint.
+	* fileset - A fileset of all .swf files to load for testing (compiled as mx:Modules). 
+
+*Note:* If you provide directories as opposed to files for the fileset option, the AIR testrunner will recurse those directories looking for .swf files to load as modules.

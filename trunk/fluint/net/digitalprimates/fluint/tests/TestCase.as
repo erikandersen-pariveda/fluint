@@ -34,6 +34,7 @@ package net.digitalprimates.fluint.tests {
 	import mx.collections.XMLListCollection;
 	import mx.events.PropertyChangeEvent;
 	import mx.rpc.IResponder;
+	import mx.utils.*;
 	
 	import net.digitalprimates.fluint.assertion.AssertionFailedError;
 	import net.digitalprimates.fluint.async.AsyncHandler;
@@ -389,6 +390,20 @@ package net.digitalprimates.fluint.tests {
         /**
          * @private
          */
+		private function getMetaDataFromNode( node:XML ):XML {
+			var metadata:XML;
+
+			if ( node.hasOwnProperty( 'metadata' ) ) {
+				var xmlList:XMLList = node.metadata.(@name="Test"); 
+				metadata = xmlList?xmlList[0]:null; 
+			}			
+
+			return metadata;
+		}
+
+        /**
+         * @private
+         */
 		private function getMethodNameFromNode( node:XML ):String {
 			return ( node.@name );
 		}
@@ -415,7 +430,8 @@ package net.digitalprimates.fluint.tests {
 			if ( !cursor.afterLast && !cursor.beforeFirst ) {
 				methodNode = cursor.current as XML;
 				cursor.moveNext();
-				return new TestMethod( getMethodFromNode( methodNode ), getMethodNameFromNode( methodNode ) );
+
+				return new TestMethod( getMethodFromNode( methodNode ), getMethodNameFromNode( methodNode ), getMetaDataFromNode( methodNode ) );
 			} 
 
 			return null;			
@@ -426,7 +442,8 @@ package net.digitalprimates.fluint.tests {
          */
 		private function buildTestCollection():XMLListCollection {
 			var testMethods:XMLListCollection;
-			var typeDetail:XML = describeType( this );
+			var record:DescribeTypeCacheRecord = DescribeTypeCache.describeType( this );
+			var typeDetail:XML = record.typeDescription;
 			//var methods:XMLList = typeDetail.method.( /^test.*/.test( @name ) );
 			//We now use a filterFunction to grab only test* methods as opposed to here
 			var methods:XMLList = typeDetail.method;
@@ -980,6 +997,15 @@ package net.digitalprimates.fluint.tests {
 		protected function defaultFilterFunction( item:Object ):Boolean {
 			if ( ( /^test.*/.test( item.@name ) ) ) {
 				return true;
+			}
+			
+			//Also check if it has a 'Test' metadata and include those items
+			if ( item.hasOwnProperty( 'metadata' ) ) {
+				var metaList:XMLList = item.metadata.(@name=='Test');
+				
+				if ( metaList.length() > 0 ) {
+					return true;
+				}
 			}
 
 			return false;

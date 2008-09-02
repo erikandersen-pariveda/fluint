@@ -38,6 +38,11 @@ package net.digitalprimates.fluint.tests {
          * String representation of the method name.
          */
 		public var methodName:String;
+
+        /**
+         * XML metadata information accompanying method.
+         */
+		public var metadata:XML;
 		
         /**
          * Constructor.
@@ -49,10 +54,12 @@ package net.digitalprimates.fluint.tests {
          * 
          * @param method Reference to the test method.
          * @param methodName Name of the test method.
+         * @param metadata Metadata defined for the test method using the [Test] metadata. (optional)
          */
-		public function TestMethod( method:Function, methodName:String ) {
+		public function TestMethod( method:Function, methodName:String, metadata:XML=null ) {
 			this.method = method;
 			this.methodName = methodName;
+			this.metadata = metadata;
 		}
 	}
 }

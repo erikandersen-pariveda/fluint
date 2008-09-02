@@ -34,6 +34,7 @@ package net.digitalprimates.fluint.ui {
 	import mx.controls.ToolTip;
 	import mx.core.Container;
 	import mx.events.CollectionEvent;
+	import mx.events.CollectionEventKind;
 	import mx.events.PropertyChangeEvent;
 	import mx.managers.ToolTipManager;
 	
@@ -217,7 +218,12 @@ package net.digitalprimates.fluint.ui {
          * @private
          */
 		protected function handleCollectionChange( event:CollectionEvent ):void {
-			this.invalidateDisplayList();
+			if ( event.kind == CollectionEventKind.RESET ) {
+				this.invalidateDisplayList();
+			} else if ( event.kind == CollectionEventKind.UPDATE ) {
+				trace("Update value");
+				this.invalidateDisplayList();
+			}
 		}
 		
         /**
@@ -250,7 +256,6 @@ package net.digitalprimates.fluint.ui {
          * @private
          */
 		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
-			var positionCounter:int = 0;
 			super.updateDisplayList( unscaledWidth, unscaledHeight );
 			
 			testsLabel.setActualSize( testsLabel.getExplicitOrMeasuredWidth(), testsLabel.getExplicitOrMeasuredHeight() );
@@ -263,6 +268,38 @@ package net.digitalprimates.fluint.ui {
 			
 			//Cap this so we never take less than 6 pixels per test..scroll if needed
 			testCaseSize = Math.max( ( unscaledWidth/numberTestCases ), 6 );
+			
+			rebuildProgressBar();
+		}
+
+        /**
+         * @private
+         */
+		override protected function createChildren():void {
+
+			if ( !testsLabel ) {
+				testsLabel = new Label()
+				addChild( testsLabel );
+			}
+
+			if ( !errorsLabel ) {
+				errorsLabel = new Label()
+				addChild( errorsLabel );
+			}
+
+			if ( !failuresLabel ) {
+				failuresLabel = new Label()
+				addChild( failuresLabel );
+			}
+
+			super.createChildren();			
+		}
+
+        /**
+         * @private
+         */
+		protected function rebuildProgressBar( updateIndex:int=-1 ):void {
+			var positionCounter:int = 0;
 
 			indexMap = new Array();
 			graphics.clear();
@@ -297,31 +334,9 @@ package net.digitalprimates.fluint.ui {
 					}					
 				}			
 			}			
+			
 		}
-
-        /**
-         * @private
-         */
-		override protected function createChildren():void {
-
-			if ( !testsLabel ) {
-				testsLabel = new Label()
-				addChild( testsLabel );
-			}
-
-			if ( !errorsLabel ) {
-				errorsLabel = new Label()
-				addChild( errorsLabel );
-			}
-
-			if ( !failuresLabel ) {
-				failuresLabel = new Label()
-				addChild( failuresLabel );
-			}
-
-			super.createChildren();			
-		}
-
+		
         /**
          * @private
          */

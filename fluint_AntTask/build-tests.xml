@@ -1,0 +1,30 @@
+<project name="FluintTest" default="test">
+
+    <property name="sourcedir" value="${basedir}/src"/>
+    <property name="targetdir" value="${basedir}/release"/>
+    <property name="bindir" value="${basedir}/bin"/>
+
+    
+    <path id="libraries">
+        <fileset dir="${targetdir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+	
+	<taskdef name="fluint"
+		classname="net.digitalprimates.ant.tasks.fluint.Fluint"
+		classpathref="libraries" />	
+	
+	<target name="test">
+		<fluint
+			debug="true"
+			headless="true"
+			testRunner="C:\Program Files\FluintAIRTestRunner\FluintAIRTestRunner.exe"
+			outputDir="C:\temp\test">
+				<fileset dir="C:\temp\test">
+	            	<include name="**/*.*"/>
+				</fileset>
+		</fluint>
+	</target>
+	
+</project>

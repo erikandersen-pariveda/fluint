@@ -57,3 +57,23 @@ The attributes of the <fluint> tag are:
 	* fileset - A fileset of all .swf files to load for testing (compiled as mx:Modules). 
 
 *Note:* If you provide directories as opposed to files for the fileset option, the AIR testrunner will recurse those directories looking for .swf files to load as modules.
+
+= Sample Test Module =
+The following source shows a sample module which will run the framework test suite:
+{{{
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" implements="net.digitalprimates.fluint.modules.ITestSuiteModule">
+	<mx:Script>
+		<![CDATA[
+			import net.digitalprimates.fluint.unitTests.frameworkSuite.FrameworkSuite;
+			public function getTestSuites():Array {
+				var suiteArray:Array = new Array();
+				suiteArray.push( new FrameworkSuite() );
+				return suiteArray;
+			}
+		]]>
+	</mx:Script>	
+</mx:Module>
+}}}
+
+The module must implement the net.digitalprimates.fluint.modules.ITestSuiteModule interface, which simply requires that it has a getTestSuites() method which returns an array of TestSuite instances.

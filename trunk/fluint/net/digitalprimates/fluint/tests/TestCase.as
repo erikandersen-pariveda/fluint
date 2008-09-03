@@ -203,7 +203,7 @@ package net.digitalprimates.fluint.tests {
         /**
          * @private
          */
-		private function get hasPendingAsync():Boolean {
+		public function get hasPendingAsync():Boolean {
 			return ( pendingAsyncCalls.length > 0 );
 		}
 

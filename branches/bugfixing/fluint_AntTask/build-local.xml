@@ -1,0 +1,20 @@
+<project name="FluintAntTask" default="jar">
+
+    <property name="sourcedir" value="${basedir}/src"/>
+    <property name="targetdir" value="${basedir}/release"/>
+    <property name="bindir" value="${basedir}/bin"/>
+
+    	
+	<target name="jar" depends="compile">
+		<jar destfile="${targetdir}/FluintAnt.jar"
+			basedir="${bindir}" />	
+	</target>
+	
+    <target name="compile" >
+    	<javac srcdir="${sourcedir}"
+        	destdir="${bindir}" 
+			verbose="false" debug="true"/>
+    	
+    </target>
+	
+</project>

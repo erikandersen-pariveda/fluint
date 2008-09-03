@@ -304,14 +304,25 @@ package net.digitalprimates.fluint.tests {
 					    setupTearDownFailed = true;
 						var testCaseResult:TestCaseResult = testMonitor.getTestCaseResult( this );
 						testCaseResult.status = false;
-						testCaseResult.traceInformation = e.getStackTrace();
+
+						if ( !testCaseResult.traceInformation ) {
+							testCaseResult.traceInformation = e.getStackTrace();
+						} else {
+							testCaseResult.traceInformation += ( '\n' + e.getStackTrace() );
+						}
 					} else {
 						if ( e is AssertionFailedError ) {
 							//In this case, a test actually failed via an assertion or fail
 							methodResult = testMonitor.getTestMethodResult( registeredMethod );
 							methodResult.isError = false;
 							methodResult.status = false;
-							methodResult.traceInformation = e.getStackTrace();
+
+							if ( !methodResult.traceInformation ) {
+								methodResult.traceInformation = e.getStackTrace();
+							} else {
+								methodResult.traceInformation += ( '\n' + e.getStackTrace() );
+							}
+
 							methodResult.executed = true;
 						} else {
 							//I am not sure we are going to keep these separate
@@ -319,7 +330,13 @@ package net.digitalprimates.fluint.tests {
 							methodResult = testMonitor.getTestMethodResult( registeredMethod );
 							methodResult.isError = true; 
 							methodResult.status = false;
-							methodResult.traceInformation = e.getStackTrace();
+
+							if ( !methodResult.traceInformation ) {
+								methodResult.traceInformation = e.getStackTrace();
+							} else {
+								methodResult.traceInformation += ( '\n' + e.getStackTrace() );
+							}
+
 							methodResult.executed = true;
 						}
 					}

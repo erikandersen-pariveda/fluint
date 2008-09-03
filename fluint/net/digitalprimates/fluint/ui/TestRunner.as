@@ -358,7 +358,7 @@ package net.digitalprimates.fluint.ui {
 				f();
 			}
 
-			if ( progressCursor.afterLast ) {
+			if ( progressCursor.afterLast && !testCase.hasPendingAsync) {
 				//restart the process
 				testCompleted = true;
 			}

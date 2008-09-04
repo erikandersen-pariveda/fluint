@@ -23,13 +23,17 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  **/ 
 package net.digitalprimates.fluint.ui {
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
+	import flash.utils.Dictionary;
 	import flash.utils.Timer;
 	
 	import mx.collections.ArrayCollection;
+	import mx.collections.CursorBookmark;
+	import mx.collections.IViewCursor;
 	import mx.controls.Label;
 	import mx.controls.ToolTip;
 	import mx.core.Container;
@@ -42,6 +46,7 @@ package net.digitalprimates.fluint.ui {
 	import net.digitalprimates.fluint.monitor.TestCaseResult;
 	import net.digitalprimates.fluint.monitor.TestMethodResult;
 	import net.digitalprimates.fluint.monitor.TestSuiteResult;
+	import net.digitalprimates.fluint.ui.events.DisplayPropertyUpdateEvent;
 
 	/** 
 	 * The 'chooseTestMethodResult' event is fired when the user clicks on 
@@ -93,6 +98,11 @@ package net.digitalprimates.fluint.ui {
          * @private
          */
 		private var dataProviderChanged:Boolean = false;
+
+        /**
+         * @private
+         */
+		protected var displayBar:Sprite;
 
         /**
          * @private
@@ -210,7 +220,9 @@ package net.digitalprimates.fluint.ui {
 				collection.addEventListener(CollectionEvent.COLLECTION_CHANGE, handleCollectionChange, false, 0, true );
 			}
 			dataProviderChanged = true;
-			invalidateProperties();
+			
+			handleCollectionChange( new CollectionEvent( CollectionEventKind.RESET ) );
+			invalidateProperties();			
 			dispatchEvent( new Event( 'dataProviderChanged' ) );
 		}
 
@@ -218,12 +230,26 @@ package net.digitalprimates.fluint.ui {
          * @private
          */
 		protected function handleCollectionChange( event:CollectionEvent ):void {
+			var suiteResult:TestSuiteResult;
+
 			if ( event.kind == CollectionEventKind.RESET ) {
-				this.invalidateDisplayList();
-			} else if ( event.kind == CollectionEventKind.UPDATE ) {
-				//trace("Update value");
-				this.invalidateDisplayList();
+				for ( var i:int=0; i<collection.length; i++ ) {
+					suiteResult = TestSuiteResult( collection[i] ); 
+					if ( suiteResult ) {
+						suiteResult.addEventListener( DisplayPropertyUpdateEvent.DISPLAY_PROPERTY_UPDATE, handleDisplayPropertyUpdate, false, 0, true );
+					} 
+				}	
+			} else if ( event.kind == CollectionEventKind.ADD ) {
+				trace("Update value");
+				for ( var j:int=0; j<event.items.length; j++ ) {
+					suiteResult = TestSuiteResult( event.items[j] ); 
+					if ( suiteResult ) {
+						suiteResult.addEventListener( DisplayPropertyUpdateEvent.DISPLAY_PROPERTY_UPDATE, handleDisplayPropertyUpdate, false, 0, true );
+					} 
+				}
 			}
+
+			//this.invalidateDisplayList();
 		}
 		
         /**
@@ -291,10 +317,95 @@ package net.digitalprimates.fluint.ui {
 				failuresLabel = new Label()
 				addChild( failuresLabel );
 			}
+			
+			if (!displayBar) {
+				displayBar = new Sprite();
+				rawChildren.addChild( displayBar );
+			}
 
 			super.createChildren();			
 		}
 
+		protected var suiteStartMap:Dictionary = new Dictionary( true );
+		protected var caseStartMap:Dictionary = new Dictionary( true );
+		protected var methodStartMap:Dictionary = new Dictionary( true );
+
+		protected function computeSuiteStartPosition( suiteResult:TestSuiteResult ):Number {
+			var position:Number;
+
+			//Check if it already exists in our map 
+			position = suiteStartMap[ suiteResult ];			
+			if ( position ) {
+				return position;
+			}	
+			
+			//If it is the first position, return 0 
+			var index:int = collection.getItemIndex( suiteResult );
+			if ( index == 0 ) {
+				suiteStartMap[ suiteResult ] = 0;
+				return 0;
+			}
+
+			//Else, we can only compute our position once we know the end of the
+			var prevSuite:TestSuiteResult = collection.getItemAt( position - 1 ) as TestSuiteResult;
+			var prevCase:TestCaseResult = prevSuite.children.getItemAt( prevSuite.children.length-1 );
+			var prevMethod:TestMethodResult = prevCase.children.getItemAt( prevCase.children.length-1 );
+			var newStart:Number = computeMethodStartPosition( prevMethod ) + testCaseSize;  
+
+			suiteStartMap[ suiteResult ] = newStart;
+		}
+
+		protected function computeCaseStartPosition( caseResult:TestCaseResult ):Number {
+			var position:Number;
+
+			//Check if it already exists in our map 
+			position = caseStartMap[ caseResult ];			
+			if ( position ) {
+				return position;
+			}	
+
+			//If it is the first position, return 0 
+			var index:int = collection.getItemIndex( suiteResult );
+			if ( index == 0 ) {
+				caseStartMap[ caseResult ] = computeSuiteStartPosition(whateverSuite we are in);
+				return 0;
+			}
+
+			//Else, we can only compute our position once we know the end of the
+			var cursor:IViewCursor = collection.createCursor();
+			var currentSuite:TestSuiteResult;
+			var caseIndex:int;
+
+			cursor.seek( CursorBookmark.FIRST );
+			
+			while (!cursor.afterLast ) {
+				currentSuite = cursor.current as TestSuiteResult;
+				caseIndex = currentSuite.children.getItemIndex( caseResult );
+
+				if ( caseIndex != -1 ) {
+					//this is the correct suite
+					if ( caseIndex == 0 ) {
+						caseStartMap[ caseResult ] = computeSuiteStartPosition( currentSuite );						
+					} else {
+						var newStart:Number = computeCaseStartPosition( currentSuite.children.getItemAt( caseIndex-1 ) + testCaseSize;
+						caseStartMap[ caseResult ] = newStart;
+					}
+					return caseStartMap[ caseResult ];  
+				}
+
+				cursor.moveNext();
+			}
+			
+			return 0;
+		}
+
+		protected function computeMethodStartPosition( suiteResult:TestSuiteResult ):Number {
+			
+		}
+
+		protected function handleDisplayPropertyUpdate( event:DisplayPropertyUpdateEvent ):void {
+			
+		}
         /**
          * @private
          */
@@ -333,8 +444,7 @@ package net.digitalprimates.fluint.ui {
 						positionCounter++;
 					}					
 				}			
-			}			
-			
+			}
 		}
 		
         /**

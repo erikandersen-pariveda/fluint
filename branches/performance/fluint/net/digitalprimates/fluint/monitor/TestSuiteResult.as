@@ -32,6 +32,7 @@ package net.digitalprimates.fluint.monitor
 	import mx.events.PropertyChangeEvent;
 	
 	import net.digitalprimates.fluint.tests.TestSuite;
+	import net.digitalprimates.fluint.ui.events.DisplayPropertyUpdateEvent;
 	import net.digitalprimates.fluint.utils.ResultDisplayUtils;
 	
 	/** 
@@ -64,6 +65,7 @@ package net.digitalprimates.fluint.monitor
 		/** 
 		 * Boolean value that indicates if this case has been executed yet. 
 		 */
+		[Bindable('propertyChanged')]
 		public function get executed():Boolean {
 			return _executed;
 		}
@@ -73,8 +75,10 @@ package net.digitalprimates.fluint.monitor
          */
 		public function set executed( value:Boolean ):void {
 			var propertyChangedEvent:PropertyChangeEvent = PropertyChangeEvent.createUpdateEvent( this, 'executed', _executed, value );
+			var dispPropertyEvent:DisplayPropertyUpdateEvent = DisplayPropertyUpdateEvent.createUpdateEvent( this, 'executed', _executed, value, null, null, this );
 			_executed = value;
 			dispatchEvent( propertyChangedEvent );
+			dispatchEvent( dispPropertyEvent );
 		}
 
 		/** 
@@ -94,6 +98,7 @@ package net.digitalprimates.fluint.monitor
 		/** 
 		 * An ArrayCollection that holds instances of the TestCaseResult class. 
 		 */
+		[Bindable('propertyChanged')]
 		public function get children():ArrayCollection {
 			return _children;
 		}
@@ -102,7 +107,9 @@ package net.digitalprimates.fluint.monitor
          * @private
          */
 		public function set children( value:ArrayCollection ):void {
+			var propertyChangedEvent:PropertyChangeEvent = PropertyChangeEvent.createUpdateEvent( this, 'children', _children, value );
 			_children = value;
+			dispatchEvent( propertyChangedEvent );
 		}
 
 		/** 
@@ -137,13 +144,18 @@ package net.digitalprimates.fluint.monitor
 		 * by the children of this class. 
 		 */
 		public function get status():Boolean {
-			var _status:Boolean = true;
-
-			for ( var i:int; i<children.length; i++ ) {
-				_status &&= Boolean( children[i].status ); 
-			}
-			
 			return _status;
+		}
+
+		public function set status( value:Boolean ):void {
+			if ( value !=  _status ) {
+				var propertyChangedEvent:PropertyChangeEvent = PropertyChangeEvent.createUpdateEvent( this, 'status', _status, value );
+				var dispPropertyEvent:DisplayPropertyUpdateEvent = DisplayPropertyUpdateEvent.createUpdateEvent( this, 'status', _status, value, null, null, this );
+
+				_status = value;
+				dispatchEvent( propertyChangedEvent );
+				dispatchEvent( dispPropertyEvent );
+			}
 		}
 
 		/** 
@@ -153,18 +165,37 @@ package net.digitalprimates.fluint.monitor
 		 */
 		public function addTestCaseResult( testCaseResult:TestCaseResult ):void {
 			children.addItem( testCaseResult );
+
+			testCaseResult.addEventListener( DisplayPropertyUpdateEvent.DISPLAY_PROPERTY_UPDATE, handleDisplayPropertyUpdate, false, 0, true );
 		}
-		
+
+		protected function handleDisplayPropertyUpdate( event:DisplayPropertyUpdateEvent ):void {
+			event.suiteResult = this;
+			dispatchEvent( event ); 
+		}
+
+		protected function recalculateStatus():void {
+			var newStatus:Boolean = status;
+
+			if ( newStatus ) {
+				for ( var i:int; i<children.length; i++ ) {
+					newStatus &&= Boolean( children[i].status );
+					if ( !newStatus ) {
+						break;
+					} 
+				}
+			}
+
+			status = newStatus;
+		}
+
 		/** 
 		 * Change handler that watches children for a change in their status 
 		 * 
 		 * @param event
 		 */
 		protected function handleTestCasesChange( event:CollectionEvent ):void {
-			var propertyChangedEvent:PropertyChangeEvent = PropertyChangeEvent.createUpdateEvent( this, 'status', _status, _status );
-
-			propertyChangedEvent.newValue = status;
-			dispatchEvent( propertyChangedEvent );
+			recalculateStatus();
 		}
 
 		/** 

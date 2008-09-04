@@ -29,9 +29,9 @@ package net.digitalprimates.fluint.monitor
 	import mx.events.PropertyChangeEvent;
 	
 	import net.digitalprimates.fluint.tests.TestMethod;
+	import net.digitalprimates.fluint.ui.events.DisplayPropertyUpdateEvent;
 	import net.digitalprimates.fluint.utils.ResultDisplayUtils;
 	
-	[Bindable]
 	/** 
 	 * This class contains result information about the execution of a test method. 
 	 * 
@@ -67,22 +67,54 @@ package net.digitalprimates.fluint.monitor
 		 */
 		public var testDuration:int;
 
+		private var _executed:Boolean = false;
+		private var _isError:Boolean = false;
+
 		/** 
 		 * Boolean value that indicates if this method has been executed yet. 
 		 */
-		public var executed:Boolean = false;
+		[Bindable('propertyChanged')]
+		public function get executed():Boolean {
+			return _executed;
+		}
+
+        /**
+         * @private
+         */
+		public function set executed( value:Boolean ):void {
+			var propertyChangedEvent:PropertyChangeEvent = PropertyChangeEvent.createUpdateEvent( this, 'executed', _executed, value );
+			var dispPropertyEvent:DisplayPropertyUpdateEvent = DisplayPropertyUpdateEvent.createUpdateEvent( this, 'executed', _executed, value, this );
+			_executed = value;
+			dispatchEvent( propertyChangedEvent );
+			dispatchEvent( dispPropertyEvent );
+		}
 
 		/** 
 		 * Boolean value that, in the result of a failed test, indicates 
 		 * if it was an error thrown by Flex as opposed to a failed assertion. 
 		 */
-		public var isError:Boolean = false;
-
 		[Bindable('propertyChanged')]
+		public function get isError():Boolean {
+			return _isError;
+		}
+
+        /**
+         * @private
+         */
+		public function set isError( value:Boolean ):void {
+			var propertyChangedEvent:PropertyChangeEvent = PropertyChangeEvent.createUpdateEvent( this, 'isError', _isError, value );
+			var dispPropertyEvent:DisplayPropertyUpdateEvent = DisplayPropertyUpdateEvent.createUpdateEvent( this, 'isError', _isError, value, this );
+			_isError = value;
+			dispatchEvent( propertyChangedEvent );
+			dispatchEvent( dispPropertyEvent );
+		}
+
+
 		/** 
 		 * Boolean that indicates if the method monitored by this class 
 		 * instance failed or succeeded. 
 		 */
+		[Bindable('propertyChanged')]
 		public function get status():Boolean {
 			return _status;
 		}
@@ -92,8 +124,10 @@ package net.digitalprimates.fluint.monitor
          */
 		public function set status( value:Boolean ):void {
 			var propertyChangedEvent:PropertyChangeEvent = PropertyChangeEvent.createUpdateEvent( this, 'status', _status, value );
+			var dispPropertyEvent:DisplayPropertyUpdateEvent = DisplayPropertyUpdateEvent.createUpdateEvent( this, 'status', _status, value, this );
 			_status = value;
 			dispatchEvent( propertyChangedEvent );
+			dispatchEvent( dispPropertyEvent );
 		}
 
 		/** 

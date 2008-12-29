@@ -311,34 +311,17 @@ package net.digitalprimates.fluint.tests {
 							testCaseResult.traceInformation += ( '\n' + e.getStackTrace() );
 						}
 					} else {
-						if ( e is AssertionFailedError ) {
-							//In this case, a test actually failed via an assertion or fail
-							methodResult = testMonitor.getTestMethodResult( registeredMethod );
-							methodResult.isError = false;
-							methodResult.status = false;
+						methodResult = testMonitor.getTestMethodResult( registeredMethod );
+						methodResult.error = e;
 
-							if ( !methodResult.traceInformation ) {
-								methodResult.traceInformation = e.getStackTrace();
-							} else {
-								methodResult.traceInformation += ( '\n' + e.getStackTrace() );
-							}
-
-							methodResult.executed = true;
+						if ( !methodResult.traceInformation ) {
+							methodResult.traceInformation = e.getStackTrace();
 						} else {
-							//I am not sure we are going to keep these separate
-							//In this case, flex threw an error directly, not through an assertion
-							methodResult = testMonitor.getTestMethodResult( registeredMethod );
-							methodResult.isError = true; 
-							methodResult.status = false;
-
-							if ( !methodResult.traceInformation ) {
-								methodResult.traceInformation = e.getStackTrace();
-							} else {
-								methodResult.traceInformation += ( '\n' + e.getStackTrace() );
-							}
-
-							methodResult.executed = true;
+							methodResult.traceInformation += ( '\n' + e.getStackTrace() );
 						}
+
+						methodResult.executed = true;
+						methodResult.testDuration = getTimer()-tickCountOnStart;
 					}
 				}
 
@@ -347,9 +330,9 @@ package net.digitalprimates.fluint.tests {
 				methodResult = testMonitor.getTestMethodResult( registeredMethod );
 				if ( methodResult ) {
 					methodResult.executed = true;
-					methodResult.isError = false;
-					methodResult.status = false;
+					methodResult.error = new Error("Setup/Teardown Error");
 					methodResult.traceInformation = "Setup or Teardown Failed for this TestCase. Method is invalid. Review Testcase for stackTrace information";
+					methodResult.testDuration = getTimer()-tickCountOnStart;
 				}
 			}
 

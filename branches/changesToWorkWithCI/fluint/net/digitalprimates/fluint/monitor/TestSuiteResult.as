@@ -49,7 +49,7 @@ package net.digitalprimates.fluint.monitor
 		/** 
 		 * A human readable name for this class derived from the class name and path. 
 		 */
-		protected var displayName:String;
+		public var displayName:String;
 
         /**
          * @private
@@ -90,6 +90,35 @@ package net.digitalprimates.fluint.monitor
 
 			return count;
 		}
+		
+		/** 
+		 * A count of the number of errors in the TestCases represented by the 
+		 * children of this class 
+		 */
+		public function get numberOfErrors():int {
+			var count:int = 0;
+
+			for ( var i:int; i<children.length; i++ ) {
+				count += children[i].numberOfErrors;
+			}
+
+			return count;
+		}
+		
+		/** 
+		 * A count of the number of errors in the TestCases represented by the 
+		 * children of this class 
+		 */
+		public function get totalTime():int
+		{
+			var total:int = 0;
+
+			for each( var result : TestCaseResult in children ) {
+				total += result.totalTime;
+			}
+
+			return total;
+		}
 
 		/** 
 		 * An ArrayCollection that holds instances of the TestCaseResult class. 
@@ -103,32 +132,6 @@ package net.digitalprimates.fluint.monitor
          */
 		public function set children( value:ArrayCollection ):void {
 			_children = value;
-		}
-
-		/** 
-		 * Returns an XML representation of this TestSuiteResult and children 
-		 * to be consumed by external applications such as CruiseControl.
-		 */
-		public function get xmlResults():XML {
-			var result:XML = <testsuite/>;
-			var methodList:XMLList = new XMLList();
-			
-			result.@name = displayName;
-			result.@errors = '';
-			result.@failures = '';
-			result.@tests = '';
-			result.@time = '';
-
-			for ( var i:int; i<children.length; i++ ) {
-				methodList += children[i].xmlResults;
-			}
-
-			result.appendChild( <properties/> );
-			if ( methodList.length() ) {
-				result.appendChild( methodList );
-			}
-
-			return result;
 		}
 
 		[Bindable('propertyChanged')]
@@ -183,7 +186,7 @@ package net.digitalprimates.fluint.monitor
 		 * @param testSuite The TestSuite represented by this TestCaseResult class.
 		 */
 		public function TestSuiteResult( testSuite:TestSuite ) {
-			displayName = ResultDisplayUtils.createSimpleName( testSuite );
+			displayName = ResultDisplayUtils.createSimpleClassName( testSuite );
 			children.addEventListener(CollectionEvent.COLLECTION_CHANGE, handleTestCasesChange );
 		}
 	}

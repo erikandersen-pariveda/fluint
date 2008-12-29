@@ -20,55 +20,69 @@ public class Fluint extends Task
 	// private static final String MAC_CMD = "open ";
 	private String testRunner; // TestRunner SWF
 	private String outputDir;
+	private String workingDir;
 	private Boolean headless = true;
+	private Boolean failOnError = true;
 	private Vector<FileSet> filesets = new Vector<FileSet>();
 	private File outputDirFile;
 
 	public boolean debug = false;
 	protected Commandline cmdl;
 
-
 	public boolean isDebug()
 	{
 		return this.debug;
 	}
-
 
 	public void setDebug(boolean debug)
 	{
 		this.debug = debug;
 	}
 
-
 	public Boolean getHeadless()
 	{
 		return this.headless;
 	}
-
 
 	public void setHeadless(Boolean headless)
 	{
 		this.headless = headless;
 	}
 
+	public Boolean getFailOnError()
+	{
+		return this.failOnError;
+	}
+
+	public void setFailOnError(Boolean failOnError)
+	{
+		this.failOnError = failOnError;
+	}
+
+	public String getWorkingDir()
+	{
+		return this.workingDir;
+	}
+
+	public void setWorkingDir(String dir)
+	{
+		this.workingDir = dir;
+	}
 
 	public String getTestRunner()
 	{
 		return this.testRunner;
 	}
 
-
 	public void setTestRunner(String testrunner)
 	{
 		this.testRunner = testrunner;
 	}
 
-
 	public String getOutputDir()
 	{
 		return this.outputDir;
 	}
-
 
 	public void setOutputDir(String dir)
 	{
@@ -81,14 +95,31 @@ public class Fluint extends Task
 		}
 	}
 
-
 	public void addFileSet(FileSet fileset)
 	{
 		this.filesets.add(fileset);
 	}
 
+	private File prepareWorkingDir()
+	{
+		File tempDir = this.getProject().resolveFile(this.workingDir);
 
-	public String[] prepareArguments()
+		// make sure the folder exists and is a folder, if not use baseDir
+		if(this.workingDir == "" || this.workingDir == null || !tempDir.exists() || !tempDir.isDirectory())
+		{
+			tempDir = this.getProject().getBaseDir();
+		}
+
+		if (!tempDir.exists() || !tempDir.isDirectory())
+		{
+			System.out.println("'" + this.workingDir + "' does not exist.  "
+					+ " Using base directory ('" + this.getProject().getBaseDir().getAbsolutePath() + "')");
+		}
+
+		return tempDir;
+	}
+
+	private String[] prepareArguments()
 	{
 		ArrayList<String> args = new ArrayList<String>();
 
@@ -121,6 +152,11 @@ public class Fluint extends Task
 			args.add("-headless");
 		}
 
+		if(this.failOnError)
+		{
+			args.add("-failOnError");
+		}
+
 		args.add("-reportDir='" + this.outputDir + "'");
 
 		if (resolvedFiles != null && resolvedFiles.length > 0)
@@ -146,13 +182,8 @@ public class Fluint extends Task
 		return args.toArray(str);
 	}
 
-
-	@Override
-	public void execute()
+	private Execute prepareTestRunnerExecute()
 	{
-		// todo: check and throw exception if no swf was defined
-
-		int returnValue;
 		this.testRunner = this.testRunner.replace('/', '\\');
 
 		this.cmdl = new Commandline();
@@ -161,27 +192,39 @@ public class Fluint extends Task
 
 		Execute exe = new Execute();
 		exe.setAntRun(this.getProject());
-		exe.setWorkingDirectory(this.getProject().getBaseDir());
+		exe.setWorkingDirectory(this.prepareWorkingDir());
 		exe.setCommandline(this.cmdl.getCommandline());
+
+		return exe;
+	}
+
+	@Override
+	public void execute()
+	{
+		// todo: check and throw exception if no swf was defined
+		Execute exe = this.prepareTestRunnerExecute();
+
+		System.out.println("Using '" + exe.getWorkingDirectory().getAbsolutePath() + "' as working directory.");
 
 		try
 		{
-			returnValue = exe.execute();
+			int returnValue = exe.execute();
 
 			if (this.isDebug())
 			{
 				System.out.println("DEBUG: " + this.cmdl.describeCommand());
 				System.out.println("DEBUG: " + returnValue );
 			}
+
+			if(returnValue != 0 && this.failOnError)
+			{
+				throw new Exception("Test(s) failed, please see report in '" + this.outputDirFile.getAbsolutePath() + "' for more details ...'");
+			}
 		}
 		catch (Exception e)
 		{
-			throw new BuildException("Unable to run " + this.testRunner + ": "
-					+ e.getMessage(), e);
+			throw new BuildException("FAILED: " + e.getMessage(), e);
 		}
-
-
-
 	}
 
 }

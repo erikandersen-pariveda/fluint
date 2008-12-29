@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TestRunnerWindow 
-		xmlns="*"
-		xmlns:mx="http://www.adobe.com/2006/mxml" 
-	    width="500" height="500"
-	    headless="false">
-
-	<mx:Script>
-		<![CDATA[	
-		//fileSet="{getFileSet()}"
-			public function getFileSet():Array {
-				var fs:Array = new Array();
-				fs.push( "C:/Users/mlabriola/Documents/workspaces/net/digitalprimates/Fluint/fluint_AirTestRunner/bin-debug/modules/" );
-				
-				return fs;
-			}
-		]]>
-	</mx:Script>
+<TestRunnerWindow xmlns="net.digitalprimates.fluintairrunner.*"
+   xmlns:mx="http://www.adobe.com/2006/mxml" 
+	width="500" height="500">
 </TestRunnerWindow>

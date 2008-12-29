@@ -38,11 +38,48 @@ package net.digitalprimates.fluint.utils {
 		 * @param classRef A reference to any class.
 		 * @return Returns readable version of class name.
 		 */
-		public static function createSimpleName( classRef:* ):String {
+		public static function createSimpleClassName( classRef:* ):String {
 			var qualifiedName:String = getQualifiedClassName( classRef );
 			var position:int = qualifiedName.lastIndexOf( ':' );
 			
 			return qualifiedName.substr( position+1 );
+		}
+		
+		/** 
+		 * Provided a class reference, this method returns a package name without 
+		 * the full path.
+		 * 
+		 * @param classRef A reference to any class.
+		 * @return Returns readable version of pacakge name.
+		 */
+		public static function createSimplePackageName( classRef:* ):String {
+			var qualifiedName:String = getQualifiedClassName( classRef );
+			var position:int = qualifiedName.lastIndexOf( ':' );
+			
+			return qualifiedName.substr(0, position-1);
+		}
+		
+		/** 
+		 * Provided a class reference, this method returns a package name without 
+		 * the full path.
+		 * 
+		 * @param classRef A reference to any class.
+		 * @return Returns readable version of pacakge name.
+		 */
+		public static function createQualifiedClassNameWithDots( qualifiedClassName : String ):String {
+			var doubleDotIndex : int = qualifiedClassName.lastIndexOf('::');
+
+			if(doubleDotIndex != -1)
+			{
+				var packageName : String = qualifiedClassName.substr(0, doubleDotIndex);
+				var className : String = qualifiedClassName.substr(doubleDotIndex+2);
+				
+				return packageName + "." + className;
+			}
+			else
+			{
+				return qualifiedClassName;
+			}
 		}
 
 		/** 

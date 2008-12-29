@@ -25,9 +25,11 @@
 package net.digitalprimates.fluint.monitor
 {
 	import flash.events.EventDispatcher;
+	import flash.utils.getQualifiedClassName;
 	
 	import mx.events.PropertyChangeEvent;
 	
+	import net.digitalprimates.fluint.assertion.AssertionFailedError;
 	import net.digitalprimates.fluint.tests.TestMethod;
 	import net.digitalprimates.fluint.utils.ResultDisplayUtils;
 	
@@ -45,12 +47,7 @@ package net.digitalprimates.fluint.monitor
 		 * 
 		 * It is basically a string copy of the method name declared in ActionScript. 
 		 */
-		protected var displayName:String;
-
-        /**
-         * @private
-         */
-		protected var _status:Boolean;
+		public var displayName:String;
 
 		/** 
 		 * Stack tace information captured by a failing method.
@@ -73,10 +70,22 @@ package net.digitalprimates.fluint.monitor
 		public var executed:Boolean = false;
 
 		/** 
-		 * Boolean value that, in the result of a failed test, indicates 
-		 * if it was an error thrown by Flex as opposed to a failed assertion. 
+		 * Object value that, in the result of a failed test, indicates 
+		 * if it was an error thrown by Flex including failed assertions. 
 		 */
-		public var isError:Boolean = false;
+		private var _error : Error;
+		
+		public function get error() : Error
+		{
+			return _error;
+		}
+
+		public function set error( value : Error ):void 
+		{
+			var propertyChangedEvent:PropertyChangeEvent = PropertyChangeEvent.createUpdateEvent( this, 'status', status, value );
+			_error = value;
+			dispatchEvent( propertyChangedEvent );
+		}
 
 		[Bindable('propertyChanged')]
 		/** 
@@ -84,41 +93,23 @@ package net.digitalprimates.fluint.monitor
 		 * instance failed or succeeded. 
 		 */
 		public function get status():Boolean {
-			return _status;
+			return !_error;
 		}
 
-        /**
-         * @private
-         */
-		public function set status( value:Boolean ):void {
-			var propertyChangedEvent:PropertyChangeEvent = PropertyChangeEvent.createUpdateEvent( this, 'status', _status, value );
-			_status = value;
-			dispatchEvent( propertyChangedEvent );
+		/**
+		 * Denotes whether or not a TestMethod failed
+		 **/
+		public function get failed() : Boolean
+		{
+			return (_error && _error is AssertionFailedError);
 		}
-
-		/** 
-		 * Returns an XML representation of this test method to be consumed 
-		 * by external applications such as CruiseControl.
-		 */
-		public function get xmlResults():XML {
-			var result:XML = <testCase/>;
-			var body:XML = <failure/>;
-			
-			result.@name = displayName;
-			result.@time = ( testDuration / 1000 );
-			
-			if ( !status ) {
-				if ( isError ) {
-					body.@type="Error";
-				} else {
-					body.@type="AssertionFailedError";
-				}
-
-				body.setChildren( traceInformation );
-				result.setChildren( body );
-			}
-
-			return result;
+		
+		/**
+		 * Denotes whether or not a TestMethod errored
+		 **/
+		public function get errored() : Boolean
+		{
+			return (_error && !(_error is AssertionFailedError));
 		}
 
 		/** 
@@ -138,9 +129,9 @@ package net.digitalprimates.fluint.monitor
 		 * @param status The status of the test.
 		 * @param traceInformation The traceInformation for any failures.
 		 */
-		public function TestMethodResult( testMethod:TestMethod, status:Boolean=true, traceInformation:String=null ) {
+		public function TestMethodResult( testMethod:TestMethod, error:Error=null, traceInformation:String=null ) {
 			displayName = testMethod.methodName;
-			this.status = status;
+			this.error = error;
 			this.traceInformation = traceInformation;
 			this.metadata = testMethod.metadata;
 		}

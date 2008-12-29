@@ -84,6 +84,14 @@ package net.digitalprimates.fluint.monitor {
 			_executed = value;
 			dispatchEvent( propertyChangedEvent );
 		}
+		
+		/**
+          * Used to expose the qualifiedClassName of the testcase for reporting
+		  **/
+		public function get qualifiedClassName() : String
+		{
+			return getQualifiedClassName(testCase);
+		}
 
         /**
          * @private
@@ -103,13 +111,44 @@ package net.digitalprimates.fluint.monitor {
 			var count:int = 0;
 
 			for ( var i:int; i<children.length; i++ ) {
-				if ( !children[i].status ) {
+				if ( children[i].failed ) {
 					count++;
 				}
 			}
 
 			return count;
 		}
+		
+		/** 
+		 * A count of the number of errors in the TestMethods 
+		 * represented by the children of this class.
+		 */
+		public function get numberOfErrors():int {
+			var count:int = 0;
+
+			for ( var i:int; i<children.length; i++ ) {
+				if ( children[i].errored ) {
+					count++;
+				}
+			}
+
+			return count;
+		}
+		
+		/**
+		 * A count of the totalTime in the TestMethods 
+		 * represented by the children of this class.
+		 **/
+		 public function get totalTime() : int
+		 {
+		 	var total:int = 0;
+		 	
+			for ( var i:int; i<children.length; i++ ) {
+				total += children[i].testDuration;
+			}
+
+			return total;
+		 }
 
 		/** 
 		 * An ArrayCollection that holds instances of the TestMethodResult class. 
@@ -123,24 +162,6 @@ package net.digitalprimates.fluint.monitor {
          */
 		public function set children( value:ArrayCollection ):void {
 			_children = value;
-		}
-
-		/** 
-		 * Returns an XML representation of this testCaseResult and children to be 
-		 * consumed by external applications such as CruiseControl. 
-		 */
-		public function get xmlResults():XMLList {
-			var methodList:XMLList = new XMLList();
-			var testCaseXML:XML;
-			var className:String = getQualifiedClassName( testCase );
-			
-			for ( var i:int; i<children.length; i++ ) {
-				testCaseXML = children[i].xmlResults;
-				testCaseXML.@className = className; 
-				methodList += testCaseXML;
-			}
-
-			return methodList;
 		}
 
 		[Bindable('propertyChanged')]
@@ -208,7 +229,7 @@ package net.digitalprimates.fluint.monitor {
 		 */
 		public function TestCaseResult( testCase:TestCase ) {
 			this.testCase = testCase;
-			displayName = ResultDisplayUtils.createSimpleName( testCase );
+			displayName = ResultDisplayUtils.createSimpleClassName( testCase );
 			children.addEventListener(CollectionEvent.COLLECTION_CHANGE, handleTestMethodsChange );
 		}
 	}

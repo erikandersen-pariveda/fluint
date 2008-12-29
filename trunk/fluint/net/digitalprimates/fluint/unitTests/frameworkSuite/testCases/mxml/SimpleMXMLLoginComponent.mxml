@@ -27,6 +27,9 @@
 			public function get password():String {
 				return passwordTI.text;
 			}
+			
+			public function setSomeValue( value:String ):void {
+			}
 		]]>
 	</mx:Script>
 	

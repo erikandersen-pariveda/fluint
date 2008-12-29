@@ -30,6 +30,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 	import mx.events.FlexEvent;
 	import mx.events.ValidationResultEvent;
 	
+	import net.digitalprimates.fluint.sequence.SequenceCaller;
 	import net.digitalprimates.fluint.sequence.SequenceEventDispatcher;
 	import net.digitalprimates.fluint.sequence.SequenceRunner;
 	import net.digitalprimates.fluint.sequence.SequenceSetter;
@@ -132,6 +133,34 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 			sequence.addAssertHandler( handleValidEvent, passThroughData );
 			
 			sequence.run();
+	    }
+
+	    public function testWithValidateNowSequence() : void {
+	    	var passThroughData:Object = new Object();
+	    	passThroughData.username = 'myuser1';
+	    	passThroughData.password = 'a';
+
+	    	var sequence:SequenceRunner = new SequenceRunner( this );
+
+			sequence.addStep( new SequenceSetter( loginForm.usernameTI, {text:passThroughData.username} ) );
+			sequence.addStep( new SequenceCaller( loginForm.usernameTI, loginForm.validateNow ) );
+
+			sequence.addStep( new SequenceSetter( loginForm.passwordTI, {text:passThroughData.password} ) );
+			sequence.addStep( new SequenceCaller( loginForm.passwordTI, loginForm.validateNow ) );
+
+			sequence.addStep( new SequenceCaller( loginForm, loginForm.setSomeValue, ['mike'] ) );
+			sequence.addStep( new SequenceCaller( loginForm, loginForm.setSomeValue, null, getMyArgs ) );
+
+			sequence.addStep( new SequenceEventDispatcher( loginForm.loginBtn, new MouseEvent( MouseEvent.CLICK, true, false ) ) );
+			sequence.addStep( new SequenceWaiter( loginForm.sv2, ValidationResultEvent.INVALID, LONG_TIME ) );
+
+			sequence.addAssertHandler( handleValidEvent, passThroughData );
+			
+			sequence.run();
+	    }
+	    
+	    private function getMyArgs():Array {
+	    	return ['steve'];
 	    }
 
 	    protected function handleLoginEvent( event:Event, passThroughData:Object ):void {

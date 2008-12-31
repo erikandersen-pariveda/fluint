@@ -16,19 +16,22 @@ package net.digitalprimates.fluintairrunner
    
    import mx.core.IFlexModuleFactory;
    import mx.events.ModuleEvent;
+   import mx.logging.ILogger;
    
    import net.digitalprimates.fluint.modules.ITestSuiteModule;
    
    public class TestModuleLoader extends EventDispatcher
    {
+      private var _logger : ILogger;
       private var _context : LoaderContext;
       private var _loader : Loader;
       
       public var file : File;
       public var suites : Array;
       
-      public function TestModuleLoader(context : LoaderContext)
+      public function TestModuleLoader(logger : ILogger, context : LoaderContext)
       {
+         _logger = logger;
          _context = context;
          suites = new Array();
       }
@@ -40,7 +43,6 @@ package net.digitalprimates.fluintairrunner
          _loader.contentLoaderInfo.addEventListener(Event.INIT, function(event : Event) : void {
             var loaderInfo : LoaderInfo = LoaderInfo(event.currentTarget);
             loaderInfo.content.addEventListener("ready", moduleReady);
-            trace("MODULE INIT");
          });
          _loader.contentLoaderInfo.addEventListener(Event.COMPLETE, moduleComplete);
 		   _loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, moduleProgress);
@@ -63,6 +65,8 @@ package net.digitalprimates.fluintairrunner
 
       private function moduleReady(event : Event)  : void
       {
+         _logger.debug("MODULE READY");
+         
          var moduleEvent : ModuleEvent = null;
          
          try
@@ -89,6 +93,8 @@ package net.digitalprimates.fluintairrunner
          moduleEvent.bytesLoaded = event.bytesLoaded;
          moduleEvent.bytesTotal = event.bytesTotal;
          
+         _logger.debug("MODULE LOADING: " + moduleEvent.bytesLoaded + " bytes");
+         
          dispatchEvent(moduleEvent);
       }
       
@@ -99,12 +105,16 @@ package net.digitalprimates.fluintairrunner
          var moduleEvent : ModuleEvent = new ModuleEvent(ModuleEvent.PROGRESS, event.bubbles, event.cancelable);
          moduleEvent.bytesLoaded = loaderInfo.loader.contentLoaderInfo.bytesLoaded;
          moduleEvent.bytesTotal = loaderInfo.loader.contentLoaderInfo.bytesTotal;
+
+         _logger.debug("MODULE COMPLETE: " + moduleEvent.bytesLoaded + " bytes");
          
          dispatchEvent(moduleEvent);
       }
       
       private function moduleError(event : ErrorEvent) : void
       {
+         _logger.debug("MODULE ERROR");
+         
          var moduleEvent:ModuleEvent = new ModuleEvent(ModuleEvent.ERROR, event.bubbles, event.cancelable);
          moduleEvent.bytesLoaded = 0;
          moduleEvent.bytesTotal = 0;

@@ -6,18 +6,22 @@ package net.digitalprimates.fluintairrunner
    import flash.system.LoaderContext;
    
    import mx.events.ModuleEvent;
+   import mx.logging.ILogger;
    
    import net.digitalprimates.fluint.tests.TestSuite;
    
    public class TestModuleManager extends EventDispatcher
    {
+      private var _logger : ILogger;
       private var _context : LoaderContext;
       private var _loaders : Array;
       private var _suites : Array;
       private var _moduleCount : Number;
       
-      public function TestModuleManager()
+      public function TestModuleManager(logger : ILogger)
       {
+         _logger = logger;
+         
          _context = new LoaderContext();
 			_context.allowLoadBytesCodeExecution = true;
 			_context.applicationDomain = ApplicationDomain.currentDomain;
@@ -33,7 +37,7 @@ package net.digitalprimates.fluintairrunner
          
          for each(var module : File in modules)
          {
-            var loader : TestModuleLoader = new TestModuleLoader(_context);
+            var loader : TestModuleLoader = new TestModuleLoader(_logger, _context);
             loader.file = module;
             loader.addEventListener(ModuleEvent.READY, newSuitesAvailable);
             loader.addEventListener(ModuleEvent.ERROR, moduleLoadError);
@@ -46,6 +50,8 @@ package net.digitalprimates.fluintairrunner
       
       private function newSuitesAvailable(event : ModuleEvent) : void
       {
+         _logger.debug("SWF LOADED");
+         
          _moduleCount--;
          
          var suites : Array = TestModuleLoader(event.currentTarget).suites;
@@ -53,6 +59,8 @@ package net.digitalprimates.fluintairrunner
          {
             _suites.push(suite);
          }
+         
+         _logger.debug(suites.length + " TEST SUITE(S) FOUND");
          
          if(_moduleCount == 0)
          {
@@ -64,7 +72,7 @@ package net.digitalprimates.fluintairrunner
       
       private function moduleLoadError(event : ModuleEvent) : void
       {
-         trace(event.errorText);
+         _logger.debug("SWF LOAD ERROR: " + event.errorText);
       }
 
    }

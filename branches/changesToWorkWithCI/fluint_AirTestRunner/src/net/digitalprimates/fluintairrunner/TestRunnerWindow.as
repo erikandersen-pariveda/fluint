@@ -10,32 +10,29 @@ package net.digitalprimates.fluintairrunner
 	
 	import net.digitalprimates.fluint.ui.TestResultDisplay;
 	import net.digitalprimates.fluint.ui.TestRunner;
-	import net.digitalprimates.fluintairrunner.TestModuleEvent;
-	import net.digitalprimates.fluintairrunner.TestModuleManager;
-	import net.digitalprimates.fluintairrunner.TestRunnerUtils;
 
 	public class TestRunnerWindow extends WindowedApplication	
 	{
 	   private const REPORT_FILE_NAME : String = "TEST-AllTests.xml";
 	   
-		private var fluintLogger:ILogger;
+		private var _logger : ILogger;
 		
 		public var disp : TestResultDisplay;
 		public var testRunner : TestRunner; 
 		
-		protected var reportDir:String = null;
+		protected var reportDir : String = null;
 		
-		private var _fileSet:Array;
-		private var _fileSetChange:Boolean = false;
-		private var _headless:Boolean = false;
-		private var _failOnError:Boolean = false;
-		private var _headlessChange:Boolean = false;
+		private var _fileSet : Array;
+		private var _fileSetChange : Boolean = false;
+		private var _headless : Boolean = false;
+		private var _failOnError : Boolean = false;
+		private var _headlessChange : Boolean = false;
 
 		public function TestRunnerWindow():void
 		{
 			super();
 			this.addEventListener(InvokeEvent.INVOKE,listenToCommandLine);
-			this.fluintLogger = TestRunnerUtils.createLogger(this.className);
+			_logger = TestRunnerUtils.createLogger(this.className);
 		}
 		
 		[Bindable]
@@ -101,7 +98,10 @@ package net.digitalprimates.fluintairrunner
 		{
 			if( this._headlessChange )
 			{
+			   _logger.debug("headless changed to " + headless);
+			   
 				_headlessChange = false;
+				
 				if( this.headless )
 				{
 					nativeWindow.minimize();
@@ -112,43 +112,65 @@ package net.digitalprimates.fluintairrunner
 			
 			if( _fileSetChange )
 			{
+			   _logger.debug("fileSet changed to " + fileSet);
+			   
 				_fileSetChange = false;
+				
 				parseModules();
-				fluintLogger.debug("fileSet directories=" +fileSet.length);	
 			}
 		}
 		
 		
 		protected function listenToCommandLine(event:InvokeEvent):void
 		{
+         _logger.debug("Arguments: " + event.arguments);
+
 			var arguments : Dictionary = TestRunnerUtils.parseArgument(event.arguments);
 			
-			_headless = arguments['headless'];
-			_failOnError = arguments['failOnError'];
+			this.headless = arguments['headless'];
+			this.failOnError = arguments['failOnError'];
 		   this.reportDir = arguments['reportDir'];
 		   this.fileSet = arguments['fileSet'];
+
+		   _logger.debug("headless: " + headless);
+		   _logger.debug("failOnError: " + failOnError);
+		   _logger.debug("reportDir: '" + this.reportDir + "'");
+		   _logger.debug("fileSet: '" + this.fileSet + "'");
 		}
 
 		private function parseModules():void
 		{
-			var fileList:Array = new Array();
-			for(var i:int=0;i<fileSet.length;i++)
-			{
-				fileList.push( new File( fileSet[i] ) );
-			}
-			
-			var swfList : Array = TestRunnerUtils.recurseDirectories(fileList);
-
-			loadExternalTests( swfList );			
+		   try
+		   {
+   			var fileList : Array = new Array();
+   			
+   			for(var i:int=0;i<fileSet.length;i++)
+   			{
+   				fileList.push( new File( fileSet[i] ) );
+   			}
+   			
+   			var swfList : Array = TestRunnerUtils.recurseDirectories(fileList);
+   			
+   			_logger.debug("FOUND " + swfList.length + " SWF(S)");
+   
+   			loadExternalTests( swfList );
+   		}
+   		catch(e : Error)
+   		{
+   		   _logger.error("FAILURE MOST LIKELY DUE TO RECURSION LOOP. fileSet = [" + fileSet + "]");
+   		}
 		}
 		
 		protected function loadExternalTests(swfList : Array) : void
 		{		   
-		   var manager : TestModuleManager = new TestModuleManager();
+		   var manager : TestModuleManager = new TestModuleManager(_logger);
+		   
 		   manager.addEventListener(TestModuleEvent.TEST_MODULES_READY, function(event : TestModuleEvent) : void{
 		      testRunner.startTests(event.suites);
 		   });
 		   
+         _logger.debug("ATTEMPTING TO LOAD " + swfList.length + " SWF(S)");
+         		   
 		   manager.loadModules(swfList);
 		}
 
@@ -162,10 +184,12 @@ package net.digitalprimates.fluintairrunner
 			{
 			   if(testsFailed(results) && failOnError)
 			   {
+			      _logger.debug("EXITING ON FAILURE!");
 			      nativeApplication.exit(1);
 			   }
 			   else
 			   {
+			      _logger.debug("EXITING ON SUCCESS!");
 			      nativeApplication.exit(0);
 			   }
 			}

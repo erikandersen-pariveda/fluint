@@ -1,5 +1,7 @@
 package net.digitalprimates.fluintairrunner
 {
+   import cim.fx.logging.targets.LocalConnectionTarget;
+   
    import flash.filesystem.File;
    import flash.filesystem.FileMode;
    import flash.filesystem.FileStream;
@@ -12,22 +14,35 @@ package net.digitalprimates.fluintairrunner
    
    public class TestRunnerUtils
    {
+      private static var _logger : ILogger;
+      
       public static function createLogger(className : String) : ILogger
 		{
-			// Create a target.
+			// Create a trace target and LogBook target
          var logTarget:TraceTarget = new TraceTarget();
+         var logbookTarget : LocalConnectionTarget = new LocalConnectionTarget("_fluint");
+         
          // Log all log levels.
          logTarget.level = LogEventLevel.DEBUG;
+         logbookTarget.level = LogEventLevel.DEBUG;
 
          // Add date, time, category, and log level to the output.
          logTarget.includeDate = true;
          logTarget.includeTime = true;
          logTarget.includeCategory = true;
          logTarget.includeLevel = true;
+         logbookTarget.includeDate = true;
+         logbookTarget.includeTime = true;
+         logbookTarget.includeCategory = true;
+         logbookTarget.includeLevel = true;
 
          // Begin logging.
          Log.addTarget(logTarget);
-         return Log.getLogger(className);	
+         Log.addTarget(logbookTarget);
+         
+         _logger = Log.getLogger(className);
+         
+         return _logger;	
 		}
 		
 		public static function parseArgument(arguments : Array) : Dictionary

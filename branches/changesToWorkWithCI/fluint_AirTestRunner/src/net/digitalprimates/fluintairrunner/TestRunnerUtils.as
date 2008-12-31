@@ -66,10 +66,12 @@ package net.digitalprimates.fluintairrunner
 
 				if ( reportExp.test(argument) ) {
 					var reportArray:Array = argument.split( "=" );
+					
 					if ( reportArray.length == 2 ) {
-						var reportString:String = reportArray[1];
-						if ( reportString.length > 3 ) {
-							reportString = reportString.substr( 1, reportString.length - 2 );
+						var reportString : String = reportArray[1];
+						
+						if ( reportString.length > 3 && reportString.charAt(0) == "'" && reportString.charAt(reportString.length - 1) == "'"){
+							reportString = reportString.substr(1, reportString.length - 2);
 						}
 
 						args['reportDir'] = reportString; 
@@ -78,9 +80,11 @@ package net.digitalprimates.fluintairrunner
 
 				if ( filesetExp.test(argument) ) {
 					var filesetArray:Array = argument.split( "=" );
+					
 					if ( filesetArray.length == 2 ) {
-						var filesetString:String = filesetArray[1];
-						if ( filesetString.length > 3 ) {
+						var filesetString : String = filesetArray[1];
+					
+						if ( filesetString.length > 3 && filesetString.charAt(0) == "'" && filesetString.charAt(filesetString.length - 1) == "'"){
 							filesetString = filesetString.substr( 1, filesetString.length - 2 );
 						}
 

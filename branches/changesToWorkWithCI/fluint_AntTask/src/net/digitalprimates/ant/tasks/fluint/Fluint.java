@@ -22,6 +22,7 @@ public class Fluint extends Task
 	private String outputDir;
 	private String workingDir;
 	private Boolean headless = true;
+	private Boolean xvfb = false;
 	private Boolean failOnError = true;
 	private Vector<FileSet> filesets = new Vector<FileSet>();
 	private File outputDirFile;
@@ -57,6 +58,14 @@ public class Fluint extends Task
 	public void setFailOnError(Boolean failOnError)
 	{
 		this.failOnError = failOnError;
+	}
+
+	public Boolean getXvfb() {
+		return this.xvfb;
+	}
+
+	public void setXvfb(Boolean xvfb) {
+		this.xvfb = xvfb;
 	}
 
 	public String getWorkingDir()
@@ -147,6 +156,16 @@ public class Fluint extends Task
 			}
 		}
 
+		if(this.xvfb && this.headless)
+		{
+			//make sure the flag to automagically find a display is set first
+			args.add(0, "-a");
+
+			//verify path is Linux savvy (will NOT work with paths containing spaces - '\ ' will be converted to '/ ')
+			//add as 2nd parameter
+			args.add(1, this.testRunner.replace('\\', '/'));
+		}
+
 		if (this.headless)
 		{
 			args.add("-headless");
@@ -187,8 +206,20 @@ public class Fluint extends Task
 		this.testRunner = this.testRunner.replace('/', '\\');
 
 		this.cmdl = new Commandline();
+
+		String executable = null;
+
+		if(this.xvfb && this.headless)
+		{
+			executable = "xvfb-run";
+		}
+		else
+		{
+			executable = this.testRunner;
+		}
+
+		this.cmdl.setExecutable(executable);
 		this.cmdl.addArguments(this.prepareArguments());
-		this.cmdl.setExecutable(this.testRunner);
 
 		Execute exe = new Execute();
 		exe.setAntRun(this.getProject());

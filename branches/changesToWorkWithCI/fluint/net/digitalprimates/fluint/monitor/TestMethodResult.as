@@ -25,7 +25,6 @@
 package net.digitalprimates.fluint.monitor
 {
 	import flash.events.EventDispatcher;
-	import flash.utils.getQualifiedClassName;
 	
 	import mx.events.PropertyChangeEvent;
 	
@@ -50,11 +49,6 @@ package net.digitalprimates.fluint.monitor
 		public var displayName:String;
 
 		/** 
-		 * Stack tace information captured by a failing method.
-		 */
-		public var traceInformation:String;
-
-		/** 
 		 * Metadata associated with this test method
 		 */
 		public var metadata:XML;
@@ -74,17 +68,39 @@ package net.digitalprimates.fluint.monitor
 		 * if it was an error thrown by Flex including failed assertions. 
 		 */
 		private var _error : Error;
+
+		/** 
+		 * Stack tace information captured by a failing method.
+		 */
+		private var _traceInformation:String;
 		
-		public function get error() : Error
-		{
+		public function get error() : Error	{
 			return _error;
 		}
 
-		public function set error( value : Error ):void 
-		{
+		public function set error( value : Error ):void	{
 			var propertyChangedEvent:PropertyChangeEvent = PropertyChangeEvent.createUpdateEvent( this, 'status', status, value );
 			_error = value;
 			dispatchEvent( propertyChangedEvent );
+		}
+		
+		public function get traceInformation() : String {
+		   var trace : String = "";
+		   
+		   if(_traceInformation) {
+		      trace += _traceInformation;
+		   }
+		   
+		   if(_error)
+		   {
+	         trace += "\n" + _error.getStackTrace();
+		   }
+		   
+		   return trace;
+		}
+		
+		public function set traceInformation(trace : String) : void {
+		   _traceInformation = trace;
 		}
 
 		[Bindable('propertyChanged')]
@@ -119,7 +135,7 @@ package net.digitalprimates.fluint.monitor
 		 * @inheritDoc
 		 */
 		override public function toString():String {
-			return ResultDisplayUtils.toString( displayName, status, executed );
+			return ResultDisplayUtils.toString( displayName, status, executed, errored);
 		}
 
 		/** 

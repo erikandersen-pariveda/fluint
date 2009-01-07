@@ -91,14 +91,18 @@ package net.digitalprimates.fluint.utils {
 		 * 
 		 * @return The toString concatenation of the name and status.
 		 */
-		public static function toString( displayName:String, status:Boolean, executed:Boolean ):String {
+		public static function toString( displayName:String, status:Boolean, executed:Boolean, error : Boolean = false ):String {
 			var name:String = displayName + ' - ';
 			
 			if ( executed ) {
 				if ( status ) {
 					name += 'Passed';
-				} else {
-					name += 'Failed';
+				} 
+				else if(!status && error){
+					name += 'Error';
+				}
+				else {
+				   name += 'Failed';
 				}
 			} else {
 				name += 'Pending';

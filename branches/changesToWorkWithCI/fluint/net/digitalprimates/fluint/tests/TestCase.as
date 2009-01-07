@@ -304,22 +304,10 @@ package net.digitalprimates.fluint.tests {
 					    setupTearDownFailed = true;
 						var testCaseResult:TestCaseResult = testMonitor.getTestCaseResult( this );
 						testCaseResult.status = false;
-
-						if ( !testCaseResult.traceInformation ) {
-							testCaseResult.traceInformation = e.getStackTrace();
-						} else {
-							testCaseResult.traceInformation += ( '\n' + e.getStackTrace() );
-						}
+						
 					} else {
 						methodResult = testMonitor.getTestMethodResult( registeredMethod );
 						methodResult.error = e;
-
-						if ( !methodResult.traceInformation ) {
-							methodResult.traceInformation = e.getStackTrace();
-						} else {
-							methodResult.traceInformation += ( '\n' + e.getStackTrace() );
-						}
-
 						methodResult.executed = true;
 						methodResult.testDuration = getTimer()-tickCountOnStart;
 					}

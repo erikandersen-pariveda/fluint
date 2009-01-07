@@ -6,4 +6,5 @@
   <component id="TestRunner" class="net.digitalprimates.fluint.ui.TestRunner"/>
   <component id="TestSuite" class="net.digitalprimates.fluint.tests.TestSuite"/>
   <component id="TestProgressBar" class="net.digitalprimates.fluint.ui.TestProgressBar"/>
+  <component id="TestResultStatusBar" class="net.digitalprimates.fluint.ui.TestResultStatusBar"/>
 </componentPackage>

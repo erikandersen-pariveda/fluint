@@ -88,12 +88,12 @@ package net.digitalprimates.fluint.monitor
 		   var trace : String = "";
 		   
 		   if(_traceInformation) {
-		      trace += _traceInformation;
+		      trace += _traceInformation + "\n";
 		   }
 		   
 		   if(_error)
 		   {
-	         trace += "\n" + _error.getStackTrace();
+	         trace += _error.getStackTrace();
 		   }
 		   
 		   return trace;

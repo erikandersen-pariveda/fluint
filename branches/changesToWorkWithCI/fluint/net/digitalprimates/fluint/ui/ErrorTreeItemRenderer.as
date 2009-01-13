@@ -63,8 +63,8 @@ package net.digitalprimates.fluint.ui {
          super.data = value;
       }
       
-      override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {          
-         super.updateDisplayList(unscaledWidth, unscaledHeight);
+      override protected function commitProperties() : void {
+         super.commitProperties();
          
          if(super.data) {
             var result : ITestResult = ITestResult(TreeListData(super.listData).item);
@@ -136,9 +136,13 @@ package net.digitalprimates.fluint.ui {
                   _status.source = TestStatusIcon.TEST_PASS;
                }
             }
-            
-            resetIconPosition();
          }
+      }
+      
+      override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {          
+         super.updateDisplayList(unscaledWidth, unscaledHeight);
+         
+         resetIconPosition();
       }
       
       private function resetIconPosition() : void {

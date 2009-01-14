@@ -111,21 +111,24 @@ public class Fluint extends Task
 
 	private File prepareWorkingDir()
 	{
-		File tempDir = this.getProject().resolveFile(this.workingDir);
+		File dir = this.getProject().getBaseDir();
 
-		// make sure the folder exists and is a folder, if not use baseDir
-		if(this.workingDir == "" || this.workingDir == null || !tempDir.exists() || !tempDir.isDirectory())
+		if(this.workingDir != null)
 		{
-			tempDir = this.getProject().getBaseDir();
+			File tempDir = this.getProject().resolveFile(this.workingDir);
+
+			// make sure the folder exists and is a folder, if not use baseDir
+			if(this.workingDir != "" && tempDir.exists() && tempDir.isDirectory())
+			{
+				dir = tempDir;
+			}
+			else if(!tempDir.exists() || !tempDir.isDirectory())
+			{
+				System.out.println("Working directory '" + this.workingDir + "' does not exist.");
+			}
 		}
 
-		if (!tempDir.exists() || !tempDir.isDirectory())
-		{
-			System.out.println("'" + this.workingDir + "' does not exist.  "
-					+ " Using base directory ('" + this.getProject().getBaseDir().getAbsolutePath() + "')");
-		}
-
-		return tempDir;
+		return dir;
 	}
 
 	private String[] prepareArguments()

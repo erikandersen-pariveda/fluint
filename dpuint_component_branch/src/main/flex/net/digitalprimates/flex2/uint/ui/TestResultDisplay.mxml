@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns="*" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:dp="net.digitalprimates.flex2.uint.ui.*" paddingLeft="5" paddingRight="5" paddingTop="5">
+	<mx:Script>
+		<![CDATA[
+		    import mx.events.ResizeEvent;
+		    import mx.core.IFlexDisplayObject;
+		    import mx.events.FlexEvent;
+		    import mx.containers.HBox;
+		    import mx.core.LayoutContainer;
+		    import mx.core.UIComponent;
+		    import mx.core.Application;
+		    import mx.managers.PopUpManager;
+		    import mx.containers.TitleWindow;
+			import net.digitalprimates.flex2.uint.monitor.TestCaseResult;
+			import net.digitalprimates.flex2.uint.monitor.TestSuiteResult;
+			import mx.collections.ArrayCollection;
+			import net.digitalprimates.flex2.uint.events.ChooseTestMethodResultEvent;
+			import net.digitalprimates.flex2.uint.monitor.TestMethodResult;
+			import net.digitalprimates.flex2.uint.monitor.TestMonitor;
+			import net.digitalprimates.flex2.uint.ui.ErrorTreeItemRenderer;
+			
+			[Bindable]
+			protected var testMonitor:TestMonitor = TestMonitor.getInstance();
+			
+			protected function displayTraceInformation( selectedItem:Object ):String {
+				return selectedItem.traceInformation;
+			} 
+			
+			protected function handleTestMethodResultSelection( event:ChooseTestMethodResultEvent ):void {
+				
+				var collection:ArrayCollection = testMonitor.testSuiteCollection;
+
+				var testSuiteResult:TestSuiteResult;
+				var testCaseResult:TestCaseResult;
+				var testMethodResult:TestMethodResult;
+				for ( var i:int=0; i<collection.length; i++ ) {
+					testSuiteResult = collection.getItemAt( i ) as TestSuiteResult;
+					for ( var j:int=0; j<testSuiteResult.children.length; j++ ) {
+						testCaseResult = testSuiteResult.children[ j ] as TestCaseResult;
+						for ( var k:int=0; k<testCaseResult.children.length; k++ ) {
+							testMethodResult = testCaseResult.children[ k ] as TestMethodResult;
+	
+							if ( event.testMethodResult == testMethodResult ) {
+								testTree.expandItem( testSuiteResult, true, false, false );
+								testTree.expandItem( testCaseResult, true, false, false );
+								testTree.selectedItem = event.testMethodResult;
+								break;
+							}
+						}					
+					}			
+				}			
+			}
+			
+			protected function applyFilter( event:Event ):void {
+				switch ( testFilterGroup.selectedValue ) {
+					case 'all': {
+						break;
+					}
+
+					case 'pass': {
+						break;
+					}
+
+					case 'fail': {
+						break;
+					}
+				}
+			}
+			
+			protected function pushStackTraceIntoTitleWindow() : void {
+			    var titleWindow : TitleWindow = new TitleWindow();
+			    titleWindow.showCloseButton = true;
+			    titleWindow.defaultButton
+			    
+			    // Necessary because of: https://bugs.adobe.com/jira/browse/SDK-16495
+			    var resizeFunction : Function = function(event : Event) {
+                    titleWindow.width = Application.application.width * .95;
+                    titleWindow.height = Application.application.height * .95;
+                    PopUpManager.centerPopUp(titleWindow);
+                };
+			    
+			    titleWindow.addEventListener(FlexEvent.CREATION_COMPLETE, resizeFunction);
+			    Application.application.addEventListener(ResizeEvent.RESIZE, resizeFunction);
+			    
+			    this.addEventListener(KeyboardEvent.KEY_UP, function( event : KeyboardEvent ) {
+			       if (event.keyCode == Keyboard.ESCAPE) {
+			           if (titleWindow) {
+			             PopUpManager.removePopUp(titleWindow);    
+			           }
+			       } 
+			    });
+			    
+			    var closeButton : Button = new Button();
+			    closeButton.label = "Minimize";
+			    closeButton.addEventListener(MouseEvent.CLICK, function(event : Event) {
+			       PopUpManager.removePopUp(titleWindow); 
+			    });
+			    
+			    var stackTraceClone : TextArea = new TextArea();
+			    stackTraceClone.percentHeight = 100;
+			    stackTraceClone.percentWidth = 100;
+			    stackTraceClone.wordWrap = false;
+			    stackTraceClone.text = stackTrace.text;
+			    
+			    var copyStackTraceClone : Button = new Button();
+			    copyStackTraceClone.label = "Copy Stack Trace";
+			    copyStackTraceClone.addEventListener(MouseEvent.CLICK, copyStackTraceToClipboard);
+			    
+			    var hBox : HBox = new HBox();
+                hBox.addChild(copyStackTraceClone);
+                hBox.addChild(closeButton);
+                
+                titleWindow.addChild(stackTraceClone);
+                titleWindow.addChild(hBox);
+			    
+			    PopUpManager.addPopUp(titleWindow, Application.application as UIComponent);
+			}
+			
+			private function copyStackTraceToClipboard(event : Event) : void {
+			    System.setClipboard(stackTrace.text);
+			}
+		]]>
+	</mx:Script>
+	<mx:Label text="Unit and Test Integration Environment"/>
+	<mx:HBox width="100%" >
+		<mx:Label text="Running {testMonitor.totalTestCount} Tests"/>
+		<mx:Spacer width="100%"/>
+		<mx:Label text="{testMonitor.totalFailureCount} Failure(s)" fontWeight="{testMonitor.totalFailureCount>0?'bold':'normal'}"/>
+	</mx:HBox>
+	<dp:TestProgressBar width="100%" height="50" 
+			dataProvider="{testMonitor.testSuiteCollection}" 
+			numberTestCases="{testMonitor.totalTestCount}"
+			chooseTestMethodResult="handleTestMethodResultSelection( event )"/>
+	<mx:HRule width="100%"/>
+	<mx:HDividedBox width="100%" height="100%" >
+		<mx:VBox width="40%" height="100%">
+			<mx:Label text="Test Suites"/>
+			<mx:Tree id="testTree" width="100%" height="100%" dataProvider="{testMonitor.testSuiteCollection}" itemRenderer="net.digitalprimates.flex2.uint.ui.ErrorTreeItemRenderer"/>
+			<mx:Label text="Test Result Filter"/>
+			<mx:HBox width="100%">
+				<mx:RadioButtonGroup id="testFilterGroup" change="applyFilter(event)"/>
+				<mx:RadioButton id="all" label="All Tests" selected="true"/>
+				<mx:RadioButton id="pass" label="Only Pass"/>
+				<mx:RadioButton id="fail" label="Only Failure"/>
+			</mx:HBox>
+		</mx:VBox>
+		<mx:VBox width="60%" height="100%">
+			<mx:Label text="Stack Trace"/> 
+			<mx:TextArea id="stackTrace" width="100%" height="100%" borderStyle="none" wordWrap="false" text="{displayTraceInformation(testTree.selectedItem)}"/>
+			<mx:HBox width="100%">
+    			<mx:Button id="copyStackTrace" label="Copy Stacktrace" toolTip="Copies the stack trace to your clipboard" click="copyStackTraceToClipboard(event)" />
+                <mx:Button label="Maximize" click="pushStackTraceIntoTitleWindow()" />    
+			</mx:HBox>
+		</mx:VBox>
+	</mx:HDividedBox>
+</mx:VBox>

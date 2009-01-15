@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.TextInput;
+			
+			/** TextInput that only gets initialized AFTER button click. */
+			public var textFieldOnClick : TextInput = null;
+			
+			/** Child component that only gets initialized AFTER button click. */
+			public var childNullReferences : NullReferences = null;
+			
+			public function populateTextField() : void {
+				textFieldOnClick = new TextInput();
+				this.addChild(textFieldOnClick);
+				
+				dispatchEvent(new Event("foo"));
+			}
+			
+			public function populateNullReferencesSubWindow() : void {
+				childNullReferences = new NullReferences();
+				// This is needed or NullReferences will not populate its children
+				this.addChild(childNullReferences);
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:Button id="button" click="populateTextField(); populateNullReferencesSubWindow()" label="Click Me To Populate Text Field!"/>
+	<mx:TextInput id="textField" text="This field is always populated." />
+</mx:VBox>

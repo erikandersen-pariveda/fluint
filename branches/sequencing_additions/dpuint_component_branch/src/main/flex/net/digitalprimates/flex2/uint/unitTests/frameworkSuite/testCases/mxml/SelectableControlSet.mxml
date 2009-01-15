@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" initialize="EventTracker.instance.recordEvents(event)">
+    <mx:Script>
+        <![CDATA[
+            import mx.events.MenuEvent;
+            import mx.controls.Menu;
+            import net.digitalprimates.flex2.uint.utils.EventTracker;
+            import mx.controls.Alert;
+            
+            public function initializePopupMenu() : void {
+                var menu : Menu = new Menu();
+                menu.dataProvider = numbers;
+                menu.addEventListener("itemClick", function(event : MenuEvent) {
+                    var label:String = event.item.label;        
+                    popupButton.label = label;
+                    popupButton.close();
+                    menu.selectedIndex = event.index;
+                });
+                
+                popupButton.popUp = menu;
+            }
+        ]]>
+    </mx:Script>
+    
+    <mx:Array id="numbers">
+        <mx:Object label="One" data="1" />
+        <mx:Object label="Two" data="2" />
+        <mx:Object label="Three" data="3" />
+    </mx:Array>
+
+    <mx:HRule width="100%" />
+    <mx:Text text="Selectable Controls" fontSize="16" />
+    
+    <mx:List id="simpleList" dataProvider="{numbers}" />
+    <mx:LinkBar id="linkBar" dataProvider="{numbers}" />
+    <mx:PopUpButton id="popupButton" label="PopUpButton" creationComplete="initializePopupMenu()" />
+        
+    <mx:ComboBox id="comboBox" dataProvider="{numbers}" />
+    
+    <mx:RadioButton groupName="radioButtonGroup" id="radioButtonOption1" label="One" />
+    <mx:RadioButton groupName="radioButtonGroup" id="radioButtonOption2" label="Two" />
+    <mx:RadioButton groupName="radioButtonGroup" id="radioButtonOption3" label="Three" />
+    
+    <mx:TabBar id="tabBar" dataProvider="{numbers}" />
+    <mx:ButtonBar id="buttonBar" dataProvider="{numbers}" />
+    
+    <mx:HSlider id="horizontalSlider" minimum="0" maximum="100" tickInterval="1" />
+    <mx:HSlider id="horizontalSliderWithCourseTickValue" minimum="0" maximum="100" tickInterval="10" />
+</mx:VBox>

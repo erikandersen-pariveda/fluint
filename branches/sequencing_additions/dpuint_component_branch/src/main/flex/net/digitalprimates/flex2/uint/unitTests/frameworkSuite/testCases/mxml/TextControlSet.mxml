@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" initialize="EventTracker.instance.recordEvents(event)">
+    <mx:Script>
+        <![CDATA[
+            import net.digitalprimates.flex2.uint.utils.EventTracker;
+            import mx.controls.Alert;
+        ]]>
+    </mx:Script>
+    
+    <mx:Array id="numbers">
+        <mx:Object label="One" data="1" />
+        <mx:Object label="Two" data="3" />
+        <mx:Object label="Three" data="3" />
+    </mx:Array>
+
+    <mx:HRule width="100%" />
+    <mx:Text text="Text Controls" fontSize="16" />
+    
+    <mx:TextInput id="textInput" />
+    <mx:TextInput id="textInputWithInitialValue" text="Hello World!" />
+    
+    <mx:TextInput id="invisibleTextInput" visible="false"/>
+    <mx:TextInput id="disabledTextInput" enabled="false"/>
+</mx:VBox>

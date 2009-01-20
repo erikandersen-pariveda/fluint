@@ -114,6 +114,7 @@ package net.digitalprimates.fluint.tests
 				if ( caseCollection ) {
 					caseCollection.sort = sorter;
 					caseCollection.refresh();
+					cursor.seek( CursorBookmark.FIRST ); //needed when applying a sorter or filter to ensure cursor is valid
 				}
 			}
 		}
@@ -146,6 +147,7 @@ package net.digitalprimates.fluint.tests
 				if ( caseCollection ) {
 					caseCollection.filterFunction = filter;
 					caseCollection.refresh();
+					cursor.seek( CursorBookmark.FIRST ); //needed when applying a sorter or filter to ensure cursor is valid
 				}
 			}
 		}

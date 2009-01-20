@@ -28,6 +28,7 @@ package net.digitalprimates.fluint.tests {
 	import flash.events.EventDispatcher;
 	import flash.utils.*;
 	
+	import mx.collections.CursorBookmark;
 	import mx.collections.IViewCursor;
 	import mx.collections.Sort;
 	import mx.collections.SortField;
@@ -971,6 +972,7 @@ package net.digitalprimates.fluint.tests {
 				if ( testCollection ) {
 					testCollection.sort = sorter;
 					testCollection.refresh();
+					cursor.seek( CursorBookmark.FIRST ); //needed when applying a sorter or filter to ensure cursor is valid
 				}
 			}
 		}
@@ -1003,6 +1005,7 @@ package net.digitalprimates.fluint.tests {
 				if ( testCollection ) {
 					testCollection.filterFunction = filter;
 					testCollection.refresh();
+					cursor.seek( CursorBookmark.FIRST ); //needed when applying a sorter or filter to ensure cursor is valid
 				}
 			}
 		}

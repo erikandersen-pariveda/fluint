@@ -226,6 +226,12 @@ package net.digitalprimates.fluint.ui {
 			}
 		}
 
+		private function wrapTestCase( value:TestCase ):TestSuite {
+			var suite:TestSuite = new TestSuite();
+			suite.addTestCase( value as TestCase );
+			
+			return suite;			
+		}
 		/** 
 		 * Starts the testingProcess.
 		 * 
@@ -236,13 +242,23 @@ package net.digitalprimates.fluint.ui {
 		 */ 
 		public function startTests( value:Object ):void {
 			if ( value is Array ) {
+				for ( var i:int=0; i<(value as Array).length; i++ ) {
+					if ( !( value[ i ] is TestSuite ) ) {
+						if ( value[ i ] is TestCase ) {
+							value[ i ] = wrapTestCase( value[ i ] as TestCase );
+						} else {
+							//element of this array which is not a suite or a test case. perhaps some day we will handle nested arrays
+							//but today throw an error
+							throw new Error( "Element of provided array is neither a TestCase nor a TestSuite" );
+						}
+					}
+				}
+
 				testSuiteCollection = new ArrayCollection( value as Array );
 			} else if ( value is TestSuite ) {
 				testSuiteCollection = new ArrayCollection( new Array( value ) );
 			} else if ( value is TestCase ) {
-				var suite:TestSuite = new TestSuite();
-				suite.addTestCase( value as TestCase );
-				testSuiteCollection = new ArrayCollection( new Array( suite ) );
+				testSuiteCollection = new ArrayCollection( new Array( wrapTestCase( value as TestCase ) ) );
 			} else {
 				throw new Error( "No Test or TestSuite Provided" );				
 			}

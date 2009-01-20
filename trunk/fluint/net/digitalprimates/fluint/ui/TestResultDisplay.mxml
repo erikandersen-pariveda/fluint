@@ -16,7 +16,7 @@
 			protected function displayTraceInformation( selectedItem:Object ):String {
 				var displayString:String;
 				
-				if ( !selectedItem.metadata ) {
+				if ( selectedItem is TestCaseResult || ( !selectedItem.metadata ) ) {
 					displayString = selectedItem.traceInformation;
 				} else {
 					displayString = selectedItem.traceInformation + '\n';

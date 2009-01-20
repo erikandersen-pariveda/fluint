@@ -3,14 +3,15 @@
 		xmlns="*"
 		xmlns:mx="http://www.adobe.com/2006/mxml" 
 	    width="500" height="500"
-	    headless="false"
-	    fileSet="{getFileSet()}">
+	    headless="false">
 
 	<mx:Script>
 		<![CDATA[	
 		//fileSet="{getFileSet()}"
 			public function getFileSet():Array {
-				var fs:Array = new Array();
+				//fileSet="{getFileSet()}"
+				var fs:Array = new Array();							
+				
 				fs.push( "C:/temp/fluintModule" );
 				
 				return fs;

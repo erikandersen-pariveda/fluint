@@ -1,5 +1,6 @@
 package
 {
+	import flash.display.DisplayObject;
 	import flash.display.Loader;
 	import flash.display.LoaderInfo;
 	import flash.events.ErrorEvent;
@@ -15,7 +16,6 @@ package
 	import flash.system.LoaderContext;
 	import flash.utils.ByteArray;
 	
-	import mx.controls.Alert;
 	import mx.core.IFlexModuleFactory;
 	import mx.core.WindowedApplication;
 	import mx.events.ModuleEvent;
@@ -23,6 +23,7 @@ package
 	import mx.logging.Log;
 	import mx.logging.LogEventLevel;
 	import mx.logging.targets.TraceTarget;
+	import mx.managers.ISystemManager;
 	
 	import net.digitalprimates.fluint.modules.ITestSuiteModule;
 	import net.digitalprimates.fluint.tests.TestSuite;
@@ -275,6 +276,16 @@ package
 	        moduleEvent.bytesLoaded = loaderInfo.loader.contentLoaderInfo.bytesLoaded;
 	        moduleEvent.bytesTotal = loaderInfo.loader.contentLoaderInfo.bytesTotal;
 	        dispatchEvent(moduleEvent);
+	        
+	    	//if we loaded something that is not a Flex Module, we will try to handle it right now.
+	    	//Modules will broadcast a read event and shouldn't be touched until that point, if this swf does not have
+	    	//that content-type, then let's just manually call the readyHandler to try to deal with it.
+	    	if ( loaderInfo ) {
+	    		if ( ( loaderInfo.content is ISystemManager ) ) {
+	    			createSubApp( loaderInfo.content );
+	    		}
+	    	}
+	    	 	
 	    }
 	
 	    /**
@@ -288,10 +299,21 @@ package
 	        moduleEvent.bytesTotal = 0;
 	        moduleEvent.errorText = event.text;
 	        dispatchEvent(moduleEvent);
+	        
+	        //Decrement the pending count on an error so that we still load and run the others 
+	        _pendingModuleCount--;
 	
 	        //trace("child load of " + _url + " generated an error " + event);
 	    }
 	
+		private function getLoaderURL( obj:DisplayObject ):String {
+	    	var url:String = "";
+	    	if ( obj && obj.loaderInfo ) {
+	    		url = obj.loaderInfo.loaderURL;
+	    	}
+	    	
+	    	return url;
+		}
 	    /**
 	     *  @private
 	     */
@@ -300,28 +322,55 @@ package
 			_pendingModuleCount--;
 
 	    	var factory:IFlexModuleFactory = event.currentTarget as IFlexModuleFactory;
-	        //trace("child load of " + _url + " is ready");
-	
+
 			if ( factory ) {
-		        var child:ITestSuiteModule = factory.create() as ITestSuiteModule;
+				var instance:* = factory.create();
+		        var child:ITestSuiteModule = instance as ITestSuiteModule;
 
-		        if (child)
-		        {
-		        	var childTestSuites:Array = child.getTestSuites();
-		        	
-		        	for ( var i:int=0; i<childTestSuites.length; i++ ) {
-		        		if ( childTestSuites[ i ] is TestSuite ) {
-			        		_suites.push( childTestSuites[ i ] );
-		        		}
-		        	}
+		        dispatchEvent(new ModuleEvent(ModuleEvent.READY));
+		        
+		        if (child) {
+		        	createModule( child );
+		        } else {
+       		    	fluintLogger.debug("Encountered a Flex Module SWF file that does not Implement ITestSuiteModule. Ignoring Module ");
 		        }
-			}
+		 	}
+	    }
 
-	        dispatchEvent(new ModuleEvent(ModuleEvent.READY));
+	    public function createSubApp( app:DisplayObject ):void
+	    {
+	    	_pendingModuleCount--;
 
+			//need a way to tie together urls to provide better errors here	    	
+	    	fluintLogger.debug("Encountered a SWF file that is not an IFlexModuleFactory, ignoring file " );
+	    	return;
+	    	
+	    	if ( app ) {	    		
+	    		//this doesn't yet work but it is being prepared to support sub-applications with the marshall plan
+	    		var instance:* = (app as ISystemManager).create();
+	    		var child:ITestSuiteModule =  instance as ITestSuiteModule;
+	    		
+	    		if ( child ) {
+		        	createModule( child );
+	    		} else {
+	    			fluintLogger.debug("Encountered a SWF file that is not an IFlexModuleFactory nor a sub-application supporting ITestModule");
+	    		}
+	    	}
+	    }
+	    
+	    private function createModule( child:ITestSuiteModule ):void {
+
+        	var childTestSuites:Array = child.getTestSuites();
+        	
+        	for ( var i:int=0; i<childTestSuites.length; i++ ) {
+        		if ( childTestSuites[ i ] is TestSuite ) {
+	        		_suites.push( childTestSuites[ i ] );
+        		}
+        	}
+        	
 			if ( _pendingModuleCount == 0 ) {
-				startTestProcess( event );
-			}
+				startTestProcess( null );
+			}        	
 	    }
 
 		protected function writeFile(event:Event):void

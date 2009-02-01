@@ -8,19 +8,30 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import fluint4.MyMetaTest;
+			import flexunit.framework.TestTestListener;
+			import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAssert;
+			import runner.MasterTestRunner;
 			import net.digitalprimates.fluint.unitTests.frameworkSuite.FrameworkSuite;
+			import flexunit.AllFlexUnitTests;
 			
 			protected function startTestProcess( event:Event ) : void
 			{
+				var testRunner:MasterTestRunner = new MasterTestRunner();
 				var suiteArray:Array = new Array();
-					suiteArray.push( new FrameworkSuite() );
-				
+				suiteArray.push( new FrameworkSuite() );
+				suiteArray.push( AllFlexUnitTests.suite() );
+				suiteArray.push( new TestAssert() );
+				suiteArray.push( TestAssert );
+				suiteArray.push( TestTestListener );
+				suiteArray.push( new TestTestListener() );
+				suiteArray.push( new Object() );
+				suiteArray.push( MyMetaTest );
+				suiteArray.push( new MyMetaTest() );
+
 				testRunner.startTests( suiteArray );
 			}
-			
 		]]>
 	</mx:Script>	
-	
-	<fluint:TestResultDisplay width="100%" height="100%" />
-	<fluint:TestRunner id="testRunner"/>
+
 </mx:Application>

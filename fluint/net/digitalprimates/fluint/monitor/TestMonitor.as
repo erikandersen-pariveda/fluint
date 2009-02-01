@@ -180,7 +180,7 @@ package net.digitalprimates.fluint.monitor {
 		 * @return An instance of the TestMethodResult class.
 		 */		
 		public function createTestMethodResult( testCase:TestCase, testMethod:TestMethod ):TestMethodResult {
-			var testMethodResult:TestMethodResult = new TestMethodResult( testMethod, true, null );
+			var testMethodResult:TestMethodResult = new TestMethodResult( testMethod );
 
 			testMethodDictionary[ testMethod ] = testMethodResult;
 			
@@ -215,34 +215,24 @@ package net.digitalprimates.fluint.monitor {
 		 * 
 		 * It does so by querying each TestSuiteResult's xmlResults. This 
 		 * data is intended to be consumed by external applications such 
-		 * as CruiseControl 
+		 * as CruiseControl and Hudson
 		 */
 		public function get xmlResults():XML {
-			var tmpXML:XML = <testsuites/>
-			var resultXML:XML;
-			
-			tmpXML.@status = ( totalFailureCount == 0 );
-			tmpXML.@failureCount = totalFailureCount;
-			tmpXML.@testCount = totalTestCount;
-			//tmpXML.@endTime = getTimer()-mx.core.Application.application.startTime;
-
-			for ( var i:int=0; i<testSuiteCollection.length; i++ ) {
-				resultXML = ( testSuiteCollection.getItemAt( i ) as TestSuiteResult ).xmlResults;
-				tmpXML.appendChild( resultXML );
-			}
-			
-			return tmpXML;
+			var report : TestResultReport = new TestResultReport(testSuiteCollection.toArray());
+			return report.toXml();
 		}
 
 		/** 
 		 * Monitors the testSuiteCollection for changes and updates the 
-		 * totalFailureCount property.
+		 * totalFailureCount and totalErrorCount property.
 		 */
 		protected function handleCollectionChanged( event:Event ):void {
 			var failureCount:int = 0;
+			var errorCount:int = 0;
 
 			for ( var i:int=0; i<testSuiteCollection.length; i++ ) {
 				failureCount += testSuiteCollection.getItemAt( i ).numberOfFailures;
+				errorCount += testSuiteCollection.getItemAt( i ).numberOfErrors;
 			}
 			
 			if ( totalFailureCount > 0 ) {
@@ -250,6 +240,7 @@ package net.digitalprimates.fluint.monitor {
 			}
 			
 			totalFailureCount = failureCount;
+			totalErrorCount = errorCount;
 			
 			//Notify any listeners to the XMLResults that they need to update
 			dispatchEvent( new Event( 'xmlResultsChanged' ) );

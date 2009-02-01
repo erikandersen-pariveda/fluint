@@ -302,44 +302,27 @@ package net.digitalprimates.fluint.tests {
 				catch ( e:Error ) {
 					if ( ( registeredMethod == setUp ) || 
 					     ( registeredMethod == tearDown ) ) {
-					    setupTearDownFailed = true;
-						var testCaseResult:TestCaseResult = testMonitor.getTestCaseResult( this );
-						testCaseResult.status = false;
-
-						if ( !testCaseResult.traceInformation ) {
-							testCaseResult.traceInformation = e.getStackTrace();
+						    setupTearDownFailed = true;
+							var testCaseResult:TestCaseResult = testMonitor.getTestCaseResult( this );
+							testCaseResult.status = false;
+	
+							if ( !testCaseResult.traceInformation ) {
+								testCaseResult.traceInformation = e.getStackTrace();
+							} else {
+								testCaseResult.traceInformation += ( '\n' + e.getStackTrace() );
+							}
 						} else {
-							testCaseResult.traceInformation += ( '\n' + e.getStackTrace() );
-						}
-					} else {
-						if ( e is AssertionFailedError ) {
-							//In this case, a test actually failed via an assertion or fail
 							methodResult = testMonitor.getTestMethodResult( registeredMethod );
-							methodResult.isError = false;
-							methodResult.status = false;
-
+/*
 							if ( !methodResult.traceInformation ) {
 								methodResult.traceInformation = e.getStackTrace();
 							} else {
 								methodResult.traceInformation += ( '\n' + e.getStackTrace() );
 							}
-
+*/							
+							methodResult.error = e;
 							methodResult.executed = true;
-						} else {
-							//I am not sure we are going to keep these separate
-							//In this case, flex threw an error directly, not through an assertion
-							methodResult = testMonitor.getTestMethodResult( registeredMethod );
-							methodResult.isError = true; 
-							methodResult.status = false;
-
-							if ( !methodResult.traceInformation ) {
-								methodResult.traceInformation = e.getStackTrace();
-							} else {
-								methodResult.traceInformation += ( '\n' + e.getStackTrace() );
-							}
-
-							methodResult.executed = true;
-						}
+							methodResult.testDuration = getTimer()-tickCountOnStart;
 					}
 				}
 
@@ -348,9 +331,9 @@ package net.digitalprimates.fluint.tests {
 				methodResult = testMonitor.getTestMethodResult( registeredMethod );
 				if ( methodResult ) {
 					methodResult.executed = true;
-					methodResult.isError = false;
-					methodResult.status = false;
+					methodResult.error = new Error("Setup/Teardown Error");
 					methodResult.traceInformation = "Setup or Teardown Failed for this TestCase. Method is invalid. Review Testcase for stackTrace information";
+					methodResult.testDuration = getTimer()-tickCountOnStart;
 				}
 			}
 

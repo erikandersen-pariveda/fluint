@@ -306,6 +306,8 @@ package net.digitalprimates.fluint.tests {
 							var testCaseResult:TestCaseResult = testMonitor.getTestCaseResult( this );
 							testCaseResult.status = false;
 	
+							//This is needed to ensure the testCase is update with information regarding a failure
+							//in the setup or teardown as that is really more of a case issue then a method issue
 							if ( !testCaseResult.traceInformation ) {
 								testCaseResult.traceInformation = e.getStackTrace();
 							} else {

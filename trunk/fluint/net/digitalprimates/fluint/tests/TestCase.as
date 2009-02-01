@@ -23,9 +23,9 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  **/ 
 package net.digitalprimates.fluint.tests {
-	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.events.IEventDispatcher;
 	import flash.utils.*;
 	
 	import mx.collections.CursorBookmark;
@@ -37,7 +37,6 @@ package net.digitalprimates.fluint.tests {
 	import mx.rpc.IResponder;
 	import mx.utils.*;
 	
-	import net.digitalprimates.fluint.assertion.AssertionFailedError;
 	import net.digitalprimates.fluint.async.AsyncHandler;
 	import net.digitalprimates.fluint.async.AsyncTestResponder;
 	import net.digitalprimates.fluint.async.ITestResponder;
@@ -48,7 +47,7 @@ package net.digitalprimates.fluint.tests {
 	import net.digitalprimates.fluint.monitor.TestMonitor;
 	import net.digitalprimates.fluint.sequence.SequenceBindingWaiter;
 	import net.digitalprimates.fluint.sequence.SequenceRunner;
-	import net.digitalprimates.fluint.ui.TestEnvironment;
+	import net.digitalprimates.fluint.uiImpersonation.UIImpersonator;
 
 	/** 
 	 * <p>
@@ -71,7 +70,7 @@ package net.digitalprimates.fluint.tests {
 	 * <p>
 	 * The loop then begins again for the next test method.</p>
 	 */
-	public class TestCase extends EventDispatcher {
+	public class TestCase extends UIImpersonator implements IEventDispatcher {
 
         /**
          * @private
@@ -454,206 +453,6 @@ package net.digitalprimates.fluint.tests {
 			
 			return testMethods;
 		}
-		
-		/** 
-		 * Provides a reference to the TestEnvironment. 
-		 * 
-		 * A singleton container that exists to allow visual children to be
-		 * created and tested. 
-		 */
-		protected var testEnvironment:TestEnvironment = TestEnvironment.getInstance();
-		
-	    /**
-	     *  Adds a child DisplayObject to the TestEnvironment.
-	     *  The child is added after other existing children,
-	     *  so that the first child added has index 0,
-	     *  the next has index 1, an so on.
-	     *
-	     *  <p><b>Note: </b>While the <code>child</code> argument to the method
-	     *  is specified as of type DisplayObject, the argument must implement
-	     *  the IUIComponent interface to be added as a child of a container.
-	     *  All Flex components implement this interface.</p>
-	     *
-	     *  @param child The DisplayObject to add as a child of the TestEnvironment.
-	     *  It must implement the IUIComponent interface.
-	     *
-	     *  @return The added child as an object of type DisplayObject. 
-	     *  You typically cast the return value to UIComponent, 
-	     *  or to the type of the added component.
-	     *
-	     *  @see mx.core.Container
-	     *
-	     *  @tiptext Adds a child object to this container.
-	     */
-		public function addChild(child:DisplayObject):DisplayObject {
-			return testEnvironment.addChild( child );
-		}
-
-	    /**
-	     *  Adds a child DisplayObject to the TestEnvironment.
-	     *  The child is added at the index specified.
-	     *
-	     *  <p><b>Note: </b>While the <code>child</code> argument to the method
-	     *  is specified as of type DisplayObject, the argument must implement
-	     *  the IUIComponent interface to be added as a child of TestEnvironment.
-	     *  All Flex components implement this interface.</p>
-	     *
-	     *  @param child The DisplayObject to add as a child of the TestEnvironment.
-	     *  It must implement the IUIComponent interface.
-	     *
-	     *  @param index The index to add the child at.
-	     *
-	     *  @return The added child as an object of type DisplayObject. 
-	     *  You typically cast the return value to UIComponent, 
-	     *  or to the type of the added component.
-	     *
-	     *  @see mx.core.Container
-	     */
-		public function addChildAt(child:DisplayObject, index:int):DisplayObject {
-			return testEnvironment.addChildAt( child, index );
-		}  
-
-	    /**
-	     *  Removes a child DisplayObject from the child list of the TestEnviroment.
-	     *  The removed child will have its <code>parent</code>
-	     *  property set to null. 
-	     *  The child will still exist unless explicitly destroyed.
-	     *  If you add it to another container,
-	     *  it will retain its last known state.
-	     *
-	     *  @param child The DisplayObject to remove.
-	     *
-	     *  @return The removed child as an object of type DisplayObject. 
-	     *  You typically cast the return value to UIComponent, 
-	     *  or to the type of the removed component.
-	     */
-		public function removeChild(child:DisplayObject):DisplayObject {
-			return testEnvironment.removeChild( child );
-		} 
-
-	    /**
-	     *  Removes a child DisplayObject from the child list of the TestEnvironment
-	     *  at the specified index.
-	     *  The removed child will have its <code>parent</code>
-	     *  property set to null. 
-	     *  The child will still exist unless explicitly destroyed.
-	     *  If you add it to another container,
-	     *  it will retain its last known state.
-	     *
-	     *  @param index The child index of the DisplayObject to remove.
-	     *
-	     *  @return The removed child as an object of type DisplayObject. 
-	     *  You typically cast the return value to UIComponent, 
-	     *  or to the type of the removed component.
-	     */
-		public function removeChildAt(index:int):DisplayObject {
-			return testEnvironment.removeChildAt( index );
-		} 
-
-	    /**
-	     *  Removes all children from the child list of this container.
-	     */
-		public function removeAllChildren():void {
-			return testEnvironment.removeAllChildren();
-		} 
-
-	    /**
-	     *  Gets the <i>n</i>th child component object.
-	     *
-	     *  <p>The children returned from this method include children that are
-	     *  declared in MXML and children that are added using the
-	     *  <code>addChild()</code> or <code>addChildAt()</code> method.</p>
-	     *
-	     *  @param childIndex Number from 0 to (numChildren - 1).
-	     *
-	     *  @return Reference to the child as an object of type DisplayObject. 
-	     *  You typically cast the return value to UIComponent, 
-	     *  or to the type of a specific Flex control, such as ComboBox or TextArea.
-	     */
-	    public function getChildAt(index:int):DisplayObject {
-	    	return testEnvironment.getChildAt( index );
-	    }
-
-	    /**
-	     *  Returns the child whose <code>name</code> property is the specified String.
-	     *
-	     *  @param name The identifier of the child.
-	     *
-	     *  @return The DisplayObject representing the child as an object of type DisplayObject.
-	     *  You typically cast the return value to UIComponent, 
-	     *  or to the type of a specific Flex control, such as ComboBox or TextArea.
-	     */
-	    public function getChildByName(name:String):DisplayObject {
-	    	return testEnvironment.getChildByName( name );
-	    }
-
-	    /**
-	     *  Gets the zero-based index of a specific child.
-	     *
-	     *  <p>The first child of the Test Environment (i.e.: the first child tag
-	     *  that appears in the MXML declaration) has an index of 0,
-	     *  the second child has an index of 1, and so on.
-	     *  The indexes of the test environemnt children determine
-	     *  the order in which they get laid out.
-	     *  For example, in a VBox the child with index 0 is at the top,
-	     *  the child with index 1 is below it, etc.</p>
-	     *
-	     *  <p>If you add a child by calling the <code>addChild()</code> method,
-	     *  the new child's index is equal to the largest index among existing
-	     *  children plus one.
-	     *  You can insert a child at a specified index by using the
-	     *  <code>addChildAt()</code> method; in that case the indices of the
-	     *  child previously at that index, and the children at higher indices,
-	     *  all have their index increased by 1 so that all indices fall in the
-	     *  range from 0 to <code>(numChildren - 1)</code>.</p>
-	     *
-	     *  <p>If you remove a child by calling <code>removeChild()</code>
-	     *  or <code>removeChildAt()</code> method, then the indices of the
-	     *  remaining children are adjusted so that all indices fall in the
-	     *  range from 0 to <code>(numChildren - 1)</code>.</p>
-	     *
-	     *  <p>If <code>myView.getChildIndex(myChild)</code> returns 5,
-	     *  then <code>myView.getChildAt(5)</code> returns myChild.</p>
-	     *
-	     *  <p>The index of a child may be changed by calling the
-	     *  <code>setChildIndex()</code> method.</p>
-	     *
-	     *  @param child Reference to child whose index to get.
-	     *
-	     *  @return Number between 0 and (numChildren - 1).
-	     */
-	    public function getChildIndex(child:DisplayObject):int {
-	    	return testEnvironment.getChildIndex( child );
-	    }
-
-	    /**
-	     *  Sets the index of a particular child.
-	     *  See the <code>getChildIndex()</code> method for a
-	     *  description of the child's index.
-	     *
-	     *  @param child Reference to child whose index to set.
-	     *
-	     *  @param newIndex Number that indicates the new index.
-	     *  Must be an integer between 0 and (numChildren - 1).
-	     */
-		public function setChildIndex(child:DisplayObject, newIndex:int):void {
-			testEnvironment.setChildIndex( child, newIndex );
-		} 
-
-	    /**
-	     *  Number of child components in the TestEnvironment.
-	     *
-	     *  <p>The number of children is initially equal
-	     *  to the number of children declared in MXML.
-	     *  At runtime, new children may be added by calling
-	     *  <code>addChild()</code> or <code>addChildAt()</code>,
-	     *  and existing children may be removed by calling
-	     *  <code>removeChild()</code>, <code>removeChildAt()</code>,
-	     *  or <code>removeAllChildren()</code>.</p>
-	     */
-		public function get numChildren():int {
-			return testEnvironment.numChildren;
-		}
 
 		/**
 		 * The setup method can be overriden to create test case specific 
@@ -795,145 +594,6 @@ package net.digitalprimates.fluint.tests {
 		}
 //------------------------------------------------------------------------------
 
-		/**
-		 * Asserts that the two provided values are equal
-		 */
-		protected function assertEquals(... rest):void
-		{
-			if ( rest.length == 3 )
-				failNotEquals( rest[0], rest[1], rest[2] );
-			else
-				failNotEquals( "", rest[0], rest[1] );
-		}
-	
-        /**
-         * @private
-         */
-		protected function failNotEquals( message:String, expected:Object, actual:Object ):void
-		{
-			if ( expected != actual )
-			   failWithUserMessage( message, "expected:<" + expected + "> but was:<" + actual + ">" );
-		}
-	
-		/**
-		 * Asserts that the provided values are strictly equal.
-		 */
-		protected function assertStrictlyEquals(... rest):void
-		{
-			if ( rest.length == 3 )
-				failNotStrictlyEquals( rest[0], rest[1], rest[2] );
-			else
-				failNotStrictlyEquals( "", rest[0], rest[1] );
-		}
-	
-        /**
-         * @private
-         */
-		protected function failNotStrictlyEquals( message:String, expected:Object, actual:Object ):void
-		{
-			if ( expected !== actual )
-			   failWithUserMessage( message, "expected:<" + expected + "> but was:<" + actual + ">" );
-		}
-	
-		/**
-		 * Asserts that the provided argument evaluates to true.
-		 */
-		protected function assertTrue(... rest):void
-		{
-			if ( rest.length == 2 )
-				failNotTrue( rest[0], rest[1] );
-			else
-				failNotTrue( "", rest[0] );
-		}
-	
-        /**
-         * @private
-         */
-		protected function failNotTrue( message:String, condition:Boolean ):void
-		{
-			if ( !condition )
-			   failWithUserMessage( message, "expected true but was false" );
-		}
-	
-		/**
-		 * Asserts that the provided argument evaluates to false.
-		 */
-		protected function assertFalse(... rest):void
-		{
-			if ( rest.length == 2 )
-				failTrue( rest[0], rest[1] );
-			else
-				failTrue( "", rest[0] );
-		}
-	
-        /**
-         * @private
-         */
-		protected function failTrue( message:String, condition:Boolean ):void
-		{
-			if ( condition )
-			   failWithUserMessage( message, "expected false but was true" );
-		}
-	
-		/**
-		 * Asserts that the provided argument evaluates to null.
-		 */
-		protected function assertNull(... rest):void
-		{
-			if ( rest.length == 2 )
-				failNotNull( rest[0], rest[1] );
-			else
-				failNotNull( "", rest[0] );
-		}
-	
-        /**
-         * @private
-         */
-		protected function failNull( message:String, object:Object ):void
-		{
-			if ( object == null )
-			   failWithUserMessage( message, "object was null: " + object );
-		}
-	
-		/**
-		 * Asserts that the provided argument does not evaluate to null.
-		 */
-		protected function assertNotNull(... rest):void
-		{
-			if ( rest.length == 2 )
-				failNull( rest[0], rest[1] );
-			else
-				failNull( "", rest[0] );
-		}
-	
-        /**
-         * @private
-         */
-		protected function failNotNull( message:String, object:Object ):void
-		{
-			if ( object != null )
-			   failWithUserMessage( message, "object was not null: " + object );
-		}
-	
-		/**
-		 * Immediately causes the test to fail with the message provided.
-		 */
-		protected function fail( failMessage:String = ""):void
-		{
-			throw new AssertionFailedError( failMessage );
-		}
-	
-
-        /**
-         * @private
-         */
-		private function failWithUserMessage( userMessage:String, failMessage:String ):void
-		{
-			if ( userMessage.length > 0 )
-				userMessage = userMessage + " - ";
-	
-			throw new AssertionFailedError( userMessage + failMessage );
-		}
 
 		/**
 		 * @private
@@ -1024,10 +684,36 @@ package net.digitalprimates.fluint.tests {
 		protected function pendUntilComplete( event:Event, passThroughData:Object ):void {
 		}
 
+		/**
+		 * Event dispatching logic - Need as we no longer extend EventDispatcher
+		 **/
+	    private var dispatcher:EventDispatcher;
+	               
+	    public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void{
+	        dispatcher.addEventListener(type, listener, useCapture, priority);
+	    }
+	           
+	    public function dispatchEvent(evt:Event):Boolean{
+	        return dispatcher.dispatchEvent(evt);
+	    }
+	    
+	    public function hasEventListener(type:String):Boolean{
+	        return dispatcher.hasEventListener(type);
+	    }
+	    
+	    public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void{
+	        dispatcher.removeEventListener(type, listener, useCapture);
+	    }
+	                   
+	    public function willTrigger(type:String):Boolean {
+	        return dispatcher.willTrigger(type);
+	    }
         /**
         * Constructor.
         */
 		public function TestCase() {
+			dispatcher = new EventDispatcher(this);
+
 			if (!sorter) {
 				var sort:Sort = new Sort();
 				sort.fields = [ new SortField( "@name" ) ];

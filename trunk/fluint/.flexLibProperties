@@ -13,6 +13,7 @@
 <classEntry path="net.digitalprimates.fluint.sequence.ISequencePend"/>
 <classEntry path="net.digitalprimates.fluint.sequence.SequenceEventDispatcher"/>
 <classEntry path="net.digitalprimates.fluint.events.AsyncEvent"/>
+<classEntry path="net.digitalprimates.fluint.assertion.Assert"/>
 <classEntry path="net.digitalprimates.fluint.async.TestResponder"/>
 <classEntry path="net.digitalprimates.fluint.monitor.TestCaseResult"/>
 <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestSynchronousSetUpTearDown"/>
@@ -28,6 +29,7 @@
 <classEntry path="net.digitalprimates.fluint.events.ChooseTestMethodResultEvent"/>
 <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.valueObject.Person"/>
 <classEntry path="net.digitalprimates.fluint.sequence.ISequenceAction"/>
+<classEntry path="net.digitalprimates.fluint.uiImpersonation.UIImpersonator"/>
 <classEntry path="net.digitalprimates.fluint.monitor.TestMonitor"/>
 <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestBindingUse"/>
 <classEntry path="net.digitalprimates.fluint.ui.TestResultDisplay"/>

@@ -54,6 +54,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 		}
 
 	    public function testSetTextProperty() : void {
+
 	    	var passThroughData:Object = new Object();
 	    	passThroughData.propertyName = 'text';
 	    	passThroughData.propertyValue = 'digitalprimates';

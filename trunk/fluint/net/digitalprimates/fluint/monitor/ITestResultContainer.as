@@ -47,5 +47,10 @@ package net.digitalprimates.fluint.monitor
 		 * Indicates the number of failures present in the children collection. 
 		 */
 		function get numberOfFailures():int;
+		
+		/** 
+		 * Indicates the number of errors present in the children collection. 
+		 */
+		function get numberOfErrors():int;
 	}
 }

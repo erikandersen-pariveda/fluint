@@ -124,12 +124,11 @@ package net.digitalprimates.fluintairrunner
 			return swfList;
 		}
 		      
-      public static function writeToFile(results : XML, reportDir :String, filename : String) : void
+      public static function writeToFile(results : XML, reportDir : File, filename : String) : void
 		{
-		   if( reportDir != null && reportDir != "" )
+		   if( reportDir != null && reportDir.exists )
 			{
-				var dir:File = new File(reportDir);
-				var file:File = dir.resolvePath(filename);
+				var file:File = reportDir.resolvePath(filename);
 				var fs:FileStream = new FileStream();
 				fs.open(file, FileMode.WRITE);
 				fs.writeMultiByte(results, File.systemCharset);

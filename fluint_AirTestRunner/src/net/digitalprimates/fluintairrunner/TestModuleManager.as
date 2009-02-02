@@ -72,6 +72,7 @@ package net.digitalprimates.fluintairrunner
       
       private function moduleLoadError(event : ModuleEvent) : void
       {
+         _moduleCount--;
          _logger.debug("SWF LOAD ERROR: " + event.errorText);
       }
 

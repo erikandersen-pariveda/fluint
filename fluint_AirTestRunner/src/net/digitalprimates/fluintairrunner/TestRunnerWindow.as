@@ -14,6 +14,7 @@ package net.digitalprimates.fluintairrunner
 	public class TestRunnerWindow extends WindowedApplication	
 	{
 	   private const REPORT_FILE_NAME : String = "TEST-AllTests.xml";
+	   private const DEFAULT_REPORT_DIR : String = "app-storage:/";
 	   
 		private var _logger : ILogger;
 		
@@ -22,6 +23,7 @@ package net.digitalprimates.fluintairrunner
 		
 		protected var reportDir : String = null;
 		
+		private var _workingDir : File;
 		private var _fileSet : Array;
 		private var _fileSetChange : Boolean = false;
 		private var _headless : Boolean = false;
@@ -124,6 +126,7 @@ package net.digitalprimates.fluintairrunner
 		protected function listenToCommandLine(event:InvokeEvent):void
 		{
          _logger.debug("Arguments: " + event.arguments);
+         _workingDir = event.currentDirectory;
 
 			var arguments : Dictionary = TestRunnerUtils.parseArgument(event.arguments);
 			
@@ -142,17 +145,22 @@ package net.digitalprimates.fluintairrunner
 		{
 		   try
 		   {
-   			var fileList : Array = new Array();
-   			
-   			for(var i:int=0;i<fileSet.length;i++)
-   			{
-   				fileList.push( new File( fileSet[i] ) );
-   			}
+   			var fileList : Array = fileSet.map(
+   			   function (item:*, index:int, array:Array) : File
+   			   {
+   			      return _workingDir.resolvePath(item);
+   			   }
+   			);
    			
    			var swfList : Array = TestRunnerUtils.recurseDirectories(fileList);
    			
    			_logger.debug("FOUND " + swfList.length + " SWF(S)");
    
+            if(swfList.length == 0)
+            {
+               exitWithFailure();
+            }
+            
    			loadExternalTests( swfList );
    		}
    		catch(e : Error)
@@ -177,24 +185,34 @@ package net.digitalprimates.fluintairrunner
 		protected function processResults(event:Event):void
 		{
 		   var results : XML = testRunner.xmlResults;
+		   var dir : File = new File(DEFAULT_REPORT_DIR);
 		   
-			TestRunnerUtils.writeToFile(results, reportDir, this.REPORT_FILE_NAME);
+		   if(reportDir)
+		   {
+		      dir = _workingDir.resolvePath(reportDir);
+		      
+		      //Can we actually use the directory?
+		      if(!dir.exists)
+   		   {
+   		      dir = new File(DEFAULT_REPORT_DIR);
+   		   }
+		   }
+		   
+			TestRunnerUtils.writeToFile(results, dir, this.REPORT_FILE_NAME);
 			
 			if(headless)
 			{
 			   if(testsFailed(results) && failOnError)
 			   {
-			      _logger.debug("EXITING ON FAILURE!");
-			      nativeApplication.exit(1);
+			      exitWithFailure();
 			   }
 			   else
 			   {
-			      _logger.debug("EXITING ON SUCCESS!");
-			      nativeApplication.exit(0);
+			      exitWithSuccess();
 			   }
 			}
 		}
-		
+
 		private function testsFailed(testResults : XML) : Boolean
 		{
 		   if(testResults.@failureCount 
@@ -208,6 +226,18 @@ package net.digitalprimates.fluintairrunner
 		   {
 		      return true;
 		   }
+		}
+		
+		private function exitWithFailure() : void
+		{
+		   _logger.debug("EXITING ON FAILURE!");
+			nativeApplication.exit(1);
+		}
+		
+		private function exitWithSuccess() : void
+		{
+		   _logger.debug("EXITING ON SUCCESS!");
+			nativeApplication.exit(0);
 		}
 	}
 }

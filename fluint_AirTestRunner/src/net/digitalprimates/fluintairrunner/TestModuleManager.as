@@ -52,8 +52,6 @@ package net.digitalprimates.fluintairrunner
       {
          _logger.debug("SWF LOADED");
          
-         _moduleCount--;
-         
          var suites : Array = TestModuleLoader(event.currentTarget).suites;
          for each(var suite : TestSuite in suites)
          {
@@ -62,18 +60,25 @@ package net.digitalprimates.fluintairrunner
          
          _logger.debug(suites.length + " TEST SUITE(S) FOUND");
          
+         decrementModuleCount();
+      }
+      
+      private function moduleLoadError(event : ModuleEvent) : void
+      {
+         decrementModuleCount();         
+         _logger.debug("SWF LOAD ERROR: " + event.errorText);
+      }
+      
+      private function decrementModuleCount() : void
+      {
+         _moduleCount--;
+         
          if(_moduleCount == 0)
          {
             var tmEvent : TestModuleEvent = new TestModuleEvent(TestModuleEvent.TEST_MODULES_READY);
             tmEvent.suites = _suites;
             dispatchEvent(tmEvent);
          }
-      }
-      
-      private function moduleLoadError(event : ModuleEvent) : void
-      {
-         _moduleCount--;
-         _logger.debug("SWF LOAD ERROR: " + event.errorText);
       }
 
    }

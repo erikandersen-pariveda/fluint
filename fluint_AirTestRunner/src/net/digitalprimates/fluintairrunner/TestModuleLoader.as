@@ -17,6 +17,7 @@ package net.digitalprimates.fluintairrunner
    import mx.core.IFlexModuleFactory;
    import mx.events.ModuleEvent;
    import mx.logging.ILogger;
+   import mx.managers.ISystemManager;
    
    import net.digitalprimates.fluint.modules.ITestSuiteModule;
    
@@ -40,10 +41,7 @@ package net.digitalprimates.fluintairrunner
       {
          _loader = new Loader();
 
-         _loader.contentLoaderInfo.addEventListener(Event.INIT, function(event : Event) : void {
-            var loaderInfo : LoaderInfo = LoaderInfo(event.currentTarget);
-            loaderInfo.content.addEventListener("ready", moduleReady);
-         });
+         _loader.contentLoaderInfo.addEventListener(Event.INIT, moduleInit);
          _loader.contentLoaderInfo.addEventListener(Event.COMPLETE, moduleComplete);
 		   _loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, moduleProgress);
 		   _loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, moduleError);
@@ -62,6 +60,24 @@ package net.digitalprimates.fluintairrunner
 			
 			return byteArray;
       }
+      
+      private function moduleInit(event : Event) : void
+      {
+         var loaderInfo : LoaderInfo = LoaderInfo(event.currentTarget);
+         
+         //If SWF contained an Application rather than a Module
+         if(loaderInfo.content is ISystemManager)
+         {
+            var moduleEvent : ModuleEvent = new ModuleEvent(ModuleEvent.ERROR, event.bubbles, event.cancelable);
+            moduleEvent.errorText = "Incompatible module definition loaded.  Ignoring SWF.";
+            dispatchEvent(moduleEvent);
+         }
+         else
+         {
+            //Wait for Module to be ready to process
+            loaderInfo.content.addEventListener(ModuleEvent.READY, moduleReady);
+         }
+      }
 
       private function moduleReady(event : Event)  : void
       {
@@ -71,9 +87,9 @@ package net.digitalprimates.fluintairrunner
          
          try
          {
-            //Am I going to be able to load this swf as a module and as a ITestSUiteModule?
-            var factory : IFlexModuleFactory = event.currentTarget as IFlexModuleFactory;
-            var tsModule : ITestSuiteModule = factory.create() as ITestSuiteModule;
+            //Am I going to be able to load this swf as a ITestSUiteModule?
+            var factory : IFlexModuleFactory = IFlexModuleFactory(event.currentTarget);
+            var tsModule : ITestSuiteModule = ITestSuiteModule(factory.create());
             this.suites = tsModule.getTestSuites();
             
             moduleEvent = new ModuleEvent(ModuleEvent.READY, event.bubbles, event.cancelable);

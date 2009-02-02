@@ -8,7 +8,9 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import runner.wrapper.TestWrapper;
 			import fluint4.MyMetaTest;
+			import fluint4.SampleFlexUnit4;
 			import flexunit.framework.TestTestListener;
 			import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAssert;
 			import runner.MasterTestRunner;
@@ -17,8 +19,12 @@
 			
 			protected function startTestProcess( event:Event ) : void
 			{
+				var wrapper:TestWrapper = new TestWrapper( new SampleFlexUnit4() );
+				var wrapper2:TestWrapper = new TestWrapper( new MyMetaTest() );
+				
 				var testRunner:MasterTestRunner = new MasterTestRunner();
 				var suiteArray:Array = new Array();
+				suiteArray.push( SampleFlexUnit4 );
 				suiteArray.push( new FrameworkSuite() );
 				suiteArray.push( AllFlexUnitTests.suite() );
 				suiteArray.push( new TestAssert() );

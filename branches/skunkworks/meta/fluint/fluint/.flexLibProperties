@@ -1,67 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties version="1">
   <includeClasses>
-    <classEntry path="net.digitalprimates.fluint.monitor.ITestResult"/>
-    <classEntry path="net.digitalprimates.fluint.tests.TestCase"/>
-    <classEntry path="net.digitalprimates.fluint.sequence.SequenceWaiter"/>
-    <classEntry path="net.digitalprimates.fluint.sequence.ISequencePend"/>
-    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestEmptyCase"/>
-    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestASComponentUse"/>
-    <classEntry path="net.digitalprimates.fluint.utils.MetaDataInformation"/>
-    <classEntry path="net.digitalprimates.fluint.tests.TestSuite"/>
-    <classEntry path="net.digitalprimates.fluint.tests.TestWrapper"/>
-    <classEntry path="net.digitalprimates.fluint.async.ITestResponder"/>
-    <classEntry path="net.digitalprimates.fluint.ui.TestResultStatusBar"/>
-    <classEntry path="net.digitalprimates.fluint.events.AsyncResponseEvent"/>
-    <classEntry path="net.digitalprimates.fluint.utils.ResultDisplayUtils"/>
-    <classEntry path="net.digitalprimates.fluint.events.ChooseTestMethodResultEvent"/>
-    <classEntry path="net.digitalprimates.fluint.tests.TestMethod"/>
-    <classEntry path="net.digitalprimates.fluint.async.AsyncTestResponder"/>
-    <classEntry path="net.digitalprimates.fluint.async.TestResponder"/>
-    <classEntry path="net.digitalprimates.fluint.sequence.SequenceCaller"/>
-    <classEntry path="net.digitalprimates.fluint.sequence.SequenceSetter"/>
+    <classEntry path="net.digitalprimates.fluint.assertion.Assert"/>
     <classEntry path="net.digitalprimates.fluint.assertion.AssertionFailedError"/>
-    <classEntry path="net.digitalprimates.fluint.monitor.TestMethodResult"/>
+    <classEntry path="net.digitalprimates.fluint.async.Async"/>
+    <classEntry path="net.digitalprimates.fluint.async.AsyncHandler"/>
+    <classEntry path="net.digitalprimates.fluint.async.AsyncTestResponder"/>
+    <classEntry path="net.digitalprimates.fluint.async.ITestResponder"/>
+    <classEntry path="net.digitalprimates.fluint.async.TestResponder"/>
+    <classEntry path="net.digitalprimates.fluint.events.AsyncEvent"/>
+    <classEntry path="net.digitalprimates.fluint.events.AsyncResponseEvent"/>
+    <classEntry path="net.digitalprimates.fluint.events.ChooseTestMethodResultEvent"/>
+    <classEntry path="net.digitalprimates.fluint.modules.ITestSuiteModule"/>
+    <classEntry path="net.digitalprimates.fluint.monitor.ITestResult"/>
+    <classEntry path="net.digitalprimates.fluint.monitor.ITestResultContainer"/>
     <classEntry path="net.digitalprimates.fluint.monitor.TestCaseResult"/>
+    <classEntry path="net.digitalprimates.fluint.monitor.TestMethodResult"/>
+    <classEntry path="net.digitalprimates.fluint.monitor.TestMonitor"/>
+    <classEntry path="net.digitalprimates.fluint.monitor.TestResultReport"/>
+    <classEntry path="net.digitalprimates.fluint.monitor.TestSuiteResult"/>
+    <classEntry path="net.digitalprimates.fluint.sequence.ISequenceAction"/>
+    <classEntry path="net.digitalprimates.fluint.sequence.ISequencePend"/>
     <classEntry path="net.digitalprimates.fluint.sequence.ISequenceStep"/>
     <classEntry path="net.digitalprimates.fluint.sequence.SequenceBindingWaiter"/>
-    <classEntry path="net.digitalprimates.fluint.unitTests.junit4.SampleFlexUnit4"/>
-    <classEntry path="net.digitalprimates.fluint.unitTests.junit4.TheoriesFlexUnit4"/>
-    <classEntry path="net.digitalprimates.fluint.assertion.AssertStringFormats"/>
-    <classEntry path="net.digitalprimates.fluint.async.AsyncHandler"/>
+    <classEntry path="net.digitalprimates.fluint.sequence.SequenceCaller"/>
     <classEntry path="net.digitalprimates.fluint.sequence.SequenceEventDispatcher"/>
-    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.mxml.SimpleMXMLLoginComponent"/>
     <classEntry path="net.digitalprimates.fluint.sequence.SequenceRunner"/>
-    <classEntry path="net.digitalprimates.fluint.monitor.TestSuiteResult"/>
-    <classEntry path="net.digitalprimates.fluint.uiImpersonation.UIImpersonator"/>
-    <classEntry path="net.digitalprimates.fluint.sequence.ISequenceAction"/>
-    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.FrameworkSuite"/>
-    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAsynchronousSetUpTearDown"/>
-    <classEntry path="net.digitalprimates.fluint.monitor.TestMonitor"/>
-    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAsynchronous"/>
-    <classEntry path="net.digitalprimates.fluint.ui.TestStatusIcon"/>
-    <classEntry path="net.digitalprimates.fluint.monitor.TestResultReport"/>
-    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestSynchronousSetUpTearDown"/>
-    <classEntry path="net.digitalprimates.fluint.monitor.ITestResultContainer"/>
-    <classEntry path="net.digitalprimates.fluint.async.Async"/>
-    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAssert"/>
-    <classEntry path="net.digitalprimates.fluint.utils.TestClassInformation"/>
-    <classEntry path="net.digitalprimates.fluint.utils.ClassSortUtils"/>
-    <classEntry path="net.digitalprimates.fluint.events.AsyncEvent"/>
-    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.valueObject.Person"/>
-    <classEntry path="net.digitalprimates.fluint.ui.TestRunner"/>
-    <classEntry path="net.digitalprimates.fluint.ui.TestResultDisplay"/>
-    <classEntry path="net.digitalprimates.fluint.ui.TestEnvironment"/>
-    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestMXMLComponentUse"/>
-    <classEntry path="net.digitalprimates.fluint.ui.TestProgressBar"/>
-    <classEntry path="net.digitalprimates.fluint.tests.TestWrapperLocator"/>
-    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestBindingUse"/>
-    <classEntry path="net.digitalprimates.fluint.assertion.Assert"/>
-    <classEntry path="net.digitalprimates.fluint.modules.ITestSuiteModule"/>
+    <classEntry path="net.digitalprimates.fluint.sequence.SequenceSetter"/>
+    <classEntry path="net.digitalprimates.fluint.sequence.SequenceWaiter"/>
     <classEntry path="net.digitalprimates.fluint.tests.ITestCaseRunner"/>
+    <classEntry path="net.digitalprimates.fluint.tests.TestCase"/>
+    <classEntry path="net.digitalprimates.fluint.tests.TestMethod"/>
+    <classEntry path="net.digitalprimates.fluint.tests.TestSuite"/>
+    <classEntry path="net.digitalprimates.fluint.tests.TestWrapper"/>
+    <classEntry path="net.digitalprimates.fluint.tests.TestWrapperLocator"/>
     <classEntry path="net.digitalprimates.fluint.ui.ErrorTreeItemRenderer"/>
+    <classEntry path="net.digitalprimates.fluint.ui.TestEnvironment"/>
+    <classEntry path="net.digitalprimates.fluint.ui.TestProgressBar"/>
+    <classEntry path="net.digitalprimates.fluint.ui.TestResultDisplay"/>
+    <classEntry path="net.digitalprimates.fluint.ui.TestResultStatusBar"/>
+    <classEntry path="net.digitalprimates.fluint.ui.TestRunner"/>
+    <classEntry path="net.digitalprimates.fluint.ui.TestStatusIcon"/>
+    <classEntry path="net.digitalprimates.fluint.uiImpersonation.UIImpersonator"/>
+    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.FrameworkSuite"/>
+    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestASComponentUse"/>
+    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAssert"/>
+    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAsynchronous"/>
+    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAsynchronousSetUpTearDown"/>
+    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestBindingUse"/>
+    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestEmptyCase"/>
+    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestMXMLComponentUse"/>
+    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestSynchronousSetUpTearDown"/>
+    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.mxml.SimpleMXMLLoginComponent"/>
+    <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.valueObject.Person"/>
+    <classEntry path="net.digitalprimates.fluint.utils.ClassSortUtils"/>
+    <classEntry path="net.digitalprimates.fluint.utils.ResultDisplayUtils"/>
   </includeClasses>
-  <includeResources/>
+  <includeResources>
+    <resourceEntry destPath="assets/testerr.gif" sourcePath="assets/testerr.gif"/>
+    <resourceEntry destPath="assets/failed_ovr.gif" sourcePath="assets/failed_ovr.gif"/>
+    <resourceEntry destPath="assets/error_ovr.gif" sourcePath="assets/error_ovr.gif"/>
+    <resourceEntry destPath="assets/testfail.gif" sourcePath="assets/testfail.gif"/>
+    <resourceEntry destPath="assets/tsuite.gif" sourcePath="assets/tsuite.gif"/>
+    <resourceEntry destPath="assets/success_ovr.gif" sourcePath="assets/success_ovr.gif"/>
+    <resourceEntry destPath="assets/tsuiteerror.gif" sourcePath="assets/tsuiteerror.gif"/>
+    <resourceEntry destPath="assets/testok.gif" sourcePath="assets/testok.gif"/>
+    <resourceEntry destPath="assets/tsuitefail.gif" sourcePath="assets/tsuitefail.gif"/>
+    <resourceEntry destPath="assets/test.gif" sourcePath="assets/test.gif"/>
+    <resourceEntry destPath="assets/failures.gif" sourcePath="assets/failures.gif"/>
+    <resourceEntry destPath="assets/tsuiteok.gif" sourcePath="assets/tsuiteok.gif"/>
+  </includeResources>
   <namespaceManifests>
     <namespaceManifestEntry manifest="fluint-manifest.xml" namespace="http://www.digitalprimates.net/2008/fluint"/>
   </namespaceManifests>

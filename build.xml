@@ -60,7 +60,8 @@
 			</zipfileset>
 		</zip>
 	</target>
-		
+	
+	<!-- Optional, must run package prior to its use -->
 	<target name="test">
 		<ant dir="${library.loc}" target="test" inheritall="false">
 			<property name="flex.home" location="${flex.home}" />

@@ -6,7 +6,7 @@
 	<property name="cert.loc" location="${basedir}/cert.p12" />
 	<property name="cert.password" value="password" />
 	<property name="cert.storetype" value="pkcs12" />
-	<!-- java.home can be provided for alternate versions other than the default SDK for the machine  -->
+	<!-- change the environment variable JAVA_HOME to use different JDKs to compile the anttasks project  -->
 	
 	<!-- Folders and values -->
 	<property name="library.loc" location="${basedir}/library" />

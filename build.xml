@@ -22,11 +22,13 @@
 		<delete file="${package.artifact.name}" />
 	</target>
 	
-	<target name="package">
+	<target name="fluint">
 		<ant dir="${library.loc}" target="package" inheritall="false">
 			<property name="flex.home" location="${flex.home}" />
 		</ant>
-		
+	</target>
+	
+	<target name="airtestrunner" depends="fluint">
 		<!-- Copy over library SWC to package airtestrunner -->
 		<copy todir="${airtestrunner.loc}/libs">
 			<fileset dir="${library.loc}/target">
@@ -40,10 +42,15 @@
 			<property name="package.cert.password" value="${cert.password}" />
 			<property name="package.cert.storetype" value="${cert.storetype}" />
 		</ant>
+	</target>
+	
+	<target name="anttasks">
 		<ant dir="${anttasks.loc}" target="package" inheritall="false">
 			<property name="java.home" value="${java..home}" />
 		</ant>
-		
+	</target>
+	
+	<target name="package" depends="clean,fluint,airtestrunner,anttasks">
 		<!-- Zip up all artifacts and docs for distribution -->
 		<zip destfile="${package.artifact.name}">
 			<zipfileset dir="${library.loc}/target/doc" prefix="fluint/docs/fluint" />

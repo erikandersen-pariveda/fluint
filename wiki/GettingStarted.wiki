@@ -38,8 +38,10 @@ Once you've obtained the source code, you can build it in one of two possible wa
     # Click "Finish" and all the above projects should now be available in Flex Builder and be linked together.
   # Run the Ant build
     # If you have Apache Ant 1.7 or greater installed, open a command prompt and change directory to your working copy of the `trunk`.
-    # Edit the `build.xml` file such that the `<property>` tags under the "User defined properties" section are correct for your system.  Pleas note, that all of these properties are required, except for `fluint.testrunner`.
-    # Type `ant`.
-    # After the Ant scripts have executed, you should see `fluint.zip` in the root of your folder which contains all of the artifacts from the above projects as well as their documentation.  This is useful, if you require a special build of fluint that is not provided in the Downloads section.
+    # Edit the `build.xml` file such that the `<property>` tags under the "User defined properties" section are correct for your system.  At a minimum if you are only build the fluint library, you will only need the `flex.home` property.
+    # To build all of the project, type `ant`.  To build only the fluint library, type `ant fluint`.  To build only the airtestrunner, type `ant airtestrunner`.  To build only the Ant tasks, type `ant anttasks`.
+    # If you chose to build all of the projects, you should see `fluint.zip` in your current directory which contains all of the artifacts from the above projects as well as their documentation.  Otherwise, you should be able to find the desired artifact under the `target` folder for the respective project that you built.
+
+*NOTE:* The Ant build is useful, if you require a special build of fluint that is not provided in the Downloads section.
 
 [Introduction Previous] | [Terminology Next]

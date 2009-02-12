@@ -29,13 +29,14 @@
 	
 	<target name="build" depends="init">
 		<!-- Compile SWF -->
-		<exec executable="${flex.home}/bin/mxmlc" dir="${basedir}" failonerror="true">
+		<java jar="${flex.home}/lib/mxmlc.jar" fork="true" failonerror="true">
+			<arg line="+flexlib '${flex.home}/frameworks'" />
 			<arg line="+configname=air" />
 			<arg line="-output '${bin.main.loc}/${bin.main.name}'" />
 			<arg line="-keep-generated-actionscript=false" />
 			<arg line="-library-path+='${lib.loc}'" />
 			<arg line="'${src.main.loc}/AIRTestRunner.mxml'" />
-		</exec>
+		</java>
 		
 		<!-- Move application config file over -->
 		<copy file="${src.main.loc}/${src.main.config}" tofile="${bin.main.loc}/${src.main.config}" />
@@ -44,7 +45,7 @@
 	<target name="package" depends="build">
 		<!-- Generate AIR bundle -->
 		<!-- ADT wants relative paths for its contents so we have to run it from bin.main.loc -->
-		<exec executable="${flex.home}/bin/adt" dir="${bin.main.loc}" failonerror="true">
+		<java jar="${flex.home}/lib/adt.jar" fork="true" dir="${bin.main.loc}" failonerror="true">
 			<arg line="-package" />
 			<arg line="-storetype ${package.cert.storetype}" />
 			<arg line="-keystore '${package.cert.loc}'" />
@@ -52,18 +53,19 @@
 			<arg line="${package.artifact.name}" />
 			<arg line="${src.main.config}" />
 			<arg line="${bin.main.name}" />
-		</exec>
+		</java>
 		
 		<!-- Move bundle to correct artifact location -->
 		<move file="${bin.main.loc}/${package.artifact.name}" tofile="${package.loc}/${package.artifact.name}" />
 		
 		<!-- Generate ASDocs -->
-		<exec dir="${basedir}" executable="${flex.home}/bin/asdoc" failonerror="true">
+		<java jar="${flex.home}/lib/asdoc.jar" fork="true" failonerror="true">
+			<arg line="+flexlib '${flex.home}/frameworks'" />
 			<arg line="+configname=air" />
 			<arg line="-doc-sources '${src.main.loc}'" />
 			<arg line="-source-path+='${src.main.loc}'" />
 			<arg line="-library-path+='${lib.loc}'" /> 
 			<arg line="-output '${doc.loc}'" />
-		</exec>
+		</java>
 	</target>
 </project>

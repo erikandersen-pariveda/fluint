@@ -7,23 +7,23 @@ Fluint does not prescribe a user interface, but rather provides a series of comp
 
 There is a very simple SampleTestRunner available for download with this project. This sample test runner uses several of these components to create a tree-based test browser and a visual progress bar which can be clicked to dive down for further information on a test success or failure.
 
-If you have downloaded the source code available with this project, the sample test runner is found in the fluint_FlexTestRunner directory. 
+If you have downloaded the source code available with this project, the sample test runner is found in samples/src/test/flex/FlexTestRunner.mxml. 
 
 If you are using this project as a library:
  # Create a new Flex project;
- # Copy the SampleTestRunner.mxml into that project;
- # Be sure the fluint_v1.swc from the downloads tab is in the libs folder of the project  
+ # Copy the FlexTestRunner.mxml file into that project;
+ # Be sure the fluint.swc from the downloads tab is in the libs folder of the project  
  # Build your Flex project.
 
 This sample test runner runs the tests created for the framework out of the library project. Other pages in this Wiki will explain how to create your own tests.
 
 ==AIR Test Runner==
 
-If you have downloaded the source code available with this project, the AIR sample test runner is found in the fluint_AIRTestRunner directory. 
+If you have downloaded the source code available with this project, the AIR sample test runner is found in src/test/flex/AirTestRunner.mxml. 
 
 The AIR test runner is targeted for the desktop as opposed to the web browser. The advantage of using this test runner is that you can write the results to an XML file wherever you might like on your drive. This is very useful when running in an automated build environment.
 
-Unlike the FlexTestRunner discussed above, the AIR test runner loads its tests dynamically via Flex modules. Your tests are created in independent modules and built into swf files. The AIR test runner then loads the tests from those modules and executes them. 
+Unlike the FlexTestRunner discussed above, the AIR test runner loads its tests dynamically via Flex modules. Your tests are created in independent modules and built into SWF files. The AIR test runner then loads the tests from those modules and executes them. 
 
 More information on this concept is available in the automated build system section of the Wiki.
 

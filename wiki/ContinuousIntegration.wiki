@@ -1,4 +1,5 @@
 #summary Considerations for using fluint in a CI build
+#labels Featured
 
 = Introduction =
 

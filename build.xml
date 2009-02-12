@@ -1,7 +1,7 @@
 <project name="fluint" basedir="." default="package">
 	
 	<!-- User defined properties -->
-	<property name="flex.home" location="/Users/blegros/api/flexsdk/3.2.0" />
+	<property name="flex.home" location="/Applications/Adobe Flex Builder 3/sdks/3.2.0" />
 	<property name="fluint.testrunner" location="/Applications/FluintAIRTestRunner.app/Contents/MacOS/FluintAIRTestRunner" />
 	<property name="cert.loc" location="${basedir}/cert.p12" />
 	<property name="cert.password" value="password" />

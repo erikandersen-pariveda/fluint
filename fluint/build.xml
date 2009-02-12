@@ -36,7 +36,7 @@
 		<!-- Compile source SWC -->
 		<java jar="${flex.home}/lib/compc.jar" fork="true" failonerror="true">
 			<arg line="+flexlib '${flex.home}/frameworks'" />
-			<arg line="-external-library-path+=${flex.home}/frameworks/libs/flex.swc,${flex.home}/frameworks/libs/framework.swc,${flex.home}/frameworks/libs/rpc.swc,${flex.home}/frameworks/libs/utilities.swc" />
+			<arg line="-external-library-path+='${flex.home}/frameworks/libs/flex.swc','${flex.home}/frameworks/libs/framework.swc','${flex.home}/frameworks/libs/rpc.swc','${flex.home}/frameworks/libs/utilities.swc'" /> 
 			<arg line="-keep-as3-metadata+=Test" />
 			<arg line="-namespace ${bin.main.namespace} '${src.main.manifest}'" />
 			<arg line="-include-namespaces ${bin.main.namespace}" />

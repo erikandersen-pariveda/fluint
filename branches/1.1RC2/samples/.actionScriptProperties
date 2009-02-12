@@ -13,7 +13,7 @@
     <application path="FlexTestRunner.mxml"/>
   </applications>
   <modules>
-    <module application="src/test/flex/deleteme.mxml" destPath="AirTestModule.swf" optimize="false" sourcePath="src/test/flex/AirTestModule.mxml"/>
+    <module application="src/test/flex/FlexTestRunner.mxml" destPath="AirTestModule.swf" optimize="false" sourcePath="src/test/flex/AirTestModule.mxml"/>
   </modules>
   <buildCSSFiles/>
 </actionScriptProperties>

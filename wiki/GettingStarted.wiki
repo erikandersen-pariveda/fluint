@@ -4,10 +4,10 @@
 If you prefer, you can download the SWC library version from the [http://code.google.com/p/fluint/downloads/list downloads] page. 
 
 === If you are using Flex 3: ===
-Create a new Flex project and copy the fluint_v1.swc file into the libs folder of that Flex project. 
+Create a new Flex project and copy the fluint.swc file into the libs folder of that Flex project. 
 
 === If you are using Flex 2: ===
-Create a new Flex project. Create a folder named libs in that project and copy the fluint_v1.swc file into the new folder. 
+Create a new Flex project. Create a folder named libs in that project and copy the fluint.swc file into the new folder. 
 
 Next, you will need to add this folder to your build path. Do this by:
 
@@ -26,10 +26,9 @@ Checkout all of the projects from the trunk of the repository.
 
 Each of the projects is described below:
 
- * fluint - Library project used to build fluint.swc
- * fluint_FlexTestRunner - Simple Flex project with a sample test runner
- * fluint_AIRTestRunner - AIR project designed to run tests from an automated build environment of simply via command line
- * fluint_AntTask - Ant Tasks that facilitate running the AIRTestRunner from ANT
- * fluint_Samples - Samples project that will grow to contain samples in this Wiki
+ * `fluint` - Library project used to build fluint.swc
+ * `airtestrunner` - AIR project designed to run tests via the command line as well as an automated build environment.
+ * `anttasks` - Apache Ant tasks that facilitate the running of the `airtesrunner`
+ * `samples` - Sample Flex project with an example test runners for Flex and AIR.  More samples will follow containing the examples from this wiki.
 
 [Introduction Previous] | [Terminology Next]

@@ -9,7 +9,7 @@ There is a very simple SampleTestRunner available for download with this project
 
 To use this sample test runner, you need to follow the following steps: 
  #	Create a new Flex or AIR project 
- #	Copy the SampleTestRunner.mxml into that project 
+ #	Copy the FlexTestRunner.mxml from `samples/src/test/flex` into that project 
  #	Go to the project’s properties, and then the Flex Build Path option 
  #	Click on the Library Path tab 
  #	Click the Add Project Button 

@@ -1,4 +1,5 @@
 #summary Exploring asynchronous procedures
+#labels Featured
 
 == Assumptions ==
 This entry assumes you have followed the steps so far to download the SampleTestRunner and to build your first test suite and case. If you have not, feel free to read on, but a clearer picture can be obtained by reviewing this from [GettingStarted the beginning].

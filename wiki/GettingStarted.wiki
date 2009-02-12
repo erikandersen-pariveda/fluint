@@ -1,4 +1,5 @@
 #summary Installing the project
+#labels Featured
 
 == Installing the Library Project using the SWC ==
 If you prefer, you can download the SWC library version from the [http://code.google.com/p/fluint/downloads/list downloads] page. 

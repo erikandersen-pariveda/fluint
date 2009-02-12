@@ -35,6 +35,7 @@
 	<target name="build" depends="init">
 		<!-- Compile source SWC -->
 		<exec executable="${flex.home}/bin/compc" dir="${basedir}" failonerror="true">
+			<arg line="-keep-as3-metadata+=Test" />
 			<arg line="-namespace ${bin.main.namespace} '${src.main.manifest}'" />
 			<arg line="-include-namespaces ${bin.main.namespace}" />
 			<arg line="-output '${bin.main.loc}/${bin.main.name}'" />

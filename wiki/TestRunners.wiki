@@ -11,7 +11,7 @@ If you have downloaded the source code available with this project, the sample t
 
 If you are using this project as a library:
  # Create a new Flex project;
- # Copy the FlexTestRunner.mxml file into that project;
+ # Copy the `FlexTestRunner.mxml` file into that project;
  # Be sure the fluint.swc from the downloads tab is in the libs folder of the project  
  # Build your Flex project.
 
@@ -19,7 +19,7 @@ This sample test runner runs the tests created for the framework out of the libr
 
 ==AIR Test Runner==
 
-If you have downloaded the source code available with this project, the AIR sample test runner is found in `samples/src/test/flex/AirTestRunner.mxml`. 
+If you have downloaded the source code available with this project, the AIR sample test runner is found in `samples/src/test/flex/AirTestModule.mxml`. 
 
 The AIR test runner is targeted for the desktop as opposed to the web browser. The advantage of using this test runner is that you can write the results to an XML file wherever you might like on your drive. This is very useful when running in an automated build environment.
 

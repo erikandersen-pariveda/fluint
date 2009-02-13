@@ -36,7 +36,7 @@ Now that the Ant task has been defined in your build file you can call it like s
 <fluint
    debug="true"
    headless="true"
-   failinerror="false"
+   failonerror="false"
    workingDir="PATH_TO_LAUNCH_FLUINT_AIRTESTRUNNER_WITHIN"
    testRunner="PATH_TO_FLUINT_AIRTESTRUNNER_EXECUTABLE"
    outputDir="PATH_TO_REPORTING_DIR">

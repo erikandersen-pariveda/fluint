@@ -33,4 +33,4 @@ This method can be overridden in a subclass to manipulate the filtering instead 
 Using these features you can actually make a very dynamic test environment where tests are removed or added based on other factors and features. I am not sure you want to, but we simply provided the interface to maximize potential damage.
 
 
-[Cairngorm Previous] 
+[Cairngorm Previous] [ContinuousIntegration Next]

@@ -12,7 +12,7 @@
   * Added support for relative paths
   * Added better error handling for modules which cannot be executed as ITestSuiteModule
   * Added return codes on exit for better integration with Ant
-  * Integrated LogBook for debugging on channel "_fluint"
+  * Integrated [http://code.google.com/p/cimlogbook/ LogBook] for debugging on channel "_fluint"
   * Added Ant build script
 
 ==Fluint Ant Tasks==

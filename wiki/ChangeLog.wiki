@@ -1,0 +1,30 @@
+#summary Change log for Fluint and all of its associated projects.
+
+Releases:
+<wiki:toc max_depth="1" />
+
+<hr />
+
+=1.1.0=
+
+==Fluint Library==
+  * Separated the notion of failures and errors
+  * Updated the XML output to be compatible with reporting tasks/plugins in Ant and Maven as well as most continuous integration servers
+  * Added icons to the tree in the visual test runner to look more familiar
+  * Added Ant build script
+
+==Fluint AIR Test Runner==
+  * Added support for relative paths
+  * Added better error handling for modules which cannot be executed as ITestSuiteModule
+  * Added return codes on exit for better integration with Ant
+  * Integrated LogBook for debugging on channel "_fluint"
+  * Added Ant build script
+
+==Fluint Ant Tasks==
+  * Added support for the attributes failonerror and workingDir to support build failure and relative paths
+  * Added support to run the AIR Test Runner truly headless via the xvfb attribute on Linux-based OSes with X-Windows installed
+  * Added Ant build script
+
+=1.0.0=
+
+  * coming soon ...

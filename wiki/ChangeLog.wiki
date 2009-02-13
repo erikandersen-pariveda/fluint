@@ -1,10 +1,5 @@
 #summary Change log for Fluint and all of its associated projects.
 
-Releases:
-<wiki:toc max_depth="1" />
-
-<hr />
-
 =1.1.0=
 
 ==Fluint Library==

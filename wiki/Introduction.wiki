@@ -23,5 +23,6 @@ Take a look at the following pages to learn more about this project:
  * [Sequences Testing with Sequences]
  * [Cairngorm Testing with Cairngorm]
  * [Order Controlling the Order and Selection of Tests]
+ * [ContinuousIntegration Build Automation and Continuous Integration]
 
 And then... The project still needs a lot of additional documentation as this just scratches the surface of testing. Our intent is to help maintain this project and site but also to gain community involvement to flesh out the edges and propose features that will make this a great way to test. So, please, get the source and start playing.

@@ -41,3 +41,5 @@ Although fluint provides facilities to interop with the continuous integration p
       `ExternalInterface`
 
   * AIR has the behavior of running a single instance for each application, rather than spawning a new instance per invocation, regardless of the mechanism used to launch the application. Consequently, more than one simultaneous request to invoke the AIR runner will result in each request being executed but the runner closing after the first request to execute has completed.  The test result report for the first execution should be generated correctly however.  This being said, it is suggested that any CI server using the runner be configured to execute all Flex builds sequentially.  We realize this is a huge disadvantage when it comes to running numerous builds concurrently, and are currently working on a better solution.
+
+[Order Previous]

@@ -97,4 +97,4 @@ The following source shows a sample module which will run the framework test sui
 The module must implement the `net.digitalprimates.fluint.modules.ITestSuiteModule` interface, which simply requires that it has a `getTestSuites()` method which returns an
 array of `TestSuite` instances.
 
-A sample of this code can be found under the `trunk` in the [http://code.google.com/p/fluint/source/browse/ Source] tab at `samples/src/test/flex/AirTestModule.mxml`.
+A sample of this code can be found under `tags/release-1.1.0` in the [http://code.google.com/p/fluint/source/browse/ Source] tab at `samples/src/test/flex/AirTestModule.mxml`.

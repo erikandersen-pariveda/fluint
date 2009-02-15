@@ -40,6 +40,7 @@ package net.digitalprimates.fluint.ui {
 	import net.digitalprimates.fluint.tests.TestCase;
 	import net.digitalprimates.fluint.tests.TestMethod;
 	import net.digitalprimates.fluint.tests.TestSuite;
+	import net.digitalprimates.fluint.tests.TestWrapper;
 	import net.digitalprimates.fluint.utils.ClassSortUtils;
 
 	/**
@@ -227,9 +228,9 @@ package net.digitalprimates.fluint.ui {
 			}
 		}
 
-		private function wrapTestCase( value:TestCase ):TestSuite {
+		private function wrapTestCase( value:ITestCaseRunner ):TestSuite {
 			var suite:TestSuite = new TestSuite();
-			suite.addTestCase( value as TestCase );
+			suite.addTestCase( value as ITestCaseRunner );
 			
 			return suite;			
 		}
@@ -248,9 +249,14 @@ package net.digitalprimates.fluint.ui {
 						if ( value[ i ] is TestCase ) {
 							value[ i ] = wrapTestCase( value[ i ] as TestCase );
 						} else {
+							if ( value[ i ] is Class ) {
+								value[ i ] = wrapTestCase( new TestWrapper( new value[ i ]() ) );
+							} else {
+								value[ i ] = wrapTestCase( new TestWrapper( value[ i ] ) );
+							}
 							//element of this array which is not a suite or a test case. perhaps some day we will handle nested arrays
 							//but today throw an error
-							throw new Error( "Element of provided array is neither a TestCase nor a TestSuite" );
+							//throw new Error( "Element of provided array is neither a TestCase nor a TestSuite" );
 						}
 					}
 				}

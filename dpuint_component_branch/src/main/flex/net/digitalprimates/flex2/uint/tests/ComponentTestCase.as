@@ -285,8 +285,9 @@ package net.digitalprimates.flex2.uint.tests
      * 
      * @param value value to select
      * @param target ComboBox to select from
+     * @param propertiesToMatchOn an array of properties to match on the value object (if not null, will try to match on all)
      */
-    public function select( value:Object, target:Object ) : void 
+    public function select( value:Object, target:Object, propertiesToMatchOn : Array = null ) : void 
     {
       waitUntilNotNull(target);
       assertVisibleAndEnabled(target);
@@ -307,14 +308,14 @@ package net.digitalprimates.flex2.uint.tests
                 while ((element = cursor.current) == null) {
                 }
                 if (!(element is String)) {
-                   item = ArrayUtils.exclusiveMatchOnIncludes({label:value}, dataProvider);
+                    item = ArrayUtils.exclusiveMatchOnIncludes({label:value}, dataProvider, propertiesToMatchOn); 
                     sequenceSetter.props = {selectedItem: item};      
                 }    
               }
           } 
           else 
           {
-              item = ArrayUtils.exclusiveMatchOnIncludes(value, dataProvider);
+              item = ArrayUtils.exclusiveMatchOnIncludes(value, dataProvider, propertiesToMatchOn);
               sequenceSetter.props = {selectedItem: item};
           }
           
@@ -454,11 +455,12 @@ package net.digitalprimates.flex2.uint.tests
      * Any other parameter type will be a no-op.
      * </p>
      */
-    public function waitUntilNotNull( target : Object ) : void {
+    public function waitUntilNotNull( target : Object, failureMessage:String = "Timed out waiting for function selector to return non-null", 
+                                      timeout:int = 5000) : void
       if (target is Function) {
         waitUntil(function() : Boolean {
             return (target as Function).call() != null;
-        }, "Timed out waiting for function selector to return non-null");
+        }, failureMessage, timeout);
       }
     }
     

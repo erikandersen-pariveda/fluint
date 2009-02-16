@@ -31,11 +31,11 @@ package net.digitalprimates.fluint.utils {
 		private function deriveRunnerTypeCode():void {
 			var code:String;
 
-			factoryName = MetaDataInformation.getMetaData( record, "TestRunnerFactory", "factory" );
+			factoryName = MetaDataInformation.getArgValueFromDescription( record, "TestRunnerFactory", "factory" );
 			
 			if ( !factoryName ) {
 				//If the user didn't specify the runner key, check the default key
-				factoryName = MetaDataInformation.getMetaData( record, "TestRunnerFactory", "" );
+				factoryName = MetaDataInformation.getArgValueFromDescription( record, "TestRunnerFactory", "" );
 			}
 			
 			if ( factoryName ) {

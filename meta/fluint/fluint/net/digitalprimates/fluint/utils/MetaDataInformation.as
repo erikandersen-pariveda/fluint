@@ -31,11 +31,11 @@ package net.digitalprimates.fluint.utils
 		}
 		
 		
-		public static function getMetaData( description:XML, metadata:String, key:String ):String {
+		public static function getArgValueFromDescription( description:XML, metadata:String, key:String ):String {
 			if ( isClass( description ) ) {
-				return getMetaDataFromNode( description.factory[ 0 ], metadata, key );
+				return getArgValueFromMetaDataNode( description.factory[ 0 ], metadata, key );
 			} else {
-				return getMetaDataFromNode( description, metadata, key );
+				return getArgValueFromMetaDataNode( description, metadata, key );
 			}
 		}
 		
@@ -77,15 +77,40 @@ package net.digitalprimates.fluint.utils
 			
 			return doesImplement;
 		}
+
+		public static function nodeHasMetaData( node:XML, metadata:String ):Boolean {
+			if ( node && node.metadata && ( node.metadata.length() > 0 ) ) {
+				var metaNodes:XMLList;
+				
+				metaNodes = node.metadata;
+				
+				if ( metaNodes[ metadata ] ) {
+					return true;
+				}
+			} 
+			
+			return false;
+		}
 		
-		public static function getMetaDataFromNode( node:XML, metadata:String, key:String ):String {
+		public static function getArgsFromFromNode( node:XML, metaDataName:String ):XML {
+			var metadata:XML;
+
+			if ( node.hasOwnProperty( 'metadata' ) ) {
+				var xmlList:XMLList = node.metadata.(@name==metaDataName); 
+				metadata = xmlList?xmlList[0]:null; 
+			}			
+
+			return metadata;
+		}
+		
+		public static function getArgValueFromMetaDataNode( node:XML, metaDataName:String, key:String ):String {
 			var value:String;
 			var metaNodes:XMLList;
 			var arg:XMLList;
 
 			if ( node && node.metadata && ( node.metadata.length() > 0 ) ) {
-				metaNodes = node.metadata;
-				
+				metaNodes = node.metadata.(@name==metaDataName);
+
 				if ( metaNodes.arg ) {
 					arg = metaNodes.arg.(@key==key);
 					

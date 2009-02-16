@@ -381,20 +381,6 @@ package net.digitalprimates.fluint.tests {
         /**
          * @private
          */
-		private function getMetaDataFromNode( node:XML ):XML {
-			var metadata:XML;
-
-			if ( node.hasOwnProperty( 'metadata' ) ) {
-				var xmlList:XMLList = node.metadata.(@name="Test"); 
-				metadata = xmlList?xmlList[0]:null; 
-			}			
-
-			return metadata;
-		}
-
-        /**
-         * @private
-         */
 		private function getMethodNameFromNode( node:XML ):String {
 			return ( node.@name );
 		}
@@ -422,7 +408,9 @@ package net.digitalprimates.fluint.tests {
 				methodNode = cursor.current as XML;
 				cursor.moveNext();
 
-				return new TestMethod( getMethodFromNode( methodNode ), getMethodNameFromNode( methodNode ), getMetaDataFromNode( methodNode ) );
+				return new TestMethod( getMethodFromNode( methodNode ), 
+										getMethodNameFromNode( methodNode ), 
+										MetaDataInformation.getArgsFromFromNode( methodNode, "Test" ) );
 			} 
 
 			return null;			
@@ -642,11 +630,57 @@ package net.digitalprimates.fluint.tests {
 			return testObject;
 		}
 
+		private function getOrderValueFromMethod( method:XML, metadata:String ):int {
+			var order:int = 0;
+	
+			var orderString:String = MetaDataInformation.getArgValueFromMetaDataNode( method, metadata, "Order" );
+			if ( orderString ) {
+				order = int( orderString );
+			}
+	
+			return order;
+		}
+	
+		private function orderMetaDataSortFunction( aNode:XML, bNode:XML, fields:Object ):int {
+			var field:String;
+			var a:int;
+			var b:int; 
+
+			if ( fields && fields[ 0 ] ) {
+				//Work around for a view update bug
+				if ( fields[ 0 ] is SortField ) {
+					field = fields[ 0 ].name;	
+				} else {
+					field = fields[ 0 ];	
+				}
+			} else {
+				//if we don't know what field... well then, it all looks equal to me
+				return 0;
+			}
+			
+			a = getOrderValueFromMethod( aNode, field );
+			b = getOrderValueFromMethod( bNode, field );
+
+			if (a < b)
+				return -1;
+			if (a > b)
+				return 1;
+
+			return 0;
+		}
+
+		private function filterOutIgnore( method:XML ):Boolean {
+			return !( MetaDataInformation.nodeHasMetaData( method, "Ignore" ) );
+		}
 
 		public function TestWrapper( testObject:Object ) {
 			if (!sorter) {
 				var sort:Sort = new Sort();
-				sort.fields = [ new SortField( "@name" ) ];
+
+				var testField:SortField = new SortField( "Test" );
+				sort.compareFunction = orderMetaDataSortFunction;
+				sort.fields = [ testField ];
+				
 				sorter = sort;
 			}
 
@@ -663,22 +697,38 @@ package net.digitalprimates.fluint.tests {
 
 			//need to sort these two by any potential order in the metadata
 			var beforeList:XMLList = MetaDataInformation.getMethodsDecoratedBy( methodList, "Before" );
+			var beginSort:Sort = new Sort();
+			var beginField:SortField = new SortField( "Before" );
+			beginSort.compareFunction = orderMetaDataSortFunction;
+			beginSort.fields = [ beginField ];
+
+			var beginCollection:XMLListCollection = new XMLListCollection( beforeList );
+			beginCollection.sort = beginSort;
+			beginCollection.refresh();
+
 			var afterList:XMLList = MetaDataInformation.getMethodsDecoratedBy( methodList, "After" );
+			var afterSort:Sort = new Sort();
+			var afterField:SortField = new SortField( "After" );
+			afterSort.compareFunction = orderMetaDataSortFunction;
+			afterSort.fields = [ afterField ];
+
+			var afterCollection:XMLListCollection = new XMLListCollection( afterList );
+			afterCollection.sort = afterSort;
+			afterCollection.refresh();
 
 			var i:int = 0;
 			
-			for ( i=0; i<beforeList.length(); i++ ) {
-				beforeArray.push( getMethodFromNode( beforeList[ i ] ) );
+			for ( i=0; i<beginCollection.length; i++ ) {
+				beforeArray.push( getMethodFromNode( beginCollection.getItemAt( i ) as XML ) );
 			}
 
-			for ( i=0; i<afterList.length(); i++ ) {
-				afterArray.push( getMethodFromNode( afterList[ i ] ) );
+			for ( i=0; i<afterCollection.length; i++ ) {
+				afterArray.push( getMethodFromNode( afterCollection.getItemAt( i ) as XML ) );
 			}
 
 			//Need to also sort filters... performance shouldn't really matter with the scale of nodes we are looking at, but there might
 			//be a usecase I am not thinking of right now
 			var filterList:XMLList = MetaDataInformation.getMethodsDecoratedBy( methodList, "Filter" );
-			
 			var sortList:XMLList = MetaDataInformation.getMethodsDecoratedBy( methodList, "Sort" );
 
 			//Tests to run will be this list, minus the Ignore list, minus any removed by any filter functions
@@ -691,7 +741,6 @@ package net.digitalprimates.fluint.tests {
 			testCollection.refresh();
 			
 			cursor = testCollection.createCursor();
-			
 		}
 	}
 }

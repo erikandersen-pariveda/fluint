@@ -1,0 +1,419 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../../../style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="../../../../print.css" type="text/css" media="print">
+<meta content="TestCaseResult,net.digitalprimates.fluint.monitor.TestCaseResult,caseStatus,displayName,traceInformation,children,executed,numberOfErrors,numberOfFailures,qualifiedClassName,status,totalTime,addTestMethodResult,handleTestMethodsChange,toString" name="keywords">
+<title>net.digitalprimates.fluint.monitor.TestCaseResult</title>
+</head>
+<body>
+<script type="text/javascript" language="javascript" src="../../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../../cookies.js"></script><script type="text/javascript" language="javascript">
+<!--
+				asdocTitle = 'TestCaseResult - API Documentation';
+				var baseRef = '../../../../';
+				window.onload = configPage;
+			--></script>
+<table style="display:none" id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+<tr>
+<td align="left" class="titleTableTitle">API Documentation</td><td align="right" class="titleTableTopNav"><a onclick="loadClassListFrame('../../../../all-classes.html')" href="../../../../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../all-classes.html')" href="../../../../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;<a onclick="loadClassListFrame('../../../../index-list.html')" href="../../../../all-index-A.html">Index</a>&nbsp;|&nbsp;<a href="../../../../index.html?net/digitalprimates/fluint/monitor/TestCaseResult.html&amp;net/digitalprimates/fluint/monitor/class-list.html" id="framesLink1">Frames</a><a onclick="parent.location=document.location" href="" style="display:none" id="noFramesLink1">No&nbsp;Frames</a></td><td rowspan="3" align="right" class="titleTableLogo"><img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../../../images/logo.jpg"></td>
+</tr>
+<tr class="titleTableRow2">
+<td align="left" id="subTitle" class="titleTableSubTitle">Class&nbsp;TestCaseResult</td><td align="right" id="subNav" class="titleTableSubNav"><a href="#propertySummary">Properties</a>&nbsp;| <a href="#methodSummary">Methods</a></td>
+</tr>
+<tr class="titleTableRow3">
+<td colspan="2">&nbsp;</td>
+</tr>
+</table>
+<script type="text/javascript" language="javascript">
+<!--
+if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("Class TestCaseResult"); titleBar_setSubNav(false,true,false,false,false,false,true,false,false,false,false,false,false,false);}
+--></script>
+<div class="MainContent">
+<table cellspacing="0" cellpadding="0" class="classHeaderTable">
+<tr>
+<td class="classHeaderTableLabel">Package</td><td><a onclick="javascript:loadClassListFrame('class-list.html')" href="package-detail.html">net.digitalprimates.fluint.monitor</a></td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Class</td><td class="classSignature">public class TestCaseResult</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Inheritance</td><td class="inheritanceList">TestCaseResult <img class="inheritArrow" alt="Inheritance" title="Inheritance" src="../../../../images/inherit-arrow.gif"> flash.events.EventDispatcher</td>
+</tr>
+<tr>
+<td class="classHeaderTableLabel">Implements</td><td><a href="ITestResultContainer.html">ITestResultContainer</a></td>
+</tr>
+</table>
+<p></p> 
+  This class contains result information about the execution of a test case. 
+  
+  The TestMonitor class uses instances of this class to maintain state and 
+  display information for each TestCase. 
+  <p></p>
+<br>
+<hr>
+</div>
+<a name="propertySummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Properties</div>
+<table id="summaryTableProperty" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#children">children</a> : ArrayCollection<div class="summaryTableDescription"> 
+   An ArrayCollection that holds instances of the TestMethodResult class.</div>
+</td><td class="summaryTableOwnerCol">TestCaseResult</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#executed">executed</a> : Boolean<div class="summaryTableDescription"> 
+   Boolean value that indicates if this case has been executed yet.</div>
+</td><td class="summaryTableOwnerCol">TestCaseResult</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#numberOfErrors">numberOfErrors</a> : int<div class="summaryTableDescription">[read-only] 
+   A count of the number of errors in the TestMethods 
+   represented by the children of this class.</div>
+</td><td class="summaryTableOwnerCol">TestCaseResult</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#numberOfFailures">numberOfFailures</a> : int<div class="summaryTableDescription">[read-only] 
+   A count of the number of failures in the TestMethods 
+   represented by the children of this class.</div>
+</td><td class="summaryTableOwnerCol">TestCaseResult</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#qualifiedClassName">qualifiedClassName</a> : String<div class="summaryTableDescription">[read-only]
+          Used to expose the qualifiedClassName of the testcase for reporting
+    </div>
+</td><td class="summaryTableOwnerCol">TestCaseResult</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#status">status</a> : Boolean<div class="summaryTableDescription"> 
+   Returns a single pass or fail status for all methods represented by the 
+   children of this class.</div>
+</td><td class="summaryTableOwnerCol">TestCaseResult</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#totalTime">totalTime</a> : int<div class="summaryTableDescription">[read-only]
+   A count of the totalTime in the TestMethods 
+   represented by the children of this class.</div>
+</td><td class="summaryTableOwnerCol">TestCaseResult</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#traceInformation">traceInformation</a> : String<div class="summaryTableDescription"> 
+   Stack trace information captured by a failing TestCase.</div>
+</td><td class="summaryTableOwnerCol">TestCaseResult</td>
+</tr>
+</table>
+</div>
+<a name="protectedPropertySummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Protected Properties</div>
+<table id="summaryTableProtectedProperty" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Property</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#caseStatus">caseStatus</a> : Boolean = true<div class="summaryTableDescription"> 
+   An internal status variable for this class that is added with the status 
+   variables from child TestMethodResult to determine an overall status.</div>
+</td><td class="summaryTableOwnerCol">TestCaseResult</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol"><a class="signatureLink" href="#displayName">displayName</a> : String<div class="summaryTableDescription"> 
+   A human readable name for this class derived from the class name and 
+   path.</div>
+</td><td class="summaryTableOwnerCol">TestCaseResult</td>
+</tr>
+</table>
+</div>
+<a name="methodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Public Methods</div>
+<table id="summaryTableMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#TestCaseResult()">TestCaseResult</a>(testCase:<a href="../tests/TestCase.html">TestCase</a>)</div>
+<div class="summaryTableDescription"> 
+   Constructor.</div>
+</td><td class="summaryTableOwnerCol">TestCaseResult</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#addTestMethodResult()">addTestMethodResult</a>(testMethodResult:<a href="TestMethodResult.html">TestMethodResult</a>):void</div>
+<div class="summaryTableDescription"> 
+   Adds an instance of the TestMethodResult class as a child of this class.</div>
+</td><td class="summaryTableOwnerCol">TestCaseResult</td>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#toString()">toString</a>():String</div>
+<div class="summaryTableDescription"> 
+   Provides a human readable representation of this class, including 
+   name and status.</div>
+</td><td class="summaryTableOwnerCol">TestCaseResult</td>
+</tr>
+</table>
+</div>
+<a name="protectedMethodSummary"></a>
+<div class="summarySection">
+<div class="summaryTableTitle">Protected Methods</div>
+<table id="summaryTableProtectedMethod" class="summaryTable " cellpadding="3" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th colspan="2">Method</th><th class="summaryTableOwnerCol">Defined&nbsp;by</th>
+</tr>
+<tr class="">
+<td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableInheritanceCol">&nbsp;</td><td class="summaryTableSignatureCol">
+<div class="summarySignature">
+<a class="signatureLink" href="#handleTestMethodsChange()">handleTestMethodsChange</a>(event:CollectionEvent):void</div>
+<div class="summaryTableDescription">
+   Change handler that watches children for a change in their status.</div>
+</td><td class="summaryTableOwnerCol">TestCaseResult</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript" language="javascript">
+<!--
+showHideInherited();
+--></script>
+<div class="MainContent">
+<a name="propertyDetail"></a>
+<div class="detailSectionHeader">Property detail</div>
+<a name="caseStatus"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">caseStatus</td><td class="detailHeaderType">property</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var caseStatus:Boolean = true</code><p> 
+   An internal status variable for this class that is added with the status 
+   variables from child TestMethodResult to determine an overall status. 
+   This variable is false when an entire TestCase is deemed invalid, likely 
+   when a setup or teardown fails.
+   </p></div>
+<a name="children"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">children</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>children:ArrayCollection</code>&nbsp;&nbsp;[read-write]<p> 
+   An ArrayCollection that holds instances of the TestMethodResult class. 
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get children():ArrayCollection</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set children(value:ArrayCollection):void</code>
+<br>
+</div>
+<a name="displayName"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">displayName</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected var displayName:String</code><p> 
+   A human readable name for this class derived from the class name and 
+   path. 
+   </p></div>
+<a name="executed"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">executed</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>executed:Boolean</code>&nbsp;&nbsp;[read-write]<p> 
+   Boolean value that indicates if this case has been executed yet. 
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get executed():Boolean</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set executed(value:Boolean):void</code>
+<br>
+</div>
+<a name="numberOfErrors"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">numberOfErrors</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>numberOfErrors:int</code>&nbsp;&nbsp;[read-only]<p> 
+   A count of the number of errors in the TestMethods 
+   represented by the children of this class.
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get numberOfErrors():int</code>
+<br>
+</div>
+<a name="numberOfFailures"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">numberOfFailures</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>numberOfFailures:int</code>&nbsp;&nbsp;[read-only]<p> 
+   A count of the number of failures in the TestMethods 
+   represented by the children of this class.
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get numberOfFailures():int</code>
+<br>
+</div>
+<a name="qualifiedClassName"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">qualifiedClassName</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>qualifiedClassName:String</code>&nbsp;&nbsp;[read-only]<p>
+          Used to expose the qualifiedClassName of the testcase for reporting
+    </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get qualifiedClassName():String</code>
+<br>
+</div>
+<a name="status"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">status</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>status:Boolean</code>&nbsp;&nbsp;[read-write]<p> 
+   Returns a single pass or fail status for all methods represented by the 
+   children of this class. 
+   </p><p>This property can be used as the source for data binding.</p>
+<span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get status():Boolean</code>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function set status(value:Boolean):void</code>
+<br>
+</div>
+<a name="totalTime"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">totalTime</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>totalTime:int</code>&nbsp;&nbsp;[read-only]<p>
+   A count of the totalTime in the TestMethods 
+   represented by the children of this class.
+   </p><span class="label">Implementation</span>
+<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;public function get totalTime():int</code>
+<br>
+</div>
+<a name="traceInformation"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">traceInformation</td><td class="detailHeaderType">property</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public var traceInformation:String</code><p> 
+   Stack trace information captured by a failing TestCase.
+   </p></div>
+<a name="constructorDetail"></a>
+<div class="detailSectionHeader">Constructor detail</div>
+<a name="TestCaseResult()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">TestCaseResult</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">constructor</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function TestCaseResult(testCase:<a href="../tests/TestCase.html">TestCase</a>)</code><p> 
+   Constructor. 
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">testCase</span>:<a href="../tests/TestCase.html">TestCase</a></code> &mdash; The TestCase represented by this TestCaseResult class. 
+   </td>
+</tr>
+</table>
+</div>
+<a name="methodDetail"></a>
+<div class="detailSectionHeader">Method detail</div>
+<a name="addTestMethodResult()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">addTestMethodResult</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public function addTestMethodResult(testMethodResult:<a href="TestMethodResult.html">TestMethodResult</a>):void</code><p> 
+   Adds an instance of the TestMethodResult class as a child of this class. 
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">testMethodResult</span>:<a href="TestMethodResult.html">TestMethodResult</a></code> &mdash; An instance of the TestMethodResult class.
+   </td>
+</tr>
+</table>
+</div>
+<a name="handleTestMethodsChange()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">handleTestMethodsChange</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>protected function handleTestMethodsChange(event:CollectionEvent):void</code><p>
+   Change handler that watches children for a change in their status.
+   
+   </p><span class="label">Parameters</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20px"></td><td><code><span class="label">event</span>:CollectionEvent</code> &mdash; The event dispatch when the children collection changes.
+   </td>
+</tr>
+</table>
+</div>
+<a name="toString()"></a>
+<table cellspacing="0" cellpadding="0" class="detailHeader">
+<tr>
+<td class="detailHeaderName">toString</td><td class="detailHeaderParens">()</td><td class="detailHeaderType">method</td><td class="detailHeaderRule">&nbsp;</td>
+</tr>
+</table>
+<div class="detailBody">
+<code>public override function toString():String</code><p> 
+   Provides a human readable representation of this class, including 
+   name and status. 
+   
+   </p><p></p>
+<span class="label">Returns</span>
+<table border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td width="20"></td><td><code>String</code></td>
+</tr>
+</table>
+</div>
+<br>
+<br>
+<hr>
+<br>
+<p></p>
+<center class="copyright"> 
+</center>
+</div>
+</body>
+</html>
+<!-- -->

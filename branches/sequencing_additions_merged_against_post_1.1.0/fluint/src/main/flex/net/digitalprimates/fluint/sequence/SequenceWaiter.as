@@ -26,6 +26,7 @@ package net.digitalprimates.fluint.sequence {
 	import flash.events.IEventDispatcher;
 	
 	import net.digitalprimates.fluint.tests.TestCase;
+	import net.digitalprimates.fluint.utils.LoggerUtils;
 	
 	/** 
 	 * The sequence setter class tells the TestCase instance to pend until 
@@ -35,7 +36,7 @@ package net.digitalprimates.fluint.sequence {
         /**
          * @private
          */
-		protected var _target:IEventDispatcher;
+		protected var _targetSelector:TargetSelector;
 
         /**
          * @private
@@ -57,7 +58,7 @@ package net.digitalprimates.fluint.sequence {
 		 * in the props object will be set. 
 		 */
 		public function get target():IEventDispatcher {
-			return _target;	
+			return _targetSelector.target;	
 		}
 
 		/** 
@@ -101,13 +102,13 @@ package net.digitalprimates.fluint.sequence {
 		/**
 		 * Constructor.
 		 *  
-		 * @param target The target where properties will be set.
+		 * @param targetSelector The target where properties will be set.
 		 * @param eventName Event broadcast after the properties are set.
 		 * @param timeout The number of milliseconds to wait before calling the timoutHandler.
 		 * @param timeoutHandler Called if the timout is reached before the event is broadcast. 
 		 */
-		public function SequenceWaiter( target:IEventDispatcher, eventName:String, timeout:int, timeoutHandler : Function = null  ) {
-			_target = target;
+		public function SequenceWaiter( targetSelector:Object, eventName:String, timeout:int, timeoutHandler : Function = null  ) {
+			_targetSelector = TargetSelector.determineSelector(targetSelector);
 			_eventName = eventName;
 			
 			_timeoutHandler = timeoutHandler;

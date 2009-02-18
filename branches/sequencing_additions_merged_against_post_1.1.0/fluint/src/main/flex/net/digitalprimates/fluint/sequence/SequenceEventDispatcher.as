@@ -27,6 +27,8 @@ package net.digitalprimates.fluint.sequence
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
+	
+	import net.digitalprimates.fluint.utils.LoggerUtils;
 
 	/** 
 	 * The sequencer event dispatcher class is used by the TestCase sequence 
@@ -36,10 +38,12 @@ package net.digitalprimates.fluint.sequence
 	 * a button. 
 	 */
 	public class SequenceEventDispatcher implements ISequenceAction {
-        /**
-         * @private
-         */
-		protected var _target:IEventDispatcher;
+	  
+	  /**
+	   * Delayed target selector.  Will be selected at playback time.
+	   */
+	  protected var _targetSelector:TargetSelector;
+	  
         /**
          * @private
          */
@@ -50,7 +54,7 @@ package net.digitalprimates.fluint.sequence
 		 * broadcast from.
 		 */
 		public function get target():IEventDispatcher {
-			return _target;	
+			return _targetSelector.target;	
 		}
 
 		/** 
@@ -64,17 +68,30 @@ package net.digitalprimates.fluint.sequence
 		 * Dispatches the specified event on the target IEventDispatcher.
 		 */
 		public function execute():void {
-			target.dispatchEvent( eventToBroadcast );
+		    if (target)
+		    {
+		        trace("[Sequence] Dispatching [" + eventToBroadcast.type + "] on " + LoggerUtils.friendlyName(target));
+                target.dispatchEvent( eventToBroadcast );    
+		    }
+		    else
+		    {
+		        trace("[Sequence] Skipped target because it was null at this point.");
+		    }
+		    
+		}
+		
+		public function toString() : String {
+		  return "SequenceEventDispatcher: " + eventToBroadcast;	
 		}
 
 		/** 
 		 * Constructor.
 		 * 
-		 * @param target EventDispatcher, from which the event will be broadcast.
+		 * @param targetSelector EventDispatcher, from which the event will be broadcast.
 		 * @param eventToBrodcast An actual event, which will be broadcast from the target.
 		 */
-		public function SequenceEventDispatcher( target:EventDispatcher, eventToBroadcast:Event ) {
-			_target = target;
+		public function SequenceEventDispatcher( targetSelector:Object, eventToBroadcast:Event ) {
+		  _targetSelector = TargetSelector.determineSelector(targetSelector); 
 			_eventToBroadcast = eventToBroadcast;
 		}
 	}

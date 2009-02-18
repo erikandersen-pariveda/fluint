@@ -24,8 +24,6 @@
  **/ 
 package net.digitalprimates.fluint.sequence
 {
-	import flash.events.IEventDispatcher;
-
 	public class SequenceCaller implements ISequenceAction
 	{
         /**

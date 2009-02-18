@@ -5,6 +5,9 @@ package net.digitalprimates.fluint.sequence
   
   import mx.core.UIComponent;
   
+  /**
+   * Interface to allow multiple ways of acquiring a target for ISequencePend sequences.
+   */
   public interface TargetSelector
   {
     /** 

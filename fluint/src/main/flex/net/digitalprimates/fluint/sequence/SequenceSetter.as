@@ -23,8 +23,6 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  **/ 
 package net.digitalprimates.fluint.sequence {
-	import flash.events.IEventDispatcher;
-	
 	import net.digitalprimates.fluint.tests.TestCase;
 	
 	/** 

@@ -3,7 +3,7 @@ package net.digitalprimates.fluint.sequence
   import flash.events.IEventDispatcher;
 
   /**
-   * Delays the requirement to have an IEventDispatcher until playback.
+   * Delays the need to have an IEventDispatcher until playback.
    * 
    * <p>The IEventDispatcher will be selected the first time the target getter is invoked.  That
    * dispatcher will be cached and returned for all subsequent calls.</p>
@@ -24,6 +24,10 @@ package net.digitalprimates.fluint.sequence
       this._targetSelectorFunction = targetSelectorFunction;
     }
     
+    /**
+     * The first time invoked, this will call the targetSelectorFunction passed into the constructor and return that 
+     * function's result.  Subsequent calls will return the cached value.
+     */
     public function get target() : IEventDispatcher
     {
       if (!_cachedTarget) {
@@ -35,6 +39,5 @@ package net.digitalprimates.fluint.sequence
 
       return _cachedTarget;
     }
-    
   }
 }

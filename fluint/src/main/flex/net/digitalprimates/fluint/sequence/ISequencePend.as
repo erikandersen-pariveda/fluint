@@ -29,7 +29,7 @@
 	 * Interface defined by any step who's primary purpose is to pend 
 	 * (or wait) for an action to occur before continuing the test.
 	 */
-	public interface ISequencePend extends ISequenceStep {
+	public interface ISequencePend extends ISequenceDispatcher {
 		/** 
 		 * The name of the event that this step is pending upon.
 		 */

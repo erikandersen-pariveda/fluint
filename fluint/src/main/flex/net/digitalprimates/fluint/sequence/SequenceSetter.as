@@ -35,7 +35,7 @@ package net.digitalprimates.fluint.sequence {
         /**
          * @private
          */
-		protected var _target:IEventDispatcher;
+		protected var _target:Object;
 
         /**
          * @private
@@ -43,10 +43,10 @@ package net.digitalprimates.fluint.sequence {
 		protected var _props:Object;
 
 		/** 
-		 * The event dispatcher where the properties/value pairs defined 
+		 * The object where the properties/value pairs defined 
 		 * in the props object will be set. 
 		 */
-		public function get target():IEventDispatcher {
+		public function get target():Object {
 			return _target;	
 		}
 
@@ -84,10 +84,10 @@ package net.digitalprimates.fluint.sequence {
 		/**
 		 * Constructor.
 		 *  
-		 * @param target The target where properties will be set.
+		 * @param target The object where the properties will be set.
 		 * @param props Contains the property/value pairs to be set on the target.
 		 */
-		public function SequenceSetter( target:IEventDispatcher, props:Object ) {
+		public function SequenceSetter( target:Object, props:Object ) {
 			_target = target;
 			_props = props;
 		}

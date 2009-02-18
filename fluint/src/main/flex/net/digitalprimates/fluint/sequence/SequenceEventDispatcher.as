@@ -35,7 +35,7 @@ package net.digitalprimates.fluint.sequence
 	 * It is generally used to simulate a user gesture, such as clicking on 
 	 * a button. 
 	 */
-	public class SequenceEventDispatcher implements ISequenceAction {
+	public class SequenceEventDispatcher implements ISequenceAction, ISequenceDispatcher {
         /**
          * @private
          */

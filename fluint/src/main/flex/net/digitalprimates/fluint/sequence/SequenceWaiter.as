@@ -35,7 +35,7 @@ package net.digitalprimates.fluint.sequence {
         /**
          * @private
          */
-		protected var _target:IEventDispatcher;
+		protected var _targetSelector:TargetSelector;
 
         /**
          * @private
@@ -57,7 +57,7 @@ package net.digitalprimates.fluint.sequence {
 		 * in the props object will be set. 
 		 */
 		public function get target():IEventDispatcher {
-			return _target;	
+			return _targetSelector.target;	
 		}
 
 		/** 
@@ -106,8 +106,8 @@ package net.digitalprimates.fluint.sequence {
 		 * @param timeout The number of milliseconds to wait before calling the timoutHandler.
 		 * @param timeoutHandler Called if the timout is reached before the event is broadcast. 
 		 */
-		public function SequenceWaiter( target:IEventDispatcher, eventName:String, timeout:int, timeoutHandler : Function = null  ) {
-			_target = target;
+		public function SequenceWaiter( target:Object, eventName:String, timeout:int, timeoutHandler : Function = null  ) {
+			_targetSelector = TargetSelectorFactory.determineSelector(target);
 			_eventName = eventName;
 			
 			_timeoutHandler = timeoutHandler;

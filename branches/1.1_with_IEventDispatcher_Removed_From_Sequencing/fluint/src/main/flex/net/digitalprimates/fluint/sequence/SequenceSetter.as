@@ -35,7 +35,7 @@ package net.digitalprimates.fluint.sequence {
         /**
          * @private
          */
-		protected var _target:Object;
+		protected var _targetSelector:TargetSelector;
 
         /**
          * @private
@@ -47,7 +47,7 @@ package net.digitalprimates.fluint.sequence {
 		 * in the props object will be set. 
 		 */
 		public function get target():Object {
-			return _target;	
+			return _targetSelector.target;
 		}
 
 		/** 
@@ -88,7 +88,7 @@ package net.digitalprimates.fluint.sequence {
 		 * @param props Contains the property/value pairs to be set on the target.
 		 */
 		public function SequenceSetter( target:Object, props:Object ) {
-			_target = target;
+			_targetSelector = TargetSelectorFactory.determineSelector(target);
 			_props = props;
 		}
 	}

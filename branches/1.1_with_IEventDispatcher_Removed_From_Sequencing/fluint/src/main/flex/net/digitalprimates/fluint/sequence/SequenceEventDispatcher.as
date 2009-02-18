@@ -39,7 +39,7 @@ package net.digitalprimates.fluint.sequence
         /**
          * @private
          */
-		protected var _target:IEventDispatcher;
+        protected var _targetSelector:TargetSelector;
         /**
          * @private
          */
@@ -50,7 +50,7 @@ package net.digitalprimates.fluint.sequence
 		 * broadcast from.
 		 */
 		public function get target():IEventDispatcher {
-			return _target;	
+			return _targetSelector.target;
 		}
 
 		/** 
@@ -73,8 +73,8 @@ package net.digitalprimates.fluint.sequence
 		 * @param target EventDispatcher, from which the event will be broadcast.
 		 * @param eventToBrodcast An actual event, which will be broadcast from the target.
 		 */
-		public function SequenceEventDispatcher( target:EventDispatcher, eventToBroadcast:Event ) {
-			_target = target;
+		public function SequenceEventDispatcher( target:Object, eventToBroadcast:Event ) {
+			_targetSelector = TargetSelectorFactory.determineSelector(target);
 			_eventToBroadcast = eventToBroadcast;
 		}
 	}

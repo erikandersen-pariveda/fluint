@@ -82,7 +82,7 @@ package net.digitalprimates.fluint.sequence
 			return _argsFunction;
 		}
 		/**
-		 * Sets the name/value pairs defined in the props object to the target.
+		 * Invokes the function specified in the constructor.
 		 */
 		public function execute():void {
 			var arguments:Array;

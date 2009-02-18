@@ -32,6 +32,11 @@ package net.digitalprimates.fluint.sequence
          * @private
          */
 		protected var _target:IEventDispatcher;
+		
+		/**
+         * @private
+         */
+        protected var _object:Object;
 
         /**
          * @private
@@ -49,11 +54,10 @@ package net.digitalprimates.fluint.sequence
 		protected var _argsFunction:Function;
 
 		/** 
-		 * The event dispatcher where the properties/value pairs defined 
-		 * in the props object will be set. 
+		 * Ignored for this class because we aren't dispatching anything. 
 		 */
 		public function get target():IEventDispatcher {
-			return _target;	
+			return null;	
 		}
 
 		/** 
@@ -109,8 +113,8 @@ package net.digitalprimates.fluint.sequence
   		 * @param args Optional parameter that contains an array of arguments that will be passed to this method.
   		 * @param argsFunction Optional function that returns an of arguments to be passed to method. 
  * 		 */
-		public function SequenceCaller( target:IEventDispatcher, method:Function, args:Array=null, argsFunction:Function=null ) {
-			_target = target;
+		public function SequenceCaller( object:Object, method:Function, args:Array=null, argsFunction:Function=null ) {
+			_object = object;
 			_method = method;
 			_args = args;
 			_argsFunction = argsFunction;

@@ -23,8 +23,6 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  **/ 
 package net.digitalprimates.fluint.sequence {
-	import flash.events.IEventDispatcher;
-	
 	/**
 	 * A single step to perform in a <code>SequenceRunner</code>.
 	 */

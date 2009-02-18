@@ -14,6 +14,10 @@ import org.apache.tools.ant.types.FileSet;
 
 public class Fluint extends Task
 {
+  private static final int RETURN_CODE_SUCCESS  = 0;
+  private static final int RETURN_CODE_TESTS_FAILED = 1;
+  private static final int RETURN_CODE_MISSING_PARAMETERS = 2;
+  
 	// private static final String WINDOWS_CMD = "rundll32
 	// url.dll,FileProtocolHandler ";
 	// private static final String UNIX_CMD = "gflashplayer ";
@@ -249,11 +253,24 @@ public class Fluint extends Task
 				System.out.println("DEBUG: " + this.cmdl.describeCommand());
 				System.out.println("DEBUG: " + returnValue );
 			}
-
-			if(returnValue != 0 && this.failOnError)
-			{
-				throw new Exception("Test(s) failed, please see report in '" + this.outputDirFile.getAbsolutePath() + "' for more details ...'");
-			}
+      
+      if (returnValue == RETURN_CODE_SUCCESS)
+      {
+        System.out.println("DEBUG: All tests passed.");
+      }
+      else 
+      {
+        if (returnValue == RETURN_CODE_MISSING_PARAMETERS)
+        {
+          throw new Exception("TestRunner failed to run because of an invalid configuration.  " +
+                              "Please ensure that the report directory exists and you have write permissions to that directory.  " + 
+                              "Also ensure that there is at least *one* test module SWF listed in the fileSet parameter.");
+        }
+        else if (returnValue == RETURN_CODE_TESTS_FAILED && this.failOnError)
+        {
+          throw new Exception("Test(s) failed, please see report in '" + this.outputDirFile.getAbsolutePath() + "' for more details ...'");
+        }
+      }
 		}
 		catch (Exception e)
 		{

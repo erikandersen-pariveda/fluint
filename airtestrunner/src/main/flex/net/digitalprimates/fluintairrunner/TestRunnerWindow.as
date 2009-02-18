@@ -6,6 +6,7 @@ package net.digitalprimates.fluintairrunner
 	import flash.utils.Dictionary;
 	
 	import mx.core.WindowedApplication;
+	import mx.controls.Alert;
 	import mx.logging.ILogger;
 	
 	import net.digitalprimates.fluint.ui.TestResultDisplay;
@@ -139,6 +140,26 @@ package net.digitalprimates.fluintairrunner
 		   _logger.debug("failOnError: " + failOnError);
 		   _logger.debug("reportDir: '" + this.reportDir + "'");
 		   _logger.debug("fileSet: '" + this.fileSet + "'");
+
+       var errors : String = "";
+       if (!fileSet)
+       {
+           errors += "No fileSet specified.  Nothing to run!  ";
+       }
+       if (!reportDir)
+       {
+           errors += "No reportDir specified.  I don't know where to write the test reports.";
+       }
+     
+       if (errors)
+       {
+         Alert.show(errors);
+         _logger.error("Required parameters missing. [" + errors + "]");
+         if (headless)
+         {
+           exitWithFailure(2);
+         }
+       }
 		}
 
 		private function parseModules():void
@@ -158,7 +179,7 @@ package net.digitalprimates.fluintairrunner
    
             if(swfList.length == 0)
             {
-               exitWithFailure();
+               exitWithFailure(2);
             }
             
    			loadExternalTests( swfList );
@@ -228,7 +249,7 @@ package net.digitalprimates.fluintairrunner
 		   }
 		}
 		
-		private function exitWithFailure() : void
+		private function exitWithFailure(exitCode : int = 1) : void
 		{
 		   _logger.debug("EXITING ON FAILURE!");
 			nativeApplication.exit(1);

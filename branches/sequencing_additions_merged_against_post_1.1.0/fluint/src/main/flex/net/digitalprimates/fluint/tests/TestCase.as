@@ -24,15 +24,19 @@
  **/ 
 package net.digitalprimates.fluint.tests {
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.utils.*;
 	
 	import mx.collections.CursorBookmark;
+	import mx.collections.ICollectionView;
+	import mx.collections.IList;
 	import mx.collections.IViewCursor;
 	import mx.collections.Sort;
 	import mx.collections.SortField;
 	import mx.collections.XMLListCollection;
+	import mx.controls.listClasses.ListBase;
 	import mx.events.PropertyChangeEvent;
 	import mx.rpc.IResponder;
 	import mx.utils.*;
@@ -49,6 +53,7 @@ package net.digitalprimates.fluint.tests {
 	import net.digitalprimates.fluint.sequence.SequenceBindingWaiter;
 	import net.digitalprimates.fluint.sequence.SequenceRunner;
 	import net.digitalprimates.fluint.ui.TestEnvironment;
+	import net.digitalprimates.fluint.utils.LoggerUtils;
 
 	/** 
 	 * <p>
@@ -978,6 +983,102 @@ package net.digitalprimates.fluint.tests {
 	
 			throw new AssertionFailedError( userMessage + failMessage );
 		}
+
+		
+	// TODO INCOMPLETE
+    public function assertThrows(error : Class, func : Function) : void {
+        var exceptionThrown : String = null;
+        try {
+            func.call();
+        } catch (e : Error) {
+            exceptionThrown = ObjectUtil.getClassInfo(e).name;
+        }
+        
+        assertNotNull("Expected exception [" + error.name + "] not thrown", exceptionThrown);
+        assertEquals("Expected exception of type [" + "] to be thrown.", error.name, exceptionThrown);
+    }		
+    
+    /**
+     * Asserts that the function passed in will thrown an AssertionError.  Does some cleanup work to make sure that the 
+     * function passed in cleans up after itself.  
+     */
+    protected function assertFails(func : Function, errorMsg : String = "Function expected to fail but didn't.") : void {
+        var exceptionThrown : String = null;
+        try {
+            func.call();
+        } catch (e : Error) {
+            exceptionThrown = ObjectUtil.getClassInfo(e).name;
+            
+            // Makes sure any pending calls are removed to keep the method from hanging
+            removeAllAsyncEventListeners();
+            pendingAsyncCalls = new Array();
+        }
+        
+        assertEquals(errorMsg, "net.digitalprimates.fluint.assertion::AssertionFailedError", exceptionThrown);
+    }
+		
+    /**
+     * Test for object equality using ObjectUtil#compare.
+     */
+    public function assertObjectEquals( a:Object, b:Object ) : void 
+    {
+      if (ObjectUtil.compare(a, b) != 0) 
+      {
+        fail("Expected: " + ObjectUtil.toString(a) + "\n got: " + ObjectUtil.toString(b));
+      }
+    }
+    
+    /**
+     * Tests for object equality using ObjectUtil#compare.
+     */
+    public function assertObjectNotEquals( a:Object, b:Object ) : void 
+    {
+      if (ObjectUtil.compare(a, b) == 0) 
+      {
+        fail("Expected " + ObjectUtil.toString(a) + "\n not equal to " + ObjectUtil.toString(b));
+      }
+    }
+    
+    /**
+     * Assert that provided container is empty.
+     * 
+     * List, Arrays, and DataGrids are currently supported.
+     */
+    public function assertEmpty( a:Object ) : void 
+    {
+      if (a.hasOwnProperty("text"))
+      {
+        if (a["text"])
+        {
+            fail("Expecting " + LoggerUtils.friendlyName(a) + " to be empty.  Instead contains: " + a["text"]);
+        }
+        return;
+      }
+        
+      var length : int;
+      if (a is Array) 
+      {
+        length = (a as Array).length;
+      } 
+      else if (a is IList) 
+      {
+        length = (a as IList).length;     
+      }
+      else if (a is ListBase)
+      {
+        length = ((a as ListBase).dataProvider as ICollectionView).length;  
+      }
+      else if (a is DisplayObjectContainer)
+      {
+        length = (a as DisplayObjectContainer).numChildren;
+      }
+      else
+      {
+        fail("Type not supported for assertEmpty: " + LoggerUtils.friendlyName(a) + " : " + ObjectUtil.getClassInfo(a).name);
+      }
+      
+      assertTrue("Expecting '" + LoggerUtils.friendlyName(a) + "' to be empty, instead has: " + length + " + elements.", length == 0);
+    }
 
 		/**
 		 * @private

@@ -25,14 +25,24 @@
 package net.digitalprimates.fluint.unitTests.frameworkSuite
 {
 	import net.digitalprimates.fluint.tests.TestSuite;
+	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.ArrayUtilsTest;
+	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.ComponentFinderTest;
+	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.SelectByFunctionTestCase;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestASComponentUse;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAssert;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAsynchronous;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAsynchronousSetUpTearDown;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestBindingUse;
+	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestButtonComponentsTestCase;
+	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestComponentTestCase;
+	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestDatagridWithControlsTestCase;
+	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestEditableDataGrid;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestEmptyCase;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestMXMLComponentUse;
+	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestPopupControlsTest;
+	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestSelectableComponentsTestCase;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestSynchronousSetUpTearDown;
+	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestTextComponentsTestCase;
 
     /**
      * @private
@@ -49,6 +59,18 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite
 			addTestCase( new TestASComponentUse() );
 			addTestCase( new TestMXMLComponentUse() );
 			addTestCase( new TestBindingUse() );
+			
+			// Component Tests
+			addTestCase( new ArrayUtilsTest() );
+			addTestCase( new ComponentFinderTest() );
+			addTestCase( new SelectByFunctionTestCase() );
+			addTestCase( new TestButtonComponentsTestCase() );
+			addTestCase( new TestComponentTestCase() );
+			addTestCase( new TestDatagridWithControlsTestCase() );
+			addTestCase( new TestEditableDataGrid() );
+			addTestCase( new TestPopupControlsTest() );
+			addTestCase( new TestSelectableComponentsTestCase() );
+			addTestCase( new TestTextComponentsTestCase() );
 		}
 	}
 }

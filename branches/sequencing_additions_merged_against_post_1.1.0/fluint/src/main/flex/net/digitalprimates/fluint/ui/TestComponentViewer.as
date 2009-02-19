@@ -48,7 +48,8 @@ package net.digitalprimates.fluint.ui
             Application.application.addChild(allTestResultsContainer);
 
             testResults = (Application.application as Application).getChildByName("testResultDisplay") as TestResultDisplay;
-            BindingUtils.bindSetter(testItemSelected, testResults.testTree, "selectedItem");
+            // BindingUtils.bindSetter(testItemSelected, testResults.testTree, "selectedItem");
+            // TODO FIx this
         }
 
         public function setup(_testCase : ComponentTestCase) : void {

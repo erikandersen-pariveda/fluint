@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" initialize="EventTracker.instance.recordEvents(event)">
+    <mx:Script>
+        <![CDATA[
+            import net.digitalprimates.fluint.utils.EventTracker;
+            import mx.controls.Alert;
+        ]]>
+    </mx:Script>
+    
+    <mx:HRule width="100%" />
+    <mx:Text text="Text Controls" fontSize="16" />
+    
+    <mx:Button id="button" label="Regular Button" />
+    <mx:Button id="disabledButton" label="Disabled Button" enabled="false" />
+    <mx:Button id="invisibleButton" label="Invisible Button" visible="false" />
+    
+    <mx:LinkButton id="linkButton" label="A Link Button" />
+    
+    <mx:CheckBox id="checkBox" label="Regular Checkbox" />
+    <mx:CheckBox id="checkBoxInitiallyChecked" label="Regular Checkbox (Initially checked)" selected="true" />
+    
+    <mx:Button id="toggledButton" toggle="true" label="A toggled button"/>
+
+    <mx:Button id="buttonGeneratesAlert" label="Button that generates an Alert" click="Alert.show('Hello')" />
+</mx:VBox>

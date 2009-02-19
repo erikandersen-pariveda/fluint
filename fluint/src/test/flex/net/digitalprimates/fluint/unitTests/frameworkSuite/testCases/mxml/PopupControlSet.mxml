@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" initialize="EventTracker.instance.recordEvents(event)">
+    <mx:Script>
+        <![CDATA[
+            import net.digitalprimates.fluint.utils.EventTracker;
+            import mx.controls.Alert;
+            
+            public function generateYesNoPopup() : void {
+                Alert.yesLabel = "Yes";
+                Alert.noLabel  = "No";
+                Alert.show("Yes and No", "Title", Alert.YES | Alert.NO);
+            }
+        ]]>
+    </mx:Script>
+    
+    <mx:HRule width="100%" />
+    <mx:Text text="Popup Controls" fontSize="16" />
+    
+    <mx:Button id="defaultPopup" label="Default Popup" click="Alert.show('Hello World')" />
+    
+    <mx:Button id="yesNoPopup" label="Yes No Popup" click="generateYesNoPopup()" />
+</mx:VBox>

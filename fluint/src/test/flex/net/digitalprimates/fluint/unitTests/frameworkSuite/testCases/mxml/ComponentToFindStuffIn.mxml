@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300" xmlns:mxml="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.mxml.*">
+    <mx:Script>
+        <![CDATA[
+            import mx.core.Application;
+            import mx.core.UIComponent;
+            import mx.managers.PopUpManager;
+            
+            public var createdPopup : ComponentToFindStuffIn;
+            
+            private function createPopup(parentForPopup : UIComponent, modal : Boolean) : void
+            {
+                createdPopup = PopUpManager.createPopUp(parentForPopup, ComponentToFindStuffIn, modal) as ComponentToFindStuffIn;
+                
+                var newButton : Button = new Button();
+                newButton.label = helloWorldButton.label;
+                
+                createdPopup.addChild(newButton);
+                
+                var uniqueButton : Button = new Button();
+                uniqueButton.label = "New Button on Popup";
+                
+                createdPopup.addChild(uniqueButton);
+            }
+        ]]>
+    </mx:Script>
+    <mxml:SelectableControlSet id="selectableControlSet" />
+    <mxml:ButtonsControlSet id="buttonsControlSet" />
+    <mxml:TextControlSet id="textControlSet" />
+    
+    <mx:Text id="aTextElement" text="Fluint" />
+    <mx:Text name="aNamedTextElement" text="Fluint" />
+    
+    <mx:Text id="helloWorldTextElement" text="Hello World" />
+    
+    <mx:Button id="helloWorldButton" label="Hello World on a Button" />
+    
+    <mx:Button id="popupCreatorOnSelf" label="Create a Popup on Self" click="{createPopup(this, false)}" />
+    <mx:Button id="popupCreatorOnApplication" label="Create a Popup on Application.application" click="{createPopup(UIComponent(Application.application), false)}" />
+    <mx:Button id="modalPopupCreatorOnSelf" label="Create a Model Popup on Self" click="{createPopup(UIComponent(this), true)}" />
+    <mx:Button id="modalPopupCreatorOnApplication" label="Create a Model Popup on Application.application" click="{createPopup(UIComponent(Application.application), true)}" />
+    
+    <mx:ControlBar id="controlBar">
+        <mx:Button id="buttonInControlBar" label="Button In Control Bar" />
+    </mx:ControlBar>
+</mx:VBox>

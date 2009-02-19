@@ -98,6 +98,11 @@
 		public function addStep( step:ISequenceStep ):void {
 			steps.push( step );
 		}
+		
+		public function cancel() : void
+		{
+		  steps = new Array();
+		}
 
 		/** 
 	 	 * <p>
@@ -143,8 +148,10 @@
 			var handler:AssertHandler;
 
 			for ( var i:int=0;i<assertHandlers.length; i++ ) {
-				handler = ( assertHandlers[ i ] as AssertHandler ); 
-				handler.assertHandler( event, handler.passThroughData ); 
+				handler = ( assertHandlers[ i ] as AssertHandler );
+				
+				// Ensures that 'this' in inline function refers to the test case 
+				handler.assertHandler.apply(testCase, [event, handler.passThroughData]); 
 			}
 			
 			//sequenceComplete = true;

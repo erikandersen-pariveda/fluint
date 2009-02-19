@@ -92,7 +92,7 @@ package net.digitalprimates.fluint.tests
     override protected function setUp():void {
       trace("");
       trace("===========================================");
-      trace("Recording for " + currentTestName);
+      // trace("Recording for " + currentTestName);
       trace("===========================================");
       
       lastAssertFailure = null;

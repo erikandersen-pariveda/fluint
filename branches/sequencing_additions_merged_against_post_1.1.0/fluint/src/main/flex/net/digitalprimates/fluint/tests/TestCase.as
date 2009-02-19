@@ -78,9 +78,11 @@ package net.digitalprimates.fluint.tests {
          */
 		protected var testMonitor:TestMonitor = TestMonitor.getInstance(); 
 
-        /**
-         * @private
-         */
+        /** 
+        * Dispatched whenever a setup, test, or teardown method completes.
+        * 
+        * @private 
+        */
 		public static var TEST_COMPLETE:String = "testComplete";
 
         /**
@@ -117,6 +119,34 @@ package net.digitalprimates.fluint.tests {
          * @private
          */
 		protected var tickCountOnStart:Number;
+		
+		/** The default regular expression to determine if a method is a test method. */
+        private var defaultTestNameExpression : RegExp = /^test.*/;
+		
+		/** Counter of tests run, incremented after each test method finishes. */
+        private var _currentTestIndex : int;
+		
+		private var currentTestMethod:TestMethod;
+		
+		/**
+		 * @return the current index of the running test method (0-based index)
+		 */
+		public function get currentTestIndex() : int 
+		{
+		  return _currentTestIndex;
+		}
+		
+		/**
+		 * @return the name of the currently running test name
+		 */
+	    public function get currentTestName() : String
+	    {
+	      if (currentTestMethod)
+	      {
+	        return currentTestMethod.methodName;
+	      }
+	      return "";
+	    }
 
         /**
          * @private
@@ -230,7 +260,7 @@ package net.digitalprimates.fluint.tests {
 				} else {
 					//The first one on the stack is not the one we received. 
 					//We received this one out of order, which is a failure condition
-					protect( fail, "Asynchronous Event Received out of Order" ); 
+					protect( fail, "Asynchronous Event Received out of Order: " + describeType(event.originalEvent)); 
 				}
 			} else {
 				//We received an event, but we were not waiting for one, failure
@@ -385,9 +415,21 @@ package net.digitalprimates.fluint.tests {
 		    	event.currentTarget.removeEventListener(event.type, handleNextSequence );
 			}
 
-			sequenceRunner.continueSequence( event );
-			
-			startAsyncTimers();
+          // This is required for the assertState methods
+          // which allow you to assert the state of the test
+          // before the very end.
+          try {
+		        sequenceRunner.continueSequence( event );
+	      } 
+	      catch (e:AssertionFailedError)
+	      {
+	        sequenceRunner.cancel();
+	        throw e;
+	      }
+	      finally 
+	      {
+	        startAsyncTimers();
+	      }
 	    }
 
         /**
@@ -433,8 +475,10 @@ package net.digitalprimates.fluint.tests {
 			if ( !cursor.afterLast && !cursor.beforeFirst ) {
 				methodNode = cursor.current as XML;
 				cursor.moveNext();
-
-				return new TestMethod( getMethodFromNode( methodNode ), getMethodNameFromNode( methodNode ), getMetaDataFromNode( methodNode ) );
+				
+				currentTestMethod = new TestMethod( getMethodFromNode( methodNode ), getMethodNameFromNode( methodNode ) );
+		        _currentTestIndex++;
+		        return currentTestMethod;
 			} 
 
 			return null;			
@@ -912,7 +956,7 @@ package net.digitalprimates.fluint.tests {
 		protected function failNotNull( message:String, object:Object ):void
 		{
 			if ( object != null )
-			   failWithUserMessage( message, "object was not null: " + object );
+			   failWithUserMessage( message, "Expected object to be null, got: [" + object + "]");
 		}
 	
 		/**
@@ -1000,7 +1044,7 @@ package net.digitalprimates.fluint.tests {
 		 * The developer can provide their own fitler function or override this through inheritance. 
 		 */
 		protected function defaultFilterFunction( item:Object ):Boolean {
-			if ( ( /^test.*/.test( item.@name ) ) ) {
+			if ( ( defaultTestNameExpression.test( item.@name ) ) ) {
 				return true;
 			}
 			
@@ -1015,6 +1059,88 @@ package net.digitalprimates.fluint.tests {
 
 			return false;
 		}
+		
+		/**
+         * Applies a filter that will include only those tests that match the <code>includes</code> parameter.
+         * 
+         * <p>If the element in the parameter list is a String, the filter will do a String comparison.  If the element is a 
+         * regular expression, it will match against the pattern.</p>
+         * 
+         * @param includes variable length parameter list of <code>String</code>s or <code>RegExp</code>
+         */
+		protected function includeByName( ... includes ) : void 
+        {
+            filter = function(item : Object) : Boolean {
+                for each(var testName : * in includes)
+                {
+                    if (testName is RegExp)
+                    {
+                        if ((testName as RegExp).test(item.@name))
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (testName == item.@name)
+                        {
+                            return true;
+                        }    
+                    }
+                }
+                return false;
+            };
+        }
+        
+        /**
+         * Applies a filter that will exclude all those tests that match the <code>excludes</code> parameter.
+         * 
+         * <p>
+         * All methods that <em>do not</em> begin with 'test' are excluded automatically.
+         * </p>
+         * 
+         * @param includes variable length parameter list of <code>String</code>s or <code>RegExp</code>
+         */
+        protected function excludeByName( ... excludes ) : void 
+        {
+            filter = function(item : Object) : Boolean {
+                for each(var testName : * in excludes)
+                {
+                    if (!defaultTestNameExpression.test(item.@name))
+                    {
+                        return false;
+                    }
+                    
+                    if (testName is RegExp)
+                    {
+                        if ((testName as RegExp).test(item.@name))
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        if (testName == item.@name)
+                        {
+                            return false;
+                        }    
+                    }
+                }
+                return true;
+            };
+        }
+        
+        /**
+         * Filters based on a provided string.
+         * 
+         * @param includes parameter of <code>String</code> to match against the item name.
+         */ 
+        protected function filterByPattern( testName : String ) : Function 
+        {
+            return function(item : Object) : Boolean {
+                return testName == item.@name;
+            };
+        }
 
 		/** 
 		 * A generic function that can be used with asynchronous code when we choose to wait until something occurs,
@@ -1028,6 +1154,8 @@ package net.digitalprimates.fluint.tests {
         * Constructor.
         */
 		public function TestCase() {
+		    this._currentTestIndex = 0;
+		  
 			if (!sorter) {
 				var sort:Sort = new Sort();
 				sort.fields = [ new SortField( "@name" ) ];

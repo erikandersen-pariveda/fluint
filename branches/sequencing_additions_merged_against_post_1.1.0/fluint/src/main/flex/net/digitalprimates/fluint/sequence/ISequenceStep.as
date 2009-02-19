@@ -23,14 +23,9 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  **/ 
 package net.digitalprimates.fluint.sequence {
-	import flash.events.IEventDispatcher;
-	
+	/**
+	 * A single step to perform in a <code>SequenceRunner</code>.
+	 */
 	public interface ISequenceStep {
-
-		/** 
-		 * The target eventDispatcher which the implementing classes will manipulate, use to boradcast events or 
-		 * listen to for events
-		 */
-		function get target():IEventDispatcher;
 	}
 }

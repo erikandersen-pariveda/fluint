@@ -10,6 +10,7 @@
 <classEntry path="net.digitalprimates.fluint.sequence.SequenceSleep"/>
 <classEntry path="net.digitalprimates.fluint.tests.ComponentTestCase"/>
 <classEntry path="net.digitalprimates.fluint.monitor.TestCaseResult"/>
+<classEntry path="net.digitalprimates.fluint.sequence.ISequenceDispatcher"/>
 <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestSynchronousSetUpTearDown"/>
 <classEntry path="net.digitalprimates.fluint.ui.TestEnvironment"/>
 <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAssert"/>
@@ -18,6 +19,7 @@
 <classEntry path="net.digitalprimates.fluint.monitor.TestMonitor"/>
 <classEntry path="net.digitalprimates.fluint.monitor.ITestResult"/>
 <classEntry path="net.digitalprimates.fluint.async.ITestResponder"/>
+<classEntry path="net.digitalprimates.fluint.sequence.ImmediateTargetSelector"/>
 <classEntry path="net.digitalprimates.fluint.monitor.TestResultReport"/>
 <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAsynchronousSetUpTearDown"/>
 <classEntry path="net.digitalprimates.fluint.ui.TestStatusIcon"/>
@@ -27,6 +29,7 @@
 <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.mxml.SimpleMXMLLoginComponent"/>
 <classEntry path="net.digitalprimates.fluint.sequence.SequenceSetter"/>
 <classEntry path="net.digitalprimates.fluint.sequence.SequenceWaiter"/>
+<classEntry path="net.digitalprimates.fluint.sequence.TargetSelectorFactory"/>
 <classEntry path="net.digitalprimates.fluint.utils.ArrayUtils"/>
 <classEntry path="net.digitalprimates.fluint.sequence.ISequencePend"/>
 <classEntry path="net.digitalprimates.fluint.sequence.SequenceEventDispatcher"/>
@@ -41,6 +44,7 @@
 <classEntry path="net.digitalprimates.fluint.tests.TestSuite"/>
 <classEntry path="net.digitalprimates.fluint.ui.TestResultStatusBar"/>
 <classEntry path="net.digitalprimates.fluint.utils.GroupFacadeDisplayObjectContainer"/>
+<classEntry path="net.digitalprimates.fluint.monitor.TestStatus"/>
 <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.valueObject.Person"/>
 <classEntry path="net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestBindingUse"/>
 <classEntry path="net.digitalprimates.fluint.ui.TestResultDisplay"/>

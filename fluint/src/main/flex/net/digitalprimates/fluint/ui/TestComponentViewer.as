@@ -15,7 +15,6 @@ package net.digitalprimates.fluint.ui
     import mx.managers.PopUpManager;
     
     import net.digitalprimates.fluint.monitor.TestMethodResult;
-    import net.digitalprimates.fluint.monitor.TestStatus;
     import net.digitalprimates.fluint.tests.ComponentTestCase;
 
     /**
@@ -134,13 +133,13 @@ package net.digitalprimates.fluint.ui
             } 
             else {
                 // Apply style to selected test
-                var testName : String = testResult.xmlResults.@name;
+                var testName : String = testResult.metadata.@name;
                 var testElement : Object = moduleTestContainer[testName];
 
                 if (testElement) {
                     var testContainer : UIComponent = (testElement.container as UIComponent);
                     testContainer.setStyle("borderStyle", "solid");
-                    testContainer.setStyle("borderColor", testResult.isError || !testResult.status == TestStatus.FAILED ? "red" : "green");
+                    testContainer.setStyle("borderColor", testResult.error || testResult.failed ? "red" : "green");
                     testContainer.setStyle("borderThickness", "4");
                     
                     allTestResultsContainer.addChild(testContainer);    

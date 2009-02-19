@@ -23,8 +23,6 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  **/ 
 package net.digitalprimates.fluint.sequence {
-	import flash.events.IEventDispatcher;
-
 	/** 
 	 * Interface that defines the requisite methods for the sequence classes.
 	 * 

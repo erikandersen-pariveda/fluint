@@ -25,7 +25,6 @@
 package net.digitalprimates.fluint.sequence
 {
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	
 	import net.digitalprimates.fluint.utils.LoggerUtils;
@@ -68,16 +67,7 @@ package net.digitalprimates.fluint.sequence
 		 * Dispatches the specified event on the target IEventDispatcher.
 		 */
 		public function execute():void {
-		    if (target)
-		    {
-		        trace("[Sequence] Dispatching [" + eventToBroadcast.type + "] on " + LoggerUtils.friendlyName(target));
-                target.dispatchEvent( eventToBroadcast );    
-		    }
-		    else
-		    {
-		        trace("[Sequence] Skipped target because it was null at this point.");
-		    }
-		    
+			target.dispatchEvent( eventToBroadcast );
 		}
 		
 		public function toString() : String {
@@ -91,7 +81,7 @@ package net.digitalprimates.fluint.sequence
 		 * @param eventToBrodcast An actual event, which will be broadcast from the target.
 		 */
 		public function SequenceEventDispatcher( targetSelector:Object, eventToBroadcast:Event ) {
-		  _targetSelector = TargetSelector.determineSelector(targetSelector); 
+		    _targetSelector = TargetSelectorFactory.determineSelector(targetSelector); 
 			_eventToBroadcast = eventToBroadcast;
 		}
 	}

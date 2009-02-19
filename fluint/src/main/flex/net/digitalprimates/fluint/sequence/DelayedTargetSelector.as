@@ -2,22 +2,36 @@ package net.digitalprimates.fluint.sequence
 {
   import flash.events.IEventDispatcher;
 
-  public class DelayedTargetSelector extends TargetSelector
+  /**
+   * Delays the need to have an IEventDispatcher until playback.
+   * 
+   * <p>The IEventDispatcher will be selected the first time the target getter is invoked.  That
+   * dispatcher will be cached and returned for all subsequent calls.</p>
+   */
+  public class DelayedTargetSelector implements TargetSelector
   {
-    private var _targetSelector : Function;
+    private var _targetSelectorFunction : Function;
     
     private var _cachedTarget : IEventDispatcher;
     
-    public function DelayedTargetSelector(targetSelector:Function)
+    /**
+     * Constructor.
+     * 
+     * @param targetSelectorFunction a function that returns an IEventDispatcher object
+     */
+    public function DelayedTargetSelector(targetSelectorFunction:Function)
     {
-      super(null);
-      this._targetSelector = targetSelector;
+      this._targetSelectorFunction = targetSelectorFunction;
     }
     
-    override public function get target() : IEventDispatcher
+    /**
+     * The first time invoked, this will call the targetSelectorFunction passed into the constructor and return that 
+     * function's result.  Subsequent calls will return the cached value.
+     */
+    public function get target() : IEventDispatcher
     {
       if (!_cachedTarget) {
-        _cachedTarget = _targetSelector() as IEventDispatcher;
+        _cachedTarget = _targetSelectorFunction() as IEventDispatcher;
         if (!_cachedTarget) {
           trace("ERROR: Delayed target not acquired.");
         }
@@ -25,6 +39,5 @@ package net.digitalprimates.fluint.sequence
 
       return _cachedTarget;
     }
-    
   }
 }

@@ -24,19 +24,12 @@
  **/ 
 package net.digitalprimates.fluint.sequence
 {
-	import flash.events.IEventDispatcher;
-
 	public class SequenceCaller implements ISequenceAction
 	{
         /**
          * @private
          */
-		protected var _target:IEventDispatcher;
-		
-		/**
-         * @private
-         */
-        protected var _object:Object;
+		protected var _thisObject:Object;
 
         /**
          * @private
@@ -53,12 +46,12 @@ package net.digitalprimates.fluint.sequence
          */
 		protected var _argsFunction:Function;
 
-		/** 
-		 * Ignored for this class because we aren't dispatching anything. 
-		 */
-		public function get target():IEventDispatcher {
-			return null;	
-		}
+        /**
+         * The object where the method lives.  If the method is an anonymous function, this is null.
+         */
+        public function get thisObject():Object {
+            return _thisObject;
+        }
 
 		/** 
 		 * <p>
@@ -87,7 +80,7 @@ package net.digitalprimates.fluint.sequence
 			return _argsFunction;
 		}
 		/**
-		 * Sets the name/value pairs defined in the props object to the target.
+		 * Invokes the function specified in the constructor.
 		 */
 		public function execute():void {
 			var arguments:Array;
@@ -99,22 +92,22 @@ package net.digitalprimates.fluint.sequence
 			} 
 			
 			if ( arguments && ( arguments.length > 0 ) ) {
-				method.apply( target, arguments );
+				method.apply( thisObject, arguments );
 			} else {
-				method.apply( target );
+				method.apply( thisObject );
 			}
 		}
 
 		/**
 		 * Constructor.
 		 *  
-		 * @param target The target object containing method
+		 * @param thisObject The object where the function lives; null if method is an anonymous function
 		 * @param method Method that will be executed when this step is executed.
   		 * @param args Optional parameter that contains an array of arguments that will be passed to this method.
   		 * @param argsFunction Optional function that returns an of arguments to be passed to method. 
  * 		 */
-		public function SequenceCaller( object:Object, method:Function, args:Array=null, argsFunction:Function=null ) {
-			_object = object;
+		public function SequenceCaller( thisObject:Object, method:Function, args:Array=null, argsFunction:Function=null ) {
+			_thisObject = thisObject;
 			_method = method;
 			_args = args;
 			_argsFunction = argsFunction;

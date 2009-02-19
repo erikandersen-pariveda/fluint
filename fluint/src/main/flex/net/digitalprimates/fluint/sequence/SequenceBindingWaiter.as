@@ -35,10 +35,11 @@ package net.digitalprimates.fluint.sequence {
 	 * the eventName occurs or the timeout expires.
 	 */	 
 	public class SequenceBindingWaiter implements ISequencePend {
+	    
         /**
          * @private
          */
-		protected var _target:IEventDispatcher;
+	    protected var _targetSelector:TargetSelector;
 
         /**
          * @private
@@ -65,7 +66,7 @@ package net.digitalprimates.fluint.sequence {
 		 * in the props object will be set. 
 		 */
 		public function get target():IEventDispatcher {
-			return _target;	
+			return _targetSelector.target;	
 		}
 
 		/** 
@@ -129,8 +130,8 @@ package net.digitalprimates.fluint.sequence {
 		 * @param timeout The number of milliseconds to wait before calling the timoutHandler.
 		 * @param timeoutHandler Called if the timout is reached before the event is broadcast. 
 		 */
-		public function SequenceBindingWaiter( target:IEventDispatcher, propertyName:String, timeout:int, timeoutHandler : Function = null  ) {
-			_target = target;
+		public function SequenceBindingWaiter( target:Object, propertyName:String, timeout:int, timeoutHandler : Function = null  ) {
+			_targetSelector = TargetSelectorFactory.determineSelector(target);
 			_propertyName = propertyName;
 			_eventName = PropertyChangeEvent.PROPERTY_CHANGE;
 			

@@ -16,6 +16,7 @@ package net.digitalprimates.fluint.ui
     
     import net.digitalprimates.fluint.monitor.TestMethodResult;
     import net.digitalprimates.fluint.tests.ComponentTestCase;
+    import net.digitalprimates.fluint.utils.ComponentFinder;
 
     /**
      * Gets initialized for each test case.
@@ -47,8 +48,15 @@ package net.digitalprimates.fluint.ui
 
             Application.application.addChild(allTestResultsContainer);
 
-            testResults = (Application.application as Application)["testResultDisplay"] as TestResultDisplay;
+            testResults = findResultsDisplay();
+            trace(testResults.className);
             BindingUtils.bindSetter(testItemSelected, testResults.testTree, "selectedItem");
+        }
+        
+        private function findResultsDisplay() : TestResultDisplay
+        {
+            var finder : ComponentFinder = new ComponentFinder(Application.application as UIComponent);
+            return finder.withAll({className: "TestResultDisplay"}) as TestResultDisplay;
         }
 
         public function setup(_testCase : ComponentTestCase) : void {

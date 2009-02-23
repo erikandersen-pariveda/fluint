@@ -47,9 +47,8 @@ package net.digitalprimates.fluint.ui
 
             Application.application.addChild(allTestResultsContainer);
 
-            testResults = (Application.application as Application).getChildByName("testResultDisplay") as TestResultDisplay;
-            // BindingUtils.bindSetter(testItemSelected, testResults.testTree, "selectedItem");
-            // TODO FIx this
+            testResults = (Application.application as Application)["testResultDisplay"] as TestResultDisplay;
+            BindingUtils.bindSetter(testItemSelected, testResults.testTree, "selectedItem");
         }
 
         public function setup(_testCase : ComponentTestCase) : void {
@@ -134,7 +133,7 @@ package net.digitalprimates.fluint.ui
             } 
             else {
                 // Apply style to selected test
-                var testName : String = testResult.metadata.@name;
+                var testName : String = testResult.displayName;
                 var testElement : Object = moduleTestContainer[testName];
 
                 if (testElement) {

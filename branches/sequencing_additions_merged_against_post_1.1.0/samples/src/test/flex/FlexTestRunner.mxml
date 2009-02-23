@@ -21,6 +21,6 @@
 		]]>
 	</mx:Script>	
 	
-	<fluint:TestResultDisplay id="testResultDisplay" width="100%" height="100%" />
+	<fluint:TestResultDisplay width="100%" height="100%" />
 	<fluint:TestRunner id="testRunner"/>
 </mx:Application>

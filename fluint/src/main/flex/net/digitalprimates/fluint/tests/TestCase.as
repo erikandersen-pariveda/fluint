@@ -133,6 +133,8 @@ package net.digitalprimates.fluint.tests {
 		
 		private var currentTestMethod:TestMethod;
 		
+		private var waitingForFailure : String;
+		
 		/**
 		 * @return the current index of the running test method (0-based index)
 		 */
@@ -357,9 +359,14 @@ package net.digitalprimates.fluint.tests {
 								methodResult.traceInformation += ( '\n' + e.getStackTrace() );
 							}
 */							
-							methodResult.error = e;
-							methodResult.executed = true;
-							methodResult.testDuration = getTimer()-tickCountOnStart;
+                            if (waitingForFailure) {
+                                                                
+                            } else {
+                                methodResult.error = e;
+                            }
+                            methodResult.executed = true;
+                            methodResult.testDuration = getTimer()-tickCountOnStart;
+                            waitingForFailure = null;
 					}
 				}
 
@@ -1003,18 +1010,8 @@ package net.digitalprimates.fluint.tests {
      * function passed in cleans up after itself.  
      */
     protected function assertFails(func : Function, errorMsg : String = "Function expected to fail but didn't.") : void {
-        var exceptionThrown : String = null;
-        try {
-            func.call();
-        } catch (e : Error) {
-            exceptionThrown = ObjectUtil.getClassInfo(e).name;
-            
-            // Makes sure any pending calls are removed to keep the method from hanging
-            removeAllAsyncEventListeners();
-            pendingAsyncCalls = new Array();
-        }
-        
-        assertEquals(errorMsg, "net.digitalprimates.fluint.assertion::AssertionFailedError", exceptionThrown);
+        waitingForFailure = errorMsg;
+        func.call();
     }
 		
     /**

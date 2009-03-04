@@ -4,28 +4,28 @@ package net.digitalprimates.fluint.ui
    
    public class TestStatusIcon
    {
-      [Embed(source="/assets/tsuite.gif")]
+      [Embed(source="/net/digitalprimates/fluint/assets/tsuite.gif")]
       public static var SUITE_PENDING : Class;
       
-      [Embed(source="/assets/tsuiteok.gif")]
+      [Embed(source="/net/digitalprimates/fluint/assets/tsuiteok.gif")]
       public static var SUITE_PASS : Class;
       
-      [Embed(source="/assets/tsuitefail.gif")]
+      [Embed(source="/net/digitalprimates/fluint/assets/tsuitefail.gif")]
       public static var SUITE_FAIL : Class;
       
-      [Embed(source="/assets/tsuiteerror.gif")]
+      [Embed(source="/net/digitalprimates/fluint/assets/tsuiteerror.gif")]
       public static var SUITE_ERROR : Class;
       
-      [Embed(source="/assets/test.gif")]
+      [Embed(source="/net/digitalprimates/fluint/assets/test.gif")]
       public static var TEST_PENDING : Class;
       
-      [Embed(source="/assets/testok.gif")]
+      [Embed(source="/net/digitalprimates/fluint/assets/testok.gif")]
       public static var TEST_PASS : Class;
       
-      [Embed(source="/assets/testfail.gif")]
+      [Embed(source="/net/digitalprimates/fluint/assets/testfail.gif")]
       public static var TEST_FAIL : Class;
       
-      [Embed(source="/assets/testerr.gif")]
+      [Embed(source="/net/digitalprimates/fluint/assets/testerr.gif")]
       public static var TEST_ERROR : Class;
             
       public function TestStatusIcon()

@@ -44,7 +44,7 @@
 			<arg line="-source-path+='${src.main.loc}'" />
 			<arg line="-source-path+='${src.test.loc}'" />
 			<arg line="-include-sources+='${src.test.loc}'" />
-			<arg line="-include-classes net.digitalprimates.fluint.async.TestResponder" />
+			<arg line="-include-classes net.digitalprimates.fluint.async.TestResponder net.digitalprimates.fluint.stubs.HTTPServiceStub net.digitalprimates.fluint.stubs.RemoteObjectStub" />
 		</java>
     </target>
 	

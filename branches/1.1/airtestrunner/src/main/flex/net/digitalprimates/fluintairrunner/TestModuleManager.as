@@ -10,6 +10,8 @@ package net.digitalprimates.fluintairrunner
    
    import net.digitalprimates.fluint.tests.TestSuite;
    
+   [Event(name="testModulesReady", type="net.digitalprimates.fluint.TestModuleEvent")]
+   [Event(name="noTestModulesFound", type="net.digitalprimates.fluint.TestModuleEvent")]
    public class TestModuleManager extends EventDispatcher
    {
       private var _logger : ILogger;
@@ -17,6 +19,7 @@ package net.digitalprimates.fluintairrunner
       private var _loaders : Array;
       private var _suites : Array;
       private var _moduleCount : Number;
+      private var _modulesToRun : Number = 0;
       
       public function TestModuleManager(logger : ILogger)
       {
@@ -59,6 +62,10 @@ package net.digitalprimates.fluintairrunner
          }
          
          _logger.debug(suites.length + " TEST SUITE(S) FOUND");
+         if(suites.length > 0)
+         {
+            _modulesToRun++;
+         }
          
          decrementModuleCount();
       }
@@ -73,11 +80,15 @@ package net.digitalprimates.fluintairrunner
       {
          _moduleCount--;
          
-         if(_moduleCount == 0)
+         if(_moduleCount == 0 && _modulesToRun > 0)
          {
             var tmEvent : TestModuleEvent = new TestModuleEvent(TestModuleEvent.TEST_MODULES_READY);
             tmEvent.suites = _suites;
             dispatchEvent(tmEvent);
+         }
+         else if(_moduleCount == 0 && _modulesToRun == 0)
+         {
+            dispatchEvent(new TestModuleEvent(TestModuleEvent.NO_TEST_MODULES_FOUND));
          }
       }
 

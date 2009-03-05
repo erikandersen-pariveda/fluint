@@ -5,6 +5,7 @@ package net.digitalprimates.fluintairrunner
    public class TestModuleEvent extends Event
    {
       public static const TEST_MODULES_READY : String = "testModulesReady";
+      public static const NO_TEST_MODULES_FOUND : String = "noTestModulesFound";
       
       public var suites : Array;
       

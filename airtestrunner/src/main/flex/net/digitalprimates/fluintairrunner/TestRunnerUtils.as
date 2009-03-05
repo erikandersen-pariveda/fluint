@@ -45,23 +45,23 @@ package net.digitalprimates.fluintairrunner
          return _logger;	
 		}
 		
-		public static function parseArgument(arguments : Array) : Dictionary
+		public static function parseArgument(args : Array) : Dictionary
 		{
-		   var args : Dictionary = new Dictionary();
+		   var newArgs : Dictionary = new Dictionary();
 		   
 		   var headlessExp:RegExp = new RegExp( '^-headless' );
 			var failOnErrorExp:RegExp = new RegExp('^-failOnError');
 			var reportExp:RegExp = new RegExp( '^-reportDir' );
 			var filesetExp:RegExp = new RegExp( '^-fileSet' );
 		   
-		   for each(var argument : String in arguments)
+		   for each(var argument : String in args)
 			{
 				if ( headlessExp.test(argument) ) {
-					args['headless'] = true;	
+					newArgs['headless'] = true;	
 				}
 				
 				if(failOnErrorExp.test(argument)){
-				   args['failOnError'] = true;
+				   newArgs['failOnError'] = true;
 				}
 
 				if ( reportExp.test(argument) ) {
@@ -74,7 +74,7 @@ package net.digitalprimates.fluintairrunner
 							reportString = reportString.substr(1, reportString.length - 2);
 						}
 
-						args['reportDir'] = reportString; 
+						newArgs['reportDir'] = reportString; 
 					}
 				}
 
@@ -84,16 +84,21 @@ package net.digitalprimates.fluintairrunner
 					if ( filesetArray.length == 2 ) {
 						var filesetString : String = filesetArray[1];
 					
-						if ( filesetString.length > 3 && filesetString.charAt(0) == "'" && filesetString.charAt(filesetString.length - 1) == "'"){
+					   if(filesetString == "''")
+					   {
+					      filesetString = "";
+					   }
+					
+						if ( filesetString.length > 2 && filesetString.charAt(0) == "'" && filesetString.charAt(filesetString.length - 1) == "'"){
 							filesetString = filesetString.substr( 1, filesetString.length - 2 );
 						}
 
-						args['fileSet'] = filesetString.split(",");						 
+						newArgs['fileSet'] = filesetString.split(",");						 
 					}
 				}
 			}
 			
-			return args;
+			return newArgs;
 		}
       
       public static function recurseDirectories(fileList:Array, swfList:Array=null) : Array {
@@ -126,13 +131,15 @@ package net.digitalprimates.fluintairrunner
 		      
       public static function writeToFile(results : XML, reportDir : File, filename : String) : void
 		{
-		   if( reportDir != null && reportDir.exists )
+		   if( reportDir && reportDir.exists )
 			{
 				var file:File = reportDir.resolvePath(filename);
 				var fs:FileStream = new FileStream();
 				fs.open(file, FileMode.WRITE);
 				fs.writeMultiByte(results, File.systemCharset);
 				fs.close();
+				
+				_logger.debug("Report written to " + file.nativePath);
 			}
 		}
    }

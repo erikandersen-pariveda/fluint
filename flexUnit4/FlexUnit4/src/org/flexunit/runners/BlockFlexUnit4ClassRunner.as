@@ -1,15 +1,16 @@
 package org.flexunit.runners {
 	import org.flexunit.internals.AssumptionViolatedException;
-	import org.flexunit.internals.runners.statements.IAsyncStatement;
-	import org.flexunit.internals.runners.statements.StatementSequencer;
 	import org.flexunit.internals.runners.model.EachTestNotifier;
 	import org.flexunit.internals.runners.statements.ExpectAsync;
 	import org.flexunit.internals.runners.statements.ExpectException;
 	import org.flexunit.internals.runners.statements.Fail;
 	import org.flexunit.internals.runners.statements.FailOnTimeout;
+	import org.flexunit.internals.runners.statements.IAsyncStatement;
 	import org.flexunit.internals.runners.statements.InvokeMethod;
 	import org.flexunit.internals.runners.statements.RunAfters;
 	import org.flexunit.internals.runners.statements.RunBefores;
+	import org.flexunit.internals.runners.statements.StackManagement;
+	import org.flexunit.internals.runners.statements.StatementSequencer;
 	import org.flexunit.runner.Description;
 	import org.flexunit.runner.manipulation.IFilterable;
 	import org.flexunit.runner.notification.RunNotifier;
@@ -245,8 +246,13 @@ package org.flexunit.runners {
 			statement = withPotentialAsync( method, test, statement );
 			statement = withPotentialTimeout( method, test, statement );
 			statement = possiblyExpectingExceptions( method, test, statement );
+			statement = withStackManagement( method, test, statement );
 			
 			return statement;
+		}
+
+		protected function withStackManagement( method:FrameworkMethod, test:Object, statement:IAsyncStatement ):IAsyncStatement {
+			return new StackManagement( statement );
 		}
 
 		/**

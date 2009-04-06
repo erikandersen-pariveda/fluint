@@ -1,0 +1,100 @@
+package org.flexunit.experimental.theories.internals {
+	import org.flexunit.experimental.theories.ParameterSignature;
+	import org.flexunit.experimental.theories.ParameterSupplier;
+	import org.flexunit.experimental.theories.ParametersSuppliedBy;
+	import org.flexunit.experimental.theories.PotentialAssignement;
+	import org.flexunit.runners.model.TestClass;
+	
+
+	public class Assignments {
+		private var assigned:Array;
+		private var unassigned:Array;		
+		private var testClass:TestClass;;
+/* 
+		public function Assignments( assigned:Array, unassigned:Array, testClass:TestClass ) {
+			this.assigned = assigned;
+			this.unassigned = unassigned;
+			this.testClass = testClass;
+		}
+		
+		public static function allUnassigned( testMethod:XML, testClass:TestClass ):Assignments {
+			var signatures:Array;
+			signatures= ParameterSignature.signaturesByContructor(testClass.getOnlyConstructor());
+			signatures.concat(ParameterSignature.signaturesByMethod(testMethod));
+			return new Assignments( new Array(), signatures, testClass );
+		}
+
+		public function isComplete():Boolean {
+			return unassigned.length == 0;
+		}
+	
+		public function nextUnassigned():ParameterSignature {
+			return unassigned[ 0 ];
+		}
+	
+		public function assignNext( source:PotentialAssignement ):Assignments {
+			var assigned:Array = new Array( assigned.slice() );
+			assigned.concat(source);
+	
+			return new Assignments(assigned, unassigned.slice(1,unassigned.length), testClass);
+		}
+	
+		public function getActualValues( start:int, stop:int, nullsOk:Boolean ):Array{
+			var values:Array = new Array(stop - start); //Object[stop - start];
+			for (var i:int= start; i < stop; i++) {
+				var value:Object= assigned[i].getValue();
+				if (value == null && !nullsOk)
+					throw new CouldNotGenerateValueException();
+				values[i - start]= value;
+			}
+			return values;
+		}
+	
+		public function potentialsForNextUnassigned():Array  {
+			var unassigned:ParameterSignature = nextUnassigned();
+			return getSupplier(unassigned).getValueSources(unassigned);
+		}
+	
+		public function getSupplier( unassigned:ParameterSignature ):ParameterSupplier {
+			var supplier:ParameterSupplier = getAnnotatedSupplier(unassigned);
+			if (supplier != null)
+				return supplier;
+	
+			return new AllMembersSupplier(fClass);
+		}
+	
+		public function getAnnotatedSupplier( unassigned:ParameterSignature ):ParameterSupplier {
+			var annotation:ParametersSuppliedBy = unassigned.findDeepAnnotation( ParametersSuppliedBy );
+			if (annotation == null)
+				return null;
+			return annotation.value().newInstance();
+		}
+	
+		public function getConstructorArguments( nullsOk:Boolean ):Array {
+			return getActualValues(0, getConstructorParameterCount(), nullsOk);
+		}
+	
+		public function getMethodArguments( nullsOk:Boolean ):Array {
+			return getActualValues(getConstructorParameterCount(),assigned.length, nullsOk);
+		}
+	
+		public function getAllArguments( nullsOk:Boolean ):Array {
+			return getActualValues(0, assigned.length, nullsOk);
+		}
+	
+		private function getConstructorParameterCount():int {
+			var signatures:Array = ParameterSignature.signaturesByContructor( testClass );
+			var constructorParameterCount:int = signatures.length;
+			return constructorParameterCount;
+		}
+	
+		public function getArgumentStrings( nullsOk:Boolean ):Array {
+			var values:Array = new Array( assigned.length );
+			for (var i:int = 0; i < values.length; i++) {
+				values[i]= assigned[ i ].getDescription();
+			}
+			return values;
+		}
+ */
+	}
+}

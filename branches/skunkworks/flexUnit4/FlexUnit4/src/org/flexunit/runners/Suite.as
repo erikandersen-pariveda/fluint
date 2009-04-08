@@ -1,6 +1,7 @@
 package org.flexunit.runners {
-	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
+	
+	import flex.lang.reflect.Klass;
 	
 	import org.flexunit.runner.Description;
 	import org.flexunit.runner.IRunner;
@@ -33,24 +34,20 @@ package org.flexunit.runners {
 
 
 		private static function getSuiteClasses( suite:Class ):Array {
-			var typeInfo:XML = describeType( suite );
-			var factory:XML = typeInfo.factory[ 0 ];
-
-			var variables:XMLList = factory.variable;
-			var className:String;
+			var klassInfo:Klass = new Klass( suite );
 			var classRef:Class;
-
 			var classArray:Array = new Array();
 
-			for ( var i:int=0; i<variables.length(); i++ ) {
-				try {
-					className = variables[ i ].@type;
-					classRef = getDefinitionByName( className ) as Class;
-					classArray.push( classRef ); 
-				} catch ( e:Error ) {
-					//Not sure who we should inform here yet. We will need someway of capturing the idea that this
-					//is a missing class, but not sure where or how to promote that up the chain....if it is even possible
-					//that we could have a missing class, given the way we are linking it
+			for ( var i:int=0; i<klassInfo.fields.length; i++ ) {
+				if ( !klassInfo.fields[ i ].isStatic ) {
+					try {
+						classRef = klassInfo.fields[i].type;
+						classArray.push( classRef ); 
+					} catch ( e:Error ) {
+						//Not sure who we should inform here yet. We will need someway of capturing the idea that this
+						//is a missing class, but not sure where or how to promote that up the chain....if it is even possible
+						//that we could have a missing class, given the way we are linking it
+					}
 				}
 			}
 			

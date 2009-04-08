@@ -22,7 +22,7 @@ package org.flexunit.internals.runners.statements {
 			this.parentToken = parentToken;
 
 			try {
-				testMethod.invokeExplosively( myToken, target );
+				testMethod.invokeExplosivelyAsync( myToken, target );
 			} catch ( error:Error ) {
 				parentToken.sendResult( error );
 			}

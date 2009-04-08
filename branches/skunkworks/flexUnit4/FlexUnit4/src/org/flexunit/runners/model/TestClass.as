@@ -1,18 +1,19 @@
 package org.flexunit.runners.model {
 	import flash.utils.Dictionary;
-	import flash.utils.describeType;
+	
+	import flex.lang.reflect.Klass;
+	import flex.lang.reflect.Method;
 	
 	import mx.collections.IViewCursor;
 	
 	import org.flexunit.runner.manipulation.MethodSorter;
-	import org.flexunit.utils.MetadataTools;
 
 	/**
 	 * Wraps a class to be run, providing method validation and annotation searching
 	 */
 	public class TestClass {
 		private var klass:Class;
-		private var typeInfo:XML
+		private var _klassInfo:Klass
 		private var metaDataDictionary:Dictionary = new Dictionary( false );
 
 	//TODO: I'm guessing JDK should be replaced with something else
@@ -24,42 +25,25 @@ package org.flexunit.runners.model {
 		 */
 		public function TestClass( klass:Class ) {
 			this.klass = klass;
-			
-			typeInfo = describeType( klass ); 
-
-			var methodList:XMLList = new XMLList();			
-			if ( XMLList( typeInfo.factory ).length() > 0 ) {
-				methodList = MetadataTools.getMethodsList( typeInfo.factory[ 0 ] );
-			}
-
-			var staticMethodList:XMLList = new XMLList();			
-			if ( XMLList( typeInfo.factory ).length() > 0 ) {
-				staticMethodList = MetadataTools.getMethodsList( typeInfo );
-			}
+			_klassInfo = new Klass( klass );
 			
 			//Ensures that the Order argument of the Test, Begin, After and BeforeClass and AfterClass are respected
-			var sorter:MethodSorter = new MethodSorter( methodList );
+			var sorter:MethodSorter = new MethodSorter( _klassInfo.methods );
 			sorter.sort();
 			var cursor:IViewCursor = sorter.createCursor();
 			 
-			var method:XML;
+			var method:Method;
 			while (!cursor.afterLast ) {
-				method = cursor.current as XML;
+				method = cursor.current as Method;
 				addToMetaDataDictionary( new FrameworkMethod( method ) );
-				cursor.moveNext();
-			}
-
-			sorter = new MethodSorter( staticMethodList );
-			sorter.sort();
-			cursor = sorter.createCursor();			
-
-			while (!cursor.afterLast ) {
-				method = cursor.current as XML;
-				addToMetaDataDictionary( new FrameworkMethod( method, true ) );
 				cursor.moveNext();
 			}
 		}
 		
+		public function get klassInfo():Klass {
+			return _klassInfo;
+		}
+
 		private function addToMetaDataDictionary( testMethod:FrameworkMethod ):void {
 			var metaDataList:XMLList = testMethod.metadata;
 			var metaTag:String;
@@ -92,18 +76,22 @@ package org.flexunit.runners.model {
 		 * Returns the class's name.
 		 */
 		public function get name():String {
-			if (!typeInfo) {
+			if (!klassInfo) {
 				return "null";
 			}
 
-			return typeInfo.@name;
+			return klassInfo.name;
 		}
 
 		/**
 		 * Returns the metadata on this class
 		 */
 		public function get metadata():XMLList {
-			return MetadataTools.nodeMetaData( typeInfo );	
+			if ( !klassInfo ) {
+				return null;				
+			}
+
+			return klassInfo.metadata;	
 		}
 		
 		/**

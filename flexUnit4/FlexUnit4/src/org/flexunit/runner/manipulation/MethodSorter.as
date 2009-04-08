@@ -1,12 +1,14 @@
 package org.flexunit.runner.manipulation {
+	import flex.lang.reflect.Method;
+	
+	import mx.collections.ArrayCollection;
 	import mx.collections.IViewCursor;
 	import mx.collections.Sort;
-	import mx.collections.XMLListCollection;
 	
 	import org.flexunit.utils.MetadataTools;
 	
 	public class MethodSorter {
-		private function getOrderValueFromMethod( method:XML ):int {
+		private function getOrderValueFromMethod( method:Method ):int {
 			var order:int = 0;
 			
 			var metaDataList:XMLList = method.metadata;
@@ -15,7 +17,7 @@ package org.flexunit.runner.manipulation {
 			for ( var i:int=0; i<metaDataList.length(); i++ ) {
 				metaData = metaDataList[ i ];
 
-				var orderString:String = MetadataTools.getArgValueFromMetaDataNode( method, metaData.@name, "order" );
+				var orderString:String = MetadataTools.getArgValueFromMetaDataNode( method.methodXML, metaData.@name, "order" );
 				if ( orderString ) {
 					order = int( orderString );
 					break;
@@ -25,13 +27,25 @@ package org.flexunit.runner.manipulation {
 			return order;
 		}
 	
-		private function orderMetaDataSortFunction( aNode:XML, bNode:XML, fields:Object ):int {
+		private function orderMethodSortFunction( aMethod:Method, bMethod:Method, fields:Object ):int {
 			var field:String;
 			var a:int;
 			var b:int; 
 
-			a = getOrderValueFromMethod( aNode );
-			b = getOrderValueFromMethod( bNode );
+			if ( !aMethod.metadata && !bMethod.metadata ) {
+				return 0;
+			}
+			
+			if ( !aMethod.metadata ) {
+				return -1;
+			}
+			
+			if ( !bMethod.metadata ) {
+				return 1;
+			}
+			
+			a = getOrderValueFromMethod( aMethod );
+			b = getOrderValueFromMethod( bMethod );
 
 			if (a < b)
 				return -1;
@@ -55,14 +69,14 @@ package org.flexunit.runner.manipulation {
 			collection.refresh();
 		}
 
-		private var collection:XMLListCollection;
+		private var collection:ArrayCollection;
 		private var sorter:Sort;
-		public function MethodSorter( methodList:XMLList ) {
+		public function MethodSorter( methodList:Array ) {
 			
-			collection = new XMLListCollection( methodList );
+			collection = new ArrayCollection( methodList );
 
 			sorter = new Sort();
-			sorter.compareFunction = orderMetaDataSortFunction;
+			sorter.compareFunction = orderMethodSortFunction;
 		}
 	}
 }

@@ -34,8 +34,8 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
      * @private
      */
 	public class TestBeforeAfterOrderAsync {
-		private static const TIMER_LENGTH:int = 10;
-		private static const TIME_OUT:int = 15;
+		private static const TIMER_LENGTH:int = 5;
+		private static const TIME_OUT:int = 50;
 
 		private var timer:Timer = new Timer( TIMER_LENGTH, 1 );
 		protected static var setupOrderArray:Array = new Array();

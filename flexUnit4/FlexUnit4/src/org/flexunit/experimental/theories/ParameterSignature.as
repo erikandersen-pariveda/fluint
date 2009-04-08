@@ -1,61 +1,59 @@
 package org.flexunit.experimental.theories {
+	import flex.lang.reflect.Constructor;
+	import flex.lang.reflect.Field;
+	import flex.lang.reflect.Method;
+	
 	public class ParameterSignature {
 
-/* 		public static function signaturesByMethod( method:XML ):Array {
-			return signatures(method.getParameterTypes(), method
-					.getParameterAnnotations());
+		private var _type:Class;
+		private var _metaDataList:XMLList;
+
+ 		public static function signaturesByMethod( method:Method ):Array {
+ 			//trace("yo");
+			return signatures( method.parameterTypes, method.metadata );
 		}
 	
-		public static function signaturesByContructor( constructor:Function ):Array {
-			return signatures(constructor.getParameterTypes(), constructor.getParameterAnnotations());
+		public static function signaturesByContructor( constructor:Constructor ):Array {
+			return signatures( constructor.parameterTypes, null );
 		}
 	
-		private static function signatures( parameterTypes:Array, parameterAnnotations:Array ):Array {
+		private static function signatures( parameterTypes:Array, metadataList:XMLList ):Array {
 			var sigs:Array = new Array();
 			for ( var i:int= 0; i < parameterTypes.length; i++) {
-				sigs.push(new ParameterSignature(parameterTypes[i],parameterAnnotations[i]));
+				sigs.push( new ParameterSignature( parameterTypes[i], metadataList ) );
 			}
 			return sigs;
 		}
 	
-		private var type:Class;
-	
-		private var annotations:Array;
-	
-		public function ParameterSignature( type:Class, annotations:Array ) {
-			this.type= type;
-			this.annotations= annotations;
-		}
-	
 		public function canAcceptType( candidate:Class ):Boolean {
-			return ( type is candidate );
+			return ( type == candidate );
 		}
 	
-		public function getType():Class {
-			return type;
+		public function get type():Class {
+			return _type;
 		}
 	
-		public function getAnnotations():Array {
-			return annotations;
+		public function canAcceptArrayType( field:Field ):Boolean {
+			return ( field.type == Array ) && canAcceptType( field.elementType ); 
 		}
-	
-		public function canAcceptArrayType( type:Class ):Boolean {
-			return type.isArray() && canAcceptType(type.getComponentType());
-		}
-	
-		public function hasAnnotation( type:Class ):Boolean {
+
+		public function hasMetadata( type:String ):Boolean {
 			return getAnnotation(type) != null;
 		}
-	
-		public function findDeepAnnotationForClass( annotationType:Class ):* {
-			var annotations2:Array = annotations;
-			return findDeepAnnotation(annotations2, annotationType, 3);
+
+ 		public function findDeepAnnotation( type:String ):XML {
+			var metaDataList2:XMLList = _metaDataList.copy();
+			return privateFindDeepAnnotation( metaDataList2, type, 3);
 		}
 	
-		private function findDeepAnnotation( annotations:Array, annotationType:Class, depth:int ):* {
+		private function privateFindDeepAnnotation( metaDataList:XMLList, type:String, depth:int ):XML {
 			if (depth == 0)
 				return null;
- 			for (Annotation each : annotations) {
+
+			//just return these for now... not sure how this will apply yet
+			return getAnnotation( type );
+
+/* 			for (Annotation each : annotations) {
 				if (annotationType.isInstance(each))
 					return annotationType.cast(each);
 				Annotation candidate= findDeepAnnotation(each.annotationType()
@@ -63,15 +61,24 @@ package org.flexunit.experimental.theories {
 				if (candidate != null)
 					return annotationType.cast(candidate);
 			}
-	 
+			//not really getting this yet
+ */	
 			return null;
 		}
-	
-		public function getAnnotation( annotationType:Class ):* {
- 			for (Annotation each : getAnnotations())
-				if (annotationType.isInstance(each))
-					return annotationType.cast(each); 
+
+		public function getAnnotation( type:String ):XML {
+			for ( var i:int=0;i<_metaDataList.length(); i++ ) {
+				if ( _metaDataList[ i ].@name == type ) {
+					return _metaDataList[ i ];
+				}
+			}
+
 			return null;
-		} */
+		}
+
+		public function ParameterSignature( type:Class, metaDataList:XMLList ) {
+			this._type= type;
+			this._metaDataList = metaDataList;
+		}
 	}
 }

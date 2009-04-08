@@ -36,11 +36,15 @@ package org.flexunit.token {
 		}
 
 		public function sendResult( error:Error=null ):void {
-			if ( methodsEntries ) {
-				for ( var i:int=0; i<methodsEntries.length; i++ ) {
+			if ( methodsEntries && methodsEntries[ 0 ] ) {
+				//Right now we only really have 1 level of responders
+				//this is more just for debugging to see a cleaner stack trace
+				methodsEntries[ 0 ].method( createChildResult( error ) );
+				
+/* 				for ( var i:int=0; i<methodsEntries.length; i++ ) {
 					methodsEntries[ i ].method( createChildResult( error ) );
 				}
-			}
+ */			}
 		}
 		
 		public function toString():String {

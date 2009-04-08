@@ -116,6 +116,7 @@ package org.flexunit.runner {
 			}
 			
 			catch ( error:Error ) {
+				notifier.fireTestAssumptionFailed( new Failure( runner.description, error ) );
 				notifier.fireTestRunFinished( runListener.result );
 				removeListener( runListener );
 			}

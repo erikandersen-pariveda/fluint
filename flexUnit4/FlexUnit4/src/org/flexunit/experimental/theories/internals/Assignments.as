@@ -1,30 +1,35 @@
 package org.flexunit.experimental.theories.internals {
+	import flex.lang.reflect.Constructor;
+	import flex.lang.reflect.Method;
+	
+	import org.flexunit.experimental.theories.IParameterSupplier;
+	import org.flexunit.experimental.theories.IPotentialAssignment;
 	import org.flexunit.experimental.theories.ParameterSignature;
-	import org.flexunit.experimental.theories.ParameterSupplier;
-	import org.flexunit.experimental.theories.ParametersSuppliedBy;
-	import org.flexunit.experimental.theories.PotentialAssignement;
+	import org.flexunit.experimental.theories.internals.error.CouldNotGenerateValueException;
 	import org.flexunit.runners.model.TestClass;
 	
 
 	public class Assignments {
-		private var assigned:Array;
-		private var unassigned:Array;		
-		private var testClass:TestClass;;
-/* 
+		public var assigned:Array;
+		public var unassigned:Array;		
+		public var testClass:TestClass;
+
 		public function Assignments( assigned:Array, unassigned:Array, testClass:TestClass ) {
 			this.assigned = assigned;
 			this.unassigned = unassigned;
 			this.testClass = testClass;
 		}
 		
-		public static function allUnassigned( testMethod:XML, testClass:TestClass ):Assignments {
+		public static function allUnassigned( method:Method, testClass:TestClass ):Assignments {
 			var signatures:Array;
-			signatures= ParameterSignature.signaturesByContructor(testClass.getOnlyConstructor());
-			signatures.concat(ParameterSignature.signaturesByMethod(testMethod));
+			var constructor:Constructor = testClass.klassInfo.constructor;
+
+			signatures = ParameterSignature.signaturesByContructor( constructor );
+			signatures = signatures.concat( ParameterSignature.signaturesByMethod( method ) );
 			return new Assignments( new Array(), signatures, testClass );
 		}
 
-		public function isComplete():Boolean {
+		public function get complete():Boolean {
 			return unassigned.length == 0;
 		}
 	
@@ -32,9 +37,9 @@ package org.flexunit.experimental.theories.internals {
 			return unassigned[ 0 ];
 		}
 	
-		public function assignNext( source:PotentialAssignement ):Assignments {
-			var assigned:Array = new Array( assigned.slice() );
-			assigned.concat(source);
+		public function assignNext( source:IPotentialAssignment ):Assignments {
+			var assigned:Array = assigned.slice();
+			assigned.push(source);
 	
 			return new Assignments(assigned, unassigned.slice(1,unassigned.length), testClass);
 		}
@@ -55,19 +60,21 @@ package org.flexunit.experimental.theories.internals {
 			return getSupplier(unassigned).getValueSources(unassigned);
 		}
 	
-		public function getSupplier( unassigned:ParameterSignature ):ParameterSupplier {
-			var supplier:ParameterSupplier = getAnnotatedSupplier(unassigned);
+		public function getSupplier( unassigned:ParameterSignature ):IParameterSupplier {
+			var supplier:IParameterSupplier = getAnnotatedSupplier(unassigned);
 			if (supplier != null)
 				return supplier;
 	
-			return new AllMembersSupplier(fClass);
+			return new AllMembersSupplier(testClass);
 		}
 	
-		public function getAnnotatedSupplier( unassigned:ParameterSignature ):ParameterSupplier {
-			var annotation:ParametersSuppliedBy = unassigned.findDeepAnnotation( ParametersSuppliedBy );
-			if (annotation == null)
-				return null;
-			return annotation.value().newInstance();
+		public function getAnnotatedSupplier( unassigned:ParameterSignature ):IParameterSupplier {
+/* 			var supplier:Boolean = unassigned.findDeepAnnotation( "ParametersSuppliedBy" );
+			if ( supplier == null)
+ 				return null;
+ */
+			//fix me 	return annotation.value().newInstance();
+			return null;
 		}
 	
 		public function getConstructorArguments( nullsOk:Boolean ):Array {
@@ -83,7 +90,8 @@ package org.flexunit.experimental.theories.internals {
 		}
 	
 		private function getConstructorParameterCount():int {
-			var signatures:Array = ParameterSignature.signaturesByContructor( testClass );
+			var constructor:Constructor = testClass.klassInfo.constructor;
+			var signatures:Array = ParameterSignature.signaturesByContructor( constructor );
 			var constructorParameterCount:int = signatures.length;
 			return constructorParameterCount;
 		}
@@ -95,6 +103,5 @@ package org.flexunit.experimental.theories.internals {
 			}
 			return values;
 		}
- */
-	}
+ 	}
 }

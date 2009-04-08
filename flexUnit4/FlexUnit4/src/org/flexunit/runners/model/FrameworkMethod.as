@@ -1,6 +1,8 @@
 package org.flexunit.runners.model {
 	import flash.events.EventDispatcher;
 	
+	import flex.lang.reflect.Method;
+	
 	import org.flexunit.token.AsyncTestToken;
 	import org.flexunit.utils.MetadataTools;
 	
@@ -14,9 +16,7 @@ package org.flexunit.runners.model {
 		
 		private var parentToken:AsyncTestToken;
 
-		private var _method:XML;
-		
-		private var _isStatic:Boolean = false;
+		private var _method:Method;
 
 		/**
 		 * Returns a new {@code FrameworkMethod} for {@code method}
@@ -24,42 +24,35 @@ package org.flexunit.runners.model {
 		//We don't really have a method class, but we do have a chunk of XML that can describe our 
 		//method, so we will preserve it that way I also suspect we are going to need a class reference 
 		//to do all of the elegant things the Java implementation can do
-		public function FrameworkMethod( method:XML, isStatic:Boolean=false ) {
+		public function FrameworkMethod( method:Method ) {
 			_method = method;
-			_isStatic = isStatic;
 		}
 		/**
 		 * Returns the underlying method
 		 */
-		public function get method():XML {
+		public function get method():Method {
 			return _method;
 		}
 
 		/**
-		 * Returns true if the method is static
-		 */
-		public function get isStatic():Boolean {
-			return _isStatic;
-		}		
-		/**
 		 * Returns the method's name
 		 */
 		public function get name():String {
-			return _method.@name;
+			return method.name;
 		}
 		
 		public function get metadata():XMLList {
-			return MetadataTools.nodeMetaData( method );
+			return method.metadata;
 		}
 
 		//Consider upper/lower case issues
 		public function getSpecificMetaDataArg( metaDataTag:String, key:String ):String {
-			var returnValue:String = MetadataTools.getArgValueFromMetaDataNode( method, metaDataTag, key );
+			var returnValue:String = MetadataTools.getArgValueFromMetaDataNode( method.methodXML, metaDataTag, key );
 			
 			if ( !returnValue || ( returnValue.length == 0 ) ) {
 				//if we didn't find that string, we try one more thing, which is to look for that value with a blank string
 				//this is important for cases where we use the key as a marker and not actually a name/value pair
-				var returnBool:Boolean = MetadataTools.checkForValueInBlankMetaDataNode( method, metaDataTag, key );
+				var returnBool:Boolean = MetadataTools.checkForValueInBlankMetaDataNode( method.methodXML, metaDataTag, key );
 				
 				if ( returnBool ) {
 					returnValue = "true";
@@ -70,11 +63,16 @@ package org.flexunit.runners.model {
 		}
 
 		public function hasMetaData( metaDataTag:String ):Boolean {
-			return MetadataTools.nodeHasMetaData( method, metaDataTag );
+			return MetadataTools.nodeHasMetaData( method.methodXML, metaDataTag );
 		}
-		
-		protected function getMethodFromTarget( target:Object ):Function {
-			var method:Function;
+
+		public function producesType( type:Class ):Boolean {
+			return ( ( method.parameterTypes.length == 0 ) &&
+					( type is method.returnType ) );
+		}
+			
+/* 		protected function getMethodFromTarget( target:Object ):Function {
+			//var method:Function;
 			
 			if ( target is TestClass ) {
 				//this is a static method
@@ -85,6 +83,17 @@ package org.flexunit.runners.model {
 			}
 			
 			return method;
+		} */
+
+		public function applyExplosivelyAsync( parentToken:AsyncTestToken, target:Object, params:Array ):void {
+			this.parentToken = parentToken;
+
+			//var method:Function = getMethodFromTarget( target );
+			
+			var methodCall:ReflectiveCallable = new ReflectiveCallable( method, target, params );
+			var result:Object = methodCall.run();
+			
+			parentToken.sendResult();
 		}
 		
 		/**
@@ -92,15 +101,16 @@ package org.flexunit.runners.model {
 		 * parameters {@code params}. {@link InvocationTargetException}s thrown are
 		 * unwrapped, and their causes rethrown.
 		 */
-		public function invokeExplosively( parentToken:AsyncTestToken, target:Object, ...params ):void {
-			this.parentToken = parentToken;
+		public function invokeExplosivelyAsync( parentToken:AsyncTestToken, target:Object, ...params ):void {
+			applyExplosivelyAsync( parentToken, target, params );
+		}
 
-			var method:Function = getMethodFromTarget( target );
-			
+		public function invokeExplosively( target:Object, ...params ):Object {
+			//var method:Function = getMethodFromTarget( target );
 			var methodCall:ReflectiveCallable = new ReflectiveCallable( method, target, params );
 			var result:Object = methodCall.run();
 			
-			parentToken.sendResult();
+			return result;
 		}
 
 		protected function asyncComplete( error:Error ):void {
@@ -119,7 +129,8 @@ package org.flexunit.runners.model {
 		public function validatePublicVoidNoArg( isStatic:Boolean, errors:Array ):void {
 			validatePublicVoid(isStatic, errors);
 
-			var needsParams:Boolean = MetadataTools.doesMethodAcceptsParams( method );
+			var needsParams:Boolean = method.parameterTypes.length > 0;
+
 			if ( needsParams )
 				errors.add(new Error("Method " + name + " should have no parameters"));
 		}
@@ -134,7 +145,7 @@ package org.flexunit.runners.model {
 		 */
 		public function validatePublicVoid( isStatic:Boolean, errors:Array ):void {
 
-			if ( this.isStatic != isStatic) {
+			if ( method.isStatic != isStatic) {
 				var state:String = isStatic ? "should" : "should not";
 				errors.add( new Error("Method " + name + "() " + state + " be static"));
 			}
@@ -144,7 +155,7 @@ package org.flexunit.runners.model {
 //			if (!Modifier.isPublic(fMethod.getModifiers()))
 //				errors.add(new Exception("Method " + fMethod.getName() + "() should be public"));
 
-			var isVoid:Boolean = MetadataTools.getMethodReturnType( method ) == "void";
+			var isVoid:Boolean = !method.returnType;
 
 			if ( !isVoid )
 				errors.add(new Error("Method " + name + "() should be void"));
@@ -153,19 +164,19 @@ package org.flexunit.runners.model {
 		override public function toString():String {
 			return "FrameworkMethod " + this.name;
 		}
-		
 	}
 }
 
 
 import org.flexunit.internals.runners.model.IReflectiveCallable;
+import flex.lang.reflect.Method;
 
 class ReflectiveCallable implements IReflectiveCallable {
-	private var method:Function;
+	private var method:Method;
 	private var target:Object;
 	private var params:Array;
 
-	public function ReflectiveCallable( method:Function, target:Object, params:Array ) {
+	public function ReflectiveCallable( method:Method, target:Object, params:Array ) {
 		this.method = method;
 		this.target = target;
 		this.params = params;

@@ -1,22 +1,22 @@
 package org.flexunit.internals.builders {
-	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
 	
+	import flex.lang.reflect.Klass;
+	
+	import org.flexunit.internals.runners.InitializationError;
 	import org.flexunit.runner.IRunner;
 	import org.flexunit.runners.model.IRunnerBuilder;
-	import org.flexunit.internals.runners.InitializationError;
 	import org.flexunit.runners.model.RunnerBuilderBase;
-	import org.flexunit.utils.MetadataTools;
 
 	public class MetaDataBuilder extends RunnerBuilderBase {
+		public static const RUN_WITH:String = "RunWith";
 		private var suiteBuilder:IRunnerBuilder;
 
 		override public function runnerForClass( testClass:Class ):IRunner {
-			var typeInfo:XML = describeType( testClass );
-			var factory:XML = typeInfo.factory[ 0 ]; 
+			var klassInfo:Klass = new Klass( testClass );
 
-			if ( MetadataTools.nodeHasMetaData( factory, "RunWith" ) ) {
-				var runWithValue:String = MetadataTools.getArgValueFromMetaDataNode( factory, "RunWith", "" );
+			if ( klassInfo.hasMetaData( RUN_WITH ) ) {
+				var runWithValue:String = klassInfo.getMetaData( RUN_WITH ); 
 				return buildRunner( runWithValue, testClass);
 			}
 			

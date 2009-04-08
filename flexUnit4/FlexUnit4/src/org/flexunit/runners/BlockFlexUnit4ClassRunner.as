@@ -84,7 +84,9 @@ package org.flexunit.runners {
 			
 			if ( error ) {
 				eachNotifier.fireTestFinished();
-				childRunnerToken.sendResult( error );
+				childRunnerToken.sendResult();
+				//if we have already reported the error, to the notifier, there is no need to pass it further up the chain
+				//childRunnerToken.sendResult( error );
 			}
 		}
 
@@ -155,6 +157,15 @@ package org.flexunit.runners {
 			validatePublicVoidNoArgMethods( "Test", false, errors);
 		}
 
+		/**
+		 * Returns a new fixture for running a test. Default implementation executes
+		 * the test class's no-argument constructor (validation should have ensured
+		 * one exists).
+		 */
+		protected function createTest():Object {
+			return new testClass.asClass();
+		}
+
 		private function makeNotifier( method:FrameworkMethod, notifier:RunNotifier ):EachTestNotifier {
 			var description:Description = describeChild(method);
 			return new EachTestNotifier(notifier, description);
@@ -194,7 +205,7 @@ package org.flexunit.runners {
 			var test:Object;
 			//might need to be reflective at some point
 			try {
-				test = new testClass.asClass();
+				test = createTest();
 			} catch ( e:Error ) {
 				return new Fail(e);
 			}

@@ -2,18 +2,42 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="runMe()">
 	<mx:Script>
 		<![CDATA[
+			import flash.utils.describeType;
+			import flex.lang.reflect.Klass;
+			import org.flexunit.runner.Description;
+			import org.flexunit.runner.Request;
+			import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAssert;
 			import net.digitalprimates.fluint.unitTests.frameworkSuite.FrameworkSuite;
+			import suite.cases.TestOne;
+			//import org.flexunit.internals.listeners.XMLListener;
+			import suite.cases.MySuite;
+			import net.digitalprimates.fluint.unitTests.theorySuite.TheorySuite;
 
 			import org.flexunit.runner.FlexUnitCore;
 			private var core:FlexUnitCore;
+			//private var listener:XMLListener; 	
 			public function runMe():void {
+
 				core = new FlexUnitCore();
-				core.run( FrameworkSuite );	
+				core.run( FrameworkSuite, TheorySuite );
+				
+/* 
+				listener = new XMLListener( this );
+				addEventListener(Event.CONNECT, handleConnect );
+				addEventListener(IOErrorEvent.IO_ERROR, errorHandler);
+				addEventListener(SecurityErrorEvent.SECURITY_ERROR,errorHandler);
+	   	   		addEventListener(Event.CLOSE,errorHandler);
+   	   			
+ */				//var ar:Array = new Array();
+				//ar.push( Request.method( TestTwo, "testTwo3" ) );
+				//ar.push( MySuite );
 			}
 			private function errorHandler(event:Event):void{
 				
 			}
 			private function handleConnect(event:Event):void{
+				//core.addListener(listener);
+				//core.run( MySuite );	
 			}
 		]]>
 	</mx:Script>

@@ -68,7 +68,7 @@ package org.flexunit.runners.model {
 
 		public function producesType( type:Class ):Boolean {
 			return ( ( method.parameterTypes.length == 0 ) &&
-					( type is method.returnType ) );
+					( type == method.returnType ) );
 		}
 			
 /* 		protected function getMethodFromTarget( target:Object ):Function {

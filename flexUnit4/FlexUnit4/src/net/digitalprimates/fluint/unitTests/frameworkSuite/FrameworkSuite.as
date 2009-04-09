@@ -37,6 +37,8 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestMXMLComponentUse;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestMethodOrder;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestSynchronousSetUpTearDown;
+	
+	import org.hamcrest.HamcrestSuite;
 
 	[Suite]
 	[RunWith("org.flexunit.runners.Suite")]
@@ -57,5 +59,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite
 		public var testASComponentUse:TestASComponentUse;
 		public var testMXMLComponentUse:TestMXMLComponentUse;
 		public var testBindingUse:TestBindingUse;
+		
+		public var hamcrest:HamcrestSuite;
 	}
 }

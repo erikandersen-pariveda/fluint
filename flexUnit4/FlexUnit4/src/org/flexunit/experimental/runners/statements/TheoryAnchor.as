@@ -82,6 +82,9 @@ package org.flexunit.experimental.runners.statements
 		}
 
 		classInternal function nullsOk():Boolean {
+			
+			return true;
+			
 			var isTheory:Boolean = frameworkMethod.method.hasMetaData( "Theory" );
 
 			//this needs to be much more complicated			

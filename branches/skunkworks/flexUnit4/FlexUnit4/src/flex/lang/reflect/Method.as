@@ -9,6 +9,7 @@ package flex.lang.reflect {
 		private var _returnType:Class;
 		private var _metaData:XMLList;
 		private var _isStatic:Boolean = false;
+		private var _elementType:Class;
 
 		public function get metadata():XMLList {
 			if ( !_metaData ) {
@@ -49,6 +50,26 @@ package flex.lang.reflect {
 
 			return _returnType;
 		} 
+
+		public function get elementType():Class {
+			if ( _elementType ) {
+				return _elementType;
+			}
+			
+			if ( ( returnType == Array ) && ( hasMetaData( "ArrayElementType" ) ) ) {
+				//we are an array at least, so let's go further;
+				var meta:String = getMetaData( "ArrayElementType" );
+				
+				try {
+					_elementType = Klass.getClassFromName( meta );
+				} catch ( error:Error ) {
+					trace("Cannot find specified ArrayElementType("+meta+") in SWF");
+				}
+					
+			}
+			
+			return _elementType;
+		}
 
 		public function get isStatic():Boolean {
 			return _isStatic;

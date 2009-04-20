@@ -243,6 +243,7 @@ class TheoryBlockRunnerStatement extends AsyncStatementBase implements IAsyncSta
 			anchor.handleAssumptionViolation( e );
 			sendComplete( e );	
 		} catch ( e:Error ) {
+			trace( e.getStackTrace() );
 			anchor.reportParameterizedError(e, complete.getArgumentStrings(anchor.nullsOk()));
 			//sendComplete( e );			
 		}

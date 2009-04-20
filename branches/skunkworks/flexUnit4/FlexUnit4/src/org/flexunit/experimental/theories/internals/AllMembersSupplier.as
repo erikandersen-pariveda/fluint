@@ -20,7 +20,7 @@ package org.flexunit.experimental.theories.internals
 
 			addFields(sig, list);
 			addSinglePointMethods(sig, list);
-			addMultiPointMethods(list);
+			addMultiPointMethods(sig, list);
 	
 			return list;
 		}
@@ -59,7 +59,7 @@ package org.flexunit.experimental.theories.internals
 			}
 		}
 	
-		private function addMultiPointMethods( list:Array ):void {
+		private function addMultiPointMethods( sig:ParameterSignature, list:Array ):void {
 			var dataPointsMethod:FrameworkMethod;
 			var methods:Array = testClass.getMetaDataMethods( "DataPoints" );
 			var type:Class;
@@ -68,7 +68,9 @@ package org.flexunit.experimental.theories.internals
 				dataPointsMethod = methods[ i ] as FrameworkMethod;
 
 				try {
-					addArrayValues( dataPointsMethod.name, list, dataPointsMethod.invokeExplosively(null) );
+					if ( sig.canAcceptArrayTypeMethod(dataPointsMethod) ) {
+						addArrayValues( dataPointsMethod.name, list, dataPointsMethod.invokeExplosively(null) );
+					}
 				} catch ( e:Error ) {
 					// ignore and move on
 				}

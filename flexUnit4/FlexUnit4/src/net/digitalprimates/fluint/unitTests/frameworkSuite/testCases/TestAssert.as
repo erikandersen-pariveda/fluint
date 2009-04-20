@@ -24,6 +24,8 @@
  **/ 
 package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 {
+	import flexunit.framework.AssertionFailedError;
+	
 	import mx.collections.errors.ItemPendingError;
 	
 	import org.flexunit.Assert;
@@ -39,13 +41,13 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
             throw new ItemPendingError( null );
 	    }
 
-		[Test(expected="org.flexunit.AssertionFailedError")]
+		[Test(expected="flexunit.framework.AssertionFailedError")]
 	    public function testFail():void
 	    {
             Assert.fail();
 	    }
 
-		[Test(expected="org.flexunit.AssertionFailedError")]
+		[Test(expected="flexunit.framework.AssertionFailedError")]
 	    public function testFailAssertEquals():void
 	    {
             Assert.assertEquals( new Object(), new Object() );
@@ -68,7 +70,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 	
 	//------------------------------------------------------------------------------
 	
-		[Test(expected="org.flexunit.AssertionFailedError")]
+		[Test(expected="flexunit.framework.AssertionFailedError")]
 	    public function testAssertNullNotEqualsString():void 
 	    {
 	        Assert.assertEquals( null, "foo" );
@@ -76,7 +78,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 	
 	//------------------------------------------------------------------------------
 
-		[Test(expected="org.flexunit.AssertionFailedError")]	
+		[Test(expected="flexunit.framework.AssertionFailedError")]	
 	    public function testAssertStringNotEqualsNull():void 
 	    {
             Assert.assertEquals( "foo", null );
@@ -84,7 +86,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 	
 	//------------------------------------------------------------------------------
 	
-		[Test(expected="org.flexunit.AssertionFailedError")]
+		[Test(expected="flexunit.framework.AssertionFailedError")]
 	    public function testAssertNullNotEqualsNull():void 
 	    {
 			Assert.assertEquals( null, new Object() );
@@ -98,7 +100,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 			Assert.assertNull( null );
 	    }
 
-		[Test(expected="org.flexunit.AssertionFailedError")]
+		[Test(expected="flexunit.framework.AssertionFailedError")]
 	    public function testAssertNullFail():void 
 	    {
 			Assert.assertNull( new Object() );
@@ -112,7 +114,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 	    	Assert.assertNotNull( new Object() );
 	    }
 
-		[Test(expected="org.flexunit.AssertionFailedError")]
+		[Test(expected="flexunit.framework.AssertionFailedError")]
 	    public function testAssertNotNullFail():void 
 	    {
 	    	Assert.assertNotNull( null );
@@ -126,7 +128,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
             Assert.assertTrue( true );
 	    }
 
-		[Test(expected="org.flexunit.AssertionFailedError")]	
+		[Test(expected="flexunit.framework.AssertionFailedError")]	
 	    public function testAssertTrueFail():void
 	    {
             Assert.assertTrue( false );
@@ -140,7 +142,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
             Assert.assertFalse( false );
 	    }
 
-		[Test(expected="org.flexunit.AssertionFailedError")]
+		[Test(expected="flexunit.framework.AssertionFailedError")]
 	    public function testAssertFalseFail():void
 	    {
             Assert.assertFalse( true );
@@ -154,7 +156,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 	        Assert.assertStrictlyEquals( o, o );
 	    }
 
-		[Test(expected="org.flexunit.AssertionFailedError")]
+		[Test(expected="flexunit.framework.AssertionFailedError")]
 	    public function testAssertStictlyEqualsFail():void 
 	    {
             Assert.assertStrictlyEquals( "5", 5 );
@@ -168,7 +170,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 	    
 	//------------------------------------------------------------------------------
 	
-		[Test(expected="org.flexunit.AssertionFailedError")]
+		[Test(expected="flexunit.framework.AssertionFailedError")]
 	    public function testAssertNullNotStrictlyEqualsString():void 
 	    {
             Assert.assertStrictlyEquals( null, "foo" );
@@ -176,7 +178,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 	
 	//------------------------------------------------------------------------------
 	
-		[Test(expected="org.flexunit.AssertionFailedError")]
+		[Test(expected="flexunit.framework.AssertionFailedError")]
 	    public function testAssertStringNotStrictlyEqualsNull():void 
 	    {
             Assert.assertStrictlyEquals( "foo", null );
@@ -184,7 +186,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 	
 	//------------------------------------------------------------------------------
 
-		[Test(expected="org.flexunit.AssertionFailedError")]	
+		[Test(expected="flexunit.framework.AssertionFailedError")]	
 	    public function testAssertNullNotStrictlyEqualsNull():void 
 	    {
 			Assert.assertStrictlyEquals( null, new Object() );

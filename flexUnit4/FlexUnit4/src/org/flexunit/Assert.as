@@ -1,17 +1,21 @@
 package org.flexunit
 {
+	import flexunit.framework.AssertionFailedError;
+	
 /**
  * A set of assert methods.  Messages are only displayed when an assert fails.
  */
  
 	public class Assert
 	{
+		public static var assertCount:int = 0;
 		/**
 		 * Asserts that two provided values are equal. If three values are 
 		 * provided the first is the message to be displayed on fail.
 		 */
 		public static function assertEquals(... rest):void
 		{
+			assertCount++;
 			if ( rest.length == 3 )
 				failNotEquals( rest[0], rest[1], rest[2] );
 			else
@@ -32,6 +36,7 @@ package org.flexunit
 		 */
 		public static function assertStrictlyEquals(... rest):void
 		{
+			assertCount++;
 			if ( rest.length == 3 )
 				failNotStrictlyEquals( rest[0], rest[1], rest[2] );
 			else
@@ -58,6 +63,7 @@ package org.flexunit
 		 */
 		public static function assertTrue(... rest):void
 		{
+			assertCount++;
 			if ( rest.length == 2 )
 				failNotTrue( rest[0], rest[1] );
 			else
@@ -84,6 +90,7 @@ package org.flexunit
 		 */
 		public static function assertFalse(... rest):void
 		{
+			assertCount++;
 			if ( rest.length == 2 )
 				failTrue( rest[0], rest[1] );
 			else
@@ -112,6 +119,7 @@ package org.flexunit
 		 */
 		public static function assertNull(... rest):void
 		{
+			assertCount++;
 			if ( rest.length == 2 )
 				failNotNull( rest[0], rest[1] );
 			else
@@ -140,6 +148,7 @@ package org.flexunit
 		 */
 		public static function assertNotNull(... rest):void
 		{
+			assertCount++;
 			if ( rest.length == 2 )
 				failNull( rest[0], rest[1] );
 			else

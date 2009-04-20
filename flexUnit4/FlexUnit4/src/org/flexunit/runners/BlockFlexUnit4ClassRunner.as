@@ -207,6 +207,7 @@ package org.flexunit.runners {
 			try {
 				test = createTest();
 			} catch ( e:Error ) {
+				trace( e.getStackTrace() );
 				return new Fail(e);
 			}
 

@@ -3,6 +3,8 @@ package org.flexunit.experimental.theories {
 	import flex.lang.reflect.Field;
 	import flex.lang.reflect.Method;
 	
+	import org.flexunit.runners.model.FrameworkMethod;
+	
 	public class ParameterSignature {
 
 		private var _type:Class;
@@ -35,6 +37,10 @@ package org.flexunit.experimental.theories {
 	
 		public function canAcceptArrayType( field:Field ):Boolean {
 			return ( field.type == Array ) && canAcceptType( field.elementType ); 
+		}
+
+		public function canAcceptArrayTypeMethod( frameworkMethod:FrameworkMethod ):Boolean {
+			return ( frameworkMethod.producesType( Array ) && canAcceptType( frameworkMethod.method.elementType ) );
 		}
 
 		public function hasMetadata( type:String ):Boolean {

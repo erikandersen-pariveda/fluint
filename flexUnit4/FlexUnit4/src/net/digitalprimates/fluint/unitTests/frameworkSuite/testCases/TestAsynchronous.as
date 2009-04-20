@@ -38,7 +38,6 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases {
 	
 	import org.flexunit.Assert;
 	import org.flexunit.AssertionError;
-	import org.flexunit.AssertionFailedError;
 	import org.flexunit.async.Async;
 	import org.flexunit.async.AsyncLocator;
 	import org.flexunit.async.TestResponder;
@@ -74,7 +73,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases {
 	    	timer.start();
 	    }
 
-		[Test(async,expected="org.flexunit.AssertionFailedError")]
+		[Test(async,expected="flexunit.framework.AssertionFailedError")]
 	    public function testInTimeFail() : void {
 	    	//We fire in SHORT_TIME mills, but are willing to wait LONG_TIME
 	    	timer.delay = SHORT_TIME;
@@ -98,7 +97,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases {
 	    	timer.start();
 	    }
 
-		[Test(async,expected="org.flexunit.AssertionFailedError")]
+		[Test(async,expected="flexunit.framework.AssertionFailedError")]
 	    public function testTooLateFail() : void {
 	    	//We fire in LONG_TIME mills, but are willing to wait SHORT_TIME
 	    	timer.delay = LONG_TIME;
@@ -123,7 +122,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases {
 	    	eventDispatcher.dispatchEvent( new Event('immediate') ); 
 	    }
 
-		[Test(async,expected="org.flexunit.AssertionFailedError")]
+		[Test(async,expected="flexunit.framework.AssertionFailedError")]
 	    public function testNotReallyAsynchronousFail() : void {
 	    	//This tests one of the edges that flex unit did not handle well. What if we receive our async event *before*
 	    	//this method finishes executing
@@ -236,7 +235,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases {
 			testInTimePass();
 	    }
 
-		[Test(async,expected="org.flexunit.AssertionFailedError")]
+		[Test(async,expected="flexunit.framework.AssertionFailedError")]
 	    public function testMultipleAsyncFirstReturnsBeforeSecondTimeout() : void {
 			testNotReallyAsynchronousPass();
 			testTooLateFail();

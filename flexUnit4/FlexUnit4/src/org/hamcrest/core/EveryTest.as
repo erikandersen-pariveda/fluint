@@ -2,6 +2,9 @@ package org.hamcrest.core {
   
   import org.flexunit.Assert;
   import org.hamcrest.*;
+  import org.hamcrest.collection.EveryMatcher;
+  import org.hamcrest.collection.everyItem;
+  import org.hamcrest.text.containsString;
   
   public class EveryTest extends AbstractMatcherTestCase {
     

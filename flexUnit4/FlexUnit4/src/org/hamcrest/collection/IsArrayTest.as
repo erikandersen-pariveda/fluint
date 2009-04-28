@@ -1,8 +1,7 @@
 package org.hamcrest.collection {
   
   import org.hamcrest.AbstractMatcherTestCase;
-  import org.hamcrest.collection.array;
-  import org.hamcrest.equalTo;
+  import org.hamcrest.object.equalTo;
   
   public class IsArrayTest extends AbstractMatcherTestCase {
     

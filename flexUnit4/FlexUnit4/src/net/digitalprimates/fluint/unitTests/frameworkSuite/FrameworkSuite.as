@@ -24,6 +24,8 @@
  **/ 
 package net.digitalprimates.fluint.unitTests.frameworkSuite
 {
+	import flexunit.framework.AllFrameworkTests;
+	
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestASComponentUse;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAssert;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAsynchronous;
@@ -37,6 +39,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestMXMLComponentUse;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestMethodOrder;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestSynchronousSetUpTearDown;
+	import net.digitalprimates.fluint.unitTests.theorySuite.TheorySuite;
 	
 	import org.hamcrest.HamcrestSuite;
 
@@ -59,7 +62,9 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite
 		public var testASComponentUse:TestASComponentUse;
 		public var testMXMLComponentUse:TestMXMLComponentUse;
 		public var testBindingUse:TestBindingUse;
+		public var theory:TheorySuite;
 		
 		public var hamcrest:HamcrestSuite;
+		public var flexUnit1Tests:AllFrameworkTests;
 	}
 }

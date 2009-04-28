@@ -1,3 +1,30 @@
+/**
+ * Copyright (c) 2009 Digital Primates IT Consulting Group
+ * 
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * @author     Michael Labriola <labriola@digitalprimates.net>
+ * @version    
+ **/ 
 package org.flexunit.experimental.theories.internals {
 	import flex.lang.reflect.Constructor;
 	import flex.lang.reflect.Method;
@@ -20,12 +47,18 @@ package org.flexunit.experimental.theories.internals {
 			this.testClass = testClass;
 		}
 		
+		/** This is perhaps a tad bit more complicated than really needed for AS. The java version really
+		 *  needs to worry about multiple method signatures including multiple constructor signatures.
+		 *  No such worries here, but the basic flow was kept the same to be relatable and cause...
+		 *  who knows what the future could bring.
+		 **/
 		public static function allUnassigned( method:Method, testClass:TestClass ):Assignments {
 			var signatures:Array;
 			var constructor:Constructor = testClass.klassInfo.constructor;
 
 			signatures = ParameterSignature.signaturesByContructor( constructor );
 			signatures = signatures.concat( ParameterSignature.signaturesByMethod( method ) );
+			//trace( signatures.toString() );
 			return new Assignments( new Array(), signatures, testClass );
 		}
 
@@ -102,6 +135,16 @@ package org.flexunit.experimental.theories.internals {
 				values[i]= assigned[ i ].getDescription();
 			}
 			return values;
+		}
+		
+		public function toString():String {
+			var str:String = "              Assignments :\n";
+			
+			str += ("                  testClass:" + testClass + "\n");
+			str += ("                  assigned:" + assigned + "\n");
+			str += ("                  unassigned:" + unassigned);
+
+			return str; 		
 		}
  	}
 }

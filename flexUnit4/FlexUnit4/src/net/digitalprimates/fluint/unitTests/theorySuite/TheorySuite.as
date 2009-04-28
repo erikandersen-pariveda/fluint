@@ -1,15 +1,25 @@
 package net.digitalprimates.fluint.unitTests.theorySuite {
+	import org.flexunit.assumeThat;
 	import org.flexunit.experimental.theories.Theories;
+	import org.hamcrest.number.lessThan;
 	
 	[RunWith("org.flexunit.experimental.theories.Theories")]
 	public class TheorySuite {
 		private var theory:Theories;
  
    		[DataPoints]
-  		[ArrayElementType("int")]
-		public static var values:Array = [1,2,3,4,5];
+  		[ArrayElementType("Boolean")]
+		public static var boolValues:Array = [true, false];
 
-  		[DataPoint]
+   		[DataPoints]
+  		[ArrayElementType("String")]
+		public static var stringValues:Array = ["one","two","three","four","five"];
+
+   		[DataPoints]
+  		[ArrayElementType("int")]
+		public static var intValues:Array = [1,2,3,4,5,6,7,8,9];
+
+   		[DataPoint]
 		public static var values1:int = 10;
   		[DataPoint]
 		public static var values2:int = 12;
@@ -29,26 +39,28 @@ package net.digitalprimates.fluint.unitTests.theorySuite {
 			return [50,52,54,56];
 		}
 
-		[Theory]
+  		[Theory]
 		public function testIntOnly( value:int ):void {
+			assumeThat( value, lessThan( 200 ) );
 			// test which involves int value	
-			trace( "      int case " + value );
+			//trace( "      int case " + value );
 		}		
 
-  		[Theory]
+   		[Theory]
 		public function testStringOnly( value1:String ):void {
 			// test which involves int value	
-			trace( "    string case " + value1 );
+			//trace( "    string case " + value1 );
 		} 		
 
   		[Theory]
-		public function testStringIntCombo( value1:String, value2:int ):void {
-			// test which involves int value	
-			trace( "    string case " + value1 + " " + value2 );
-		} 		
+		public function testStringIntCombo( boolValue:Boolean, stringValue:String ):void {
+			//trace( boolValue + " " + stringValue );
+		} 	
 
-		public function TheorySuite( value:String ):void {
-			trace("Constructor with " + value );
+		public function TheorySuite():void {
+			//assumeThat( intValue, lessThan( 2 ) );
+			//assumptions in constructor do not yet work... don't know if they ever could, what exactly would you do if you couldn't construct?
+			//trace("Constructor with " + intValue );
 		}
 		
 	}

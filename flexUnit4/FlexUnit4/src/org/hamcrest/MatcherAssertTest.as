@@ -1,5 +1,7 @@
 package org.hamcrest {
 	import org.flexunit.Assert;
+	import org.hamcrest.object.equalTo;
+	import org.hamcrest.text.startsWith;
 	
 
   public class MatcherAssertTest  {

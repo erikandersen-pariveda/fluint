@@ -1,6 +1,7 @@
 package org.hamcrest.core {
   
   import org.hamcrest.*;
+  import org.hamcrest.object.equalTo;
   
   public class IsEqualTest extends AbstractMatcherTestCase {
     

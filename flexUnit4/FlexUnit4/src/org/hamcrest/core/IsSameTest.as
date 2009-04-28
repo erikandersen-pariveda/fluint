@@ -1,6 +1,7 @@
 package org.hamcrest.core {
   
   import org.hamcrest.*;
+  import org.hamcrest.object.sameInstance;
   
   public class IsSameTest extends AbstractMatcherTestCase {
     

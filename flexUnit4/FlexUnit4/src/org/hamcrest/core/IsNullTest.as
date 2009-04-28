@@ -1,6 +1,8 @@
 package org.hamcrest.core {
   
   import org.hamcrest.*;
+  import org.hamcrest.object.notNullValue;
+  import org.hamcrest.object.nullValue;
   
   public class IsNullTest extends AbstractMatcherTestCase {
     

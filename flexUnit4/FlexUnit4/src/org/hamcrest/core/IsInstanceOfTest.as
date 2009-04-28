@@ -1,6 +1,7 @@
 package org.hamcrest.core {
   
   import org.hamcrest.*;
+  import org.hamcrest.object.instanceOf;
   
   public class IsInstanceOfTest extends AbstractMatcherTestCase {
     

@@ -1,3 +1,30 @@
+/**
+ * Copyright (c) 2009 Digital Primates IT Consulting Group
+ * 
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * @author     Michael Labriola <labriola@digitalprimates.net>
+ * @version    
+ **/ 
 package org.flexunit.runners {
 	import org.flexunit.internals.AssumptionViolatedException;
 	import org.flexunit.internals.runners.model.EachTestNotifier;
@@ -9,7 +36,7 @@ package org.flexunit.runners {
 	import org.flexunit.internals.runners.statements.InvokeMethod;
 	import org.flexunit.internals.runners.statements.RunAfters;
 	import org.flexunit.internals.runners.statements.RunBefores;
-	import org.flexunit.internals.runners.statements.StackManagement;
+	import org.flexunit.internals.runners.statements.StackAndFrameManagement;
 	import org.flexunit.internals.runners.statements.StatementSequencer;
 	import org.flexunit.runner.Description;
 	import org.flexunit.runner.manipulation.IFilterable;
@@ -73,7 +100,7 @@ package org.flexunit.runners {
 			eachNotifier.fireTestStarted();
 			try {
 				var block:IAsyncStatement = methodBlock(method );
-				block.execute( token );				
+				block.evaluate( token );				
 			} catch ( e:AssumptionViolatedException ) {
 				error = e;
 				eachNotifier.addFailedAssumption(e);
@@ -264,7 +291,7 @@ package org.flexunit.runners {
 		}
 
 		protected function withStackManagement( method:FrameworkMethod, test:Object, statement:IAsyncStatement ):IAsyncStatement {
-			return new StackManagement( statement );
+			return new StackAndFrameManagement( statement );
 		}
 
 		/**

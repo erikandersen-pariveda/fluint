@@ -1,10 +1,8 @@
 package org.hamcrest.collection {
   
-  import org.hamcrest.Matcher;
   import org.hamcrest.AbstractMatcherTestCase;
-  import org.hamcrest.hasItem;
-  import org.hamcrest.hasItems;  
-  import org.hamcrest.equalTo;
+  import org.hamcrest.Matcher;
+  import org.hamcrest.object.equalTo;
   
   public class IsCollectionContainingTest extends AbstractMatcherTestCase {
       
@@ -30,7 +28,7 @@ package org.hamcrest.collection {
     
     [Test]
     public function testHasAReadableDescription():void {
-      assertDescription("a collection containing \"a\"", hasItem(equalTo("a")));
+      assertDescription("an Array containing \"a\"", hasItem(equalTo("a")));
     }
     
     [Test]

@@ -1,10 +1,8 @@
 package org.hamcrest.core {
   
   import org.hamcrest.AbstractMatcherTestCase;
-  import org.hamcrest.allOf;
-  import org.hamcrest.equalTo;
-  import org.hamcrest.not;
   import org.hamcrest.assertThat;
+  import org.hamcrest.object.equalTo;
   
   public class AllOfTest extends AbstractMatcherTestCase {
     

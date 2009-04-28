@@ -1,5 +1,34 @@
+/**
+ * Copyright (c) 2009 Digital Primates IT Consulting Group
+ * 
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * @author     Michael Labriola <labriola@digitalprimates.net>
+ * @version    
+ **/ 
 package org.flexunit.internals.runners {
 	import flash.events.EventDispatcher;
+	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;
 	
 	import flexunit.framework.Test;
 	import flexunit.framework.TestCase;
@@ -14,13 +43,14 @@ package org.flexunit.internals.runners {
 	import org.flexunit.runner.manipulation.IFilterable;
 	import org.flexunit.runner.notification.RunNotifier;
 	import org.flexunit.token.AsyncTestToken;
-
-	import flash.utils.getQualifiedClassName;
-	import flash.utils.getDefinitionByName;
+	import org.flexunit.token.ChildResult;
+	import org.flexunit.utils.ClassNameUtil;
 	
 	public class FlexUnit38ClassRunner extends EventDispatcher implements IRunner, IFilterable {
 
 		private var test:Test;
+		private var totalTestCount:int = 0;
+		private var numTestsRun:int = 0;
 		
 		public function FlexUnit38ClassRunner( klassOrTest:* ) {
 			
@@ -40,14 +70,30 @@ package org.flexunit.internals.runners {
 		}
 
 		public function run( notifier:RunNotifier, previousToken:AsyncTestToken ):void {
+			var token:AsyncTestToken = new AsyncTestToken( ClassNameUtil.getLoggerFriendlyClassName( this ) );
+			token.parentToken = previousToken;
+			token.addNotificationMethod( handleTestComplete );
+			
 			var result:TestResult = new TestResult();
-			result.addListener(createAdaptingListener(notifier));
+			result.addListener( createAdaptingListener( notifier, token ));
+
+			totalTestCount = test.countTestCases();
+
 			test.runWithResult(result);
 			trace("All Done");
 		}
+		
+		protected function handleTestComplete( result:ChildResult ):void {
+			if ( ++numTestsRun == totalTestCount ) {
+				var error:Error = result.error;
+				var token:AsyncTestToken = result.token;
 	
-		public static function createAdaptingListener( notifier:RunNotifier ):TestListener {
-			return new OldTestClassAdaptingListener(notifier);
+				token.parentToken.sendResult();
+			}
+		}
+
+		public static function createAdaptingListener( notifier:RunNotifier, token:AsyncTestToken ):TestListener {
+			return new OldTestClassAdaptingListener(notifier, token );
 		}
 		
 		public function get description():Description {
@@ -104,17 +150,21 @@ import org.flexunit.runner.notification.Failure;
 import flexunit.framework.TestCase;
 import org.flexunit.runner.IDescribable;
 import flexunit.framework.AssertionFailedError;
-import org.flexunit.internals.runners.FlexUnit38ClassRunner;	
+import org.flexunit.internals.runners.FlexUnit38ClassRunner;
+import org.flexunit.token.AsyncTestToken;	
 
 class OldTestClassAdaptingListener implements TestListener {
 	private var notifier:RunNotifier;
+	private var token:AsyncTestToken;
 
-	public function OldTestClassAdaptingListener( notifier:RunNotifier ) {
+	public function OldTestClassAdaptingListener( notifier:RunNotifier, token:AsyncTestToken ) {
 		this.notifier = notifier;
+		this.token = token;
 	}
 
 	public function endTest( test:Test ):void {
 		notifier.fireTestFinished(asDescription(test));
+		token.sendResult();
 	}
 
 	public function startTest( test:Test ):void {

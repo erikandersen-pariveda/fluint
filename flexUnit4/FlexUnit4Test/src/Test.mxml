@@ -19,7 +19,7 @@
 			public function runMe():void {
 
 				core = new FlexUnitCore();
-				core.run( FrameworkSuite, TheorySuite );
+				core.run( FrameworkSuite );
 				
 /* 
 				listener = new XMLListener( this );

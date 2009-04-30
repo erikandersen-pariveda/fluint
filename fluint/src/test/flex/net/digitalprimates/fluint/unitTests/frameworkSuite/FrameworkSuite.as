@@ -33,6 +33,8 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestEmptyCase;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestMXMLComponentUse;
 	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestSynchronousSetUpTearDown;
+	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.HTTPServiceStubTest;
+	import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.RemoteObjectStubTest;
 
     /**
      * @private
@@ -49,6 +51,8 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite
 			addTestCase( new TestASComponentUse() );
 			addTestCase( new TestMXMLComponentUse() );
 			addTestCase( new TestBindingUse() );
+			addTestCase( new HTTPServiceStubTest() );
+			addTestCase( new RemoteObjectStubTest() );
 		}
 	}
 }

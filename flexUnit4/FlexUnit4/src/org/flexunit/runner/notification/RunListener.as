@@ -56,7 +56,7 @@ package org.flexunit.runner.notification {
 	 * </p>
 	 * @see org.flexunit.runner.FlexUnitCore
 	 */
-	public class RunListener {
+	public class RunListener implements IRunListener {
 		public var result:Result;
 
 		/**

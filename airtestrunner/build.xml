@@ -15,6 +15,7 @@
 	<property name="bin.main.name" value="AIRTestRunner.swf" />
 	<property name="package.loc" location="${bin.loc}" />
 	<property name="package.artifact.name" value="FluintAirTestRunner.air" />
+	<property name="package.intermediary.artifact.name" value="FluintAirTestRunner.airi" />
 	<property name="doc.loc" location="${bin.loc}/doc" />
 	
 	<target name="clean">
@@ -67,5 +68,19 @@
 			<arg line="-library-path+='${lib.loc}'" /> 
 			<arg line="-output '${doc.loc}'" />
 		</java>
+	</target>
+	
+	<target name="package-intermediary" depends="build">
+		<!-- Generate AIR bundle -->
+		<!-- ADT wants relative paths for its contents so we have to run it from bin.main.loc -->
+		<java jar="${flex.home}/lib/adt.jar" fork="true" dir="${bin.main.loc}" failonerror="true">
+			<arg line="-prepare" />
+			<arg line="${package.intermediary.artifact.name}" />
+			<arg line="${src.main.config}" />
+			<arg line="${bin.main.name}" />
+		</java>
+		
+		<!-- Move bundle to correct artifact location -->
+		<move file="${bin.main.loc}/${package.intermediary.artifact.name}" tofile="${package.loc}/${package.intermediary.artifact.name}" />
 	</target>
 </project>

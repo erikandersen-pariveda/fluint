@@ -15,11 +15,11 @@
    <mx:Label text="Running {total} Tests"/>
    
 	<mx:Spacer width="100%"/>
-   <mx:Image source="@Embed('/assets/error_ovr.gif')" />		
+   <mx:Image source="@Embed('/net/digitalprimates/fluint/assets/error_ovr.gif')" />		
 	<mx:Label text="Errors: {errors}" fontWeight="{errors > 0 ? 'bold' : 'normal'}"/>	
 
    <mx:Spacer width="25" />
 	
-	<mx:Image source="@Embed('/assets/failed_ovr.gif')" />
+	<mx:Image source="@Embed('/net/digitalprimates/fluint/assets/failed_ovr.gif')" />
 	<mx:Label text="Failures: {fails}" fontWeight="{fails > 0 ? 'bold' : 'normal'}"/>
 </mx:HBox>

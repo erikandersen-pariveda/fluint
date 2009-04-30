@@ -44,6 +44,19 @@
 		</ant>
 	</target>
 	
+	<target name="airtestrunner-intermediary" depends="fluint">
+		<!-- Copy over library SWC to package airtestrunner -->
+		<copy todir="${airtestrunner.loc}/libs">
+			<fileset dir="${library.loc}/target">
+				<include name="*.swc" />
+			</fileset>
+		</copy>
+		
+		<ant dir="${airtestrunner.loc}" target="package-intermediary" inheritall="false">
+			<property name="flex.home" location="${flex.home}" />
+		</ant>
+	</target>
+	
 	<target name="anttasks">
 		<ant dir="${anttasks.loc}" target="package" inheritall="false">
 			<property name="java.home" value="${java..home}" />

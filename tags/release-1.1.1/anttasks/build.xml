@@ -1,0 +1,40 @@
+<project name="fluintAntTasks" basedir="." default="package">
+	
+	<!-- Folders and values -->
+	<property name="src.main.loc" location="${basedir}/src/main/java" />
+	<property name="bin.loc" location="${basedir}/target" />
+	<property name="bin.main.loc" location="${bin.loc}/classes" />
+	<property name="package.loc" location="${bin.loc}" />
+	<property name="package.artifact.name" value="FluintAnt.jar" />
+	<property name="doc.loc" location="${bin.loc}/doc" />
+	
+	<target name="clean">
+        <delete dir="${bin.loc}" />
+    </target>
+	
+	<target name="init">
+		<mkdir dir="${bin.loc}" />
+		<mkdir dir="${bin.main.loc}" />
+		<mkdir dir="${doc.loc}" />
+	</target>
+	
+	<target name="build" depends="init">
+		<!-- Generate class files -->
+		<javac srcdir="${src.main.loc}" destdir="${bin.main.loc}" failonerror="true" />
+    </target>
+	
+	<target name="package" depends="build">
+		<!-- Places classes into JAR -->
+		<jar basedir="${bin.main.loc}" destfile="${package.loc}/${package.artifact.name}" />
+		
+		<!-- Generate Javadocs -->
+		<javadoc destdir="${doc.loc}" 
+			packagenames="net.digitalprimates.ant.tasks.fluint"
+		    sourcepath="${src.main.loc}"
+			access="private"	
+		    Author="true" version="true" Use="true" noindex="true"
+		    Windowtitle="Fluint Ant Tasks "
+		    Doctitle="Fluint Ant Tasks"
+			failonerror="true" />
+	</target>
+</project>

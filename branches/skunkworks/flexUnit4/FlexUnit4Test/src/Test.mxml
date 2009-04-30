@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="runMe()">
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+	creationComplete="runMe()" xmlns:flexui="flexunit.flexui.*"
+	styleName="flexUnitApplication" >
+	
 	<mx:Script>
 		<![CDATA[
+			import org.flexunit.listeners.UIListener;
 			import flash.utils.describeType;
 			import flex.lang.reflect.Klass;
 			import org.flexunit.runner.Description;
 			import org.flexunit.runner.Request;
 			import net.digitalprimates.fluint.unitTests.frameworkSuite.testCases.TestAssert;
 			import net.digitalprimates.fluint.unitTests.frameworkSuite.FrameworkSuite;
-			import suite.cases.TestOne;
 			//import org.flexunit.internals.listeners.XMLListener;
-			import suite.cases.MySuite;
 			import net.digitalprimates.fluint.unitTests.theorySuite.TheorySuite;
 
 			import org.flexunit.runner.FlexUnitCore;
@@ -19,6 +21,8 @@
 			public function runMe():void {
 
 				core = new FlexUnitCore();
+				//core.addListener( new JUnitListener( ));
+				core.addListener( new UIListener( uiListener ));
 				core.run( FrameworkSuite );
 				
 /* 
@@ -41,4 +45,18 @@
 			}
 		]]>
 	</mx:Script>
+	<mx:Style>
+		Application {
+			   backgroundColor: #3872b2;
+			   backgroundGradientColors: #3872b2, #0c1a3d;
+			   backgroundGradientAlphas: 1, 1;
+			   themeColor: #ffffff;
+			   color: #444444;
+			   fontFamily: "Myriad Pro Semibold";
+			   fontSize: 12;
+			}
+	</mx:Style>
+	
+	<flexui:TestRunnerBase id="uiListener" 
+		width="100%" height="100%" />
 </mx:Application>

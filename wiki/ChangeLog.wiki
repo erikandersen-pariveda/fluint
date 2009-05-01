@@ -1,4 +1,11 @@
 #summary Change log for fluint and all of its associated projects.
+=1.1.1=
+
+  * Issue #34 - Assets are not located in net/digitalprimates/fluint folder
+  * Issue #35 - Can't find TestResponder
+  * Issue #37 - Air Test Runner needs better error handling
+  * Added new target to ant build for building the airtestrunner as an .airi file (target => "airtestrunner-intermediary")
+  * Added flex builder metadata files to the samples project
 
 =1.1.0=
 

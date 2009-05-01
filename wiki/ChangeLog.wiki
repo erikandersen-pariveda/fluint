@@ -29,4 +29,4 @@
 
 =1.0.0=
 
-  * coming soon ...
+  * Initial import of libary, airtestrunner, and anttasks

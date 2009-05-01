@@ -23,7 +23,7 @@ This new Flex project, created with either the source code or the SWC library, w
 == Installing the Library Project using the Source files ==
 Fluint is a combation of projects. Clicking on the [http://code.google.com/p/fluint/source/checkout Source] tab above will provide directions for synchronizing directly with the SVN repository.  If you'd like to ensure continual access to the latest version of fluint, check out the `trunk`, otherwise use the latest release under `tags`.
 
-Checking out `/tags/release-1.1.0` of the repository will checkout all of the projects associated with the latest stable version of fluint.  Each of the projects is described below:
+Checking out `/tags/release-1.1.1` of the repository will checkout all of the projects associated with the latest stable version of fluint.  Each of the projects is described below:
 
  * `fluint` - Library project used to build fluint.swc
  * `airtestrunner` - AIR project designed to run tests via the command line as well as an automated build environment.

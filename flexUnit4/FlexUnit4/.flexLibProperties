@@ -27,6 +27,7 @@
     <classEntry path="net.digitalprimates.fluint.sequence.ISequenceStep"/>
     <classEntry path="net.digitalprimates.fluint.sequence.SequenceBindingWaiter"/>
     <classEntry path="net.digitalprimates.fluint.sequence.SequenceCaller"/>
+    <classEntry path="net.digitalprimates.fluint.sequence.SequenceDelay"/>
     <classEntry path="net.digitalprimates.fluint.sequence.SequenceEventDispatcher"/>
     <classEntry path="net.digitalprimates.fluint.sequence.SequenceRunner"/>
     <classEntry path="net.digitalprimates.fluint.sequence.SequenceSetter"/>

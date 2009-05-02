@@ -33,6 +33,7 @@ package org.flexunit.experimental.runners.statements
 	import org.flexunit.experimental.theories.internals.ParameterizedAssertionError;
 	import org.flexunit.internals.AssumptionViolatedException;
 	import org.flexunit.internals.namespaces.classInternal;
+	import org.flexunit.internals.runners.model.MultipleFailureException;
 	import org.flexunit.internals.runners.statements.AsyncStatementBase;
 	import org.flexunit.internals.runners.statements.IAsyncStatement;
 	import org.flexunit.runners.model.FrameworkMethod;
@@ -64,8 +65,28 @@ package org.flexunit.experimental.runners.statements
 		protected function handleMethodExecuteComplete( result:ChildResult ):void {
 			var error:Error;
 
-			if (successes == 0)
-				error = new AssertionFailedError("Never found parameters that satisfied method assumptions.  Violated assumptions: " + invalidParameters);
+			if ( result && result.error ) {
+				error = result.error;
+			} else if ( successes == 0 ) {
+				error = new AssertionFailedError("Never found parameters that satisfied " + frameworkMethod.name + " method assumptions.  Violated assumptions: " + invalidParameters);
+			}
+			
+/* 			if ( !error && ( successes == 0 ) ) {
+				//We don't have any errors, but no success either, need to inform our parent
+				//that we never found matching conditions of any sort
+				error = new AssertionFailedError("Never found parameters that satisfied method assumptions.  Violated assumptions: " + invalidParameters);				
+			} else if (  ( error ) &&
+					     ( error is MultipleFailureException ) && 
+						 ( MultipleFailureException( error ).areAllErrorsType( AssumptionViolatedException ) ) ) {
+				//okay we have errors, but they are all assumption violations
+				//If we have success, then no worries, blow this off, else, we need to report it
+				if ( successes == 0 ) {
+					error = new AssertionFailedError("Never found parameters that satisfied method assumptions.  Violated assumptions: " + invalidParameters);
+				} else {
+					//clear out these errors, they are all just assumption failures but we did have some that passed so it doesn't matter
+					error = null;
+				}
+			} */
 			
 			parentToken.sendResult( error );
 		}
@@ -87,10 +108,10 @@ package org.flexunit.experimental.runners.statements
 			invalidParameters.push(e);
 		}
 
-		classInternal function reportParameterizedError( e:Error, ...params):void {
+		classInternal function reportParameterizedError( e:Error, ...params):Error {
  			if (params.length == 0)
-				throw e;
-			throw new ParameterizedAssertionError(e, frameworkMethod.name, params);
+				return e;
+			return new ParameterizedAssertionError(e, frameworkMethod.name, params);
 		}
 
 		classInternal function nullsOk():Boolean {

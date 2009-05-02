@@ -30,7 +30,7 @@ package org.flexunit.experimental.theories.internals {
 		public var targetException:Error;
 		public function ParameterizedAssertionError( targetException:Error, methodName:String, ...params ) {
 			this.targetException = targetException;
-			super( methodName + ( params as Array ).join( ", " ) );
+			super( methodName + " " + ( params as Array ).join( ", " ) );
 		}
 	
 //		public function equals( obj:Object ):Boolean {

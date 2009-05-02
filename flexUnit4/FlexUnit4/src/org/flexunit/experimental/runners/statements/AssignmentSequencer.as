@@ -1,6 +1,7 @@
 package org.flexunit.experimental.runners.statements {
 	import org.flexunit.experimental.theories.IPotentialAssignment;
 	import org.flexunit.experimental.theories.internals.Assignments;
+	import org.flexunit.internals.AssumptionViolatedException;
 	import org.flexunit.internals.runners.model.MultipleFailureException;
 	import org.flexunit.internals.runners.statements.AsyncStatementBase;
 	import org.flexunit.internals.runners.statements.IAsyncStatement;
@@ -46,10 +47,16 @@ package org.flexunit.experimental.runners.statements {
 		public function handleChildExecuteComplete( result:ChildResult ):void {
 			var source:IPotentialAssignment;
 
-			if ( result && result.error ) {
+			if ( result && result.error && !( result.error is AssumptionViolatedException ) ) {
 				errors.push( result.error );
 			}
-
+			
+			if ( errors.length ) {
+				//we received an error that was not an AssumptionViolation, we need to bail out of this case
+				sendComplete();
+				return;
+			}
+//i think we need to stop here on this error
 			if ( ( potential ) && ( counter < potential.length ) ) {
 				source = potential[ counter ] as IPotentialAssignment;
 				counter++;

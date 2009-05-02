@@ -323,7 +323,12 @@ package org.flexunit.internals.runners.statements {
 				sendComplete( result.error );
 				//parentToken.sendResult( result.error );
 			} else {
-				startAsyncTimers();
+				if ( result && result.error ) {
+					//If we already have an error, we need to report it now, not coninue
+					sendComplete( result.error );
+				} else {
+					startAsyncTimers();
+				}
 			}
 		}
 

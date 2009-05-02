@@ -29,6 +29,24 @@ package org.flexunit.internals.runners.model {
 	public class MultipleFailureException extends Error {
 		private var errors:Array;
 
+		public function areAllErrorsType( type:Class ):Boolean {
+			
+			if ( !errors ) {
+				return false;
+			}
+
+			var allOfType:Boolean = true;
+			for ( var i:int=0; i<errors.length; i++ ) {
+				allOfType &&= ( errors[ i ] is type );
+				
+				if ( !allOfType ) {
+					break;
+				}
+			} 
+			
+			return allOfType;
+		}
+
 		public function get failures():Array {
 			return errors;
 		}

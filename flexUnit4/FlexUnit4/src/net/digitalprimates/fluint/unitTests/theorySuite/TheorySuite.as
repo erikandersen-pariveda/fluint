@@ -1,4 +1,6 @@
 package net.digitalprimates.fluint.unitTests.theorySuite {
+	import flexunit.framework.Assert;
+	
 	import org.flexunit.assumeThat;
 	import org.flexunit.experimental.theories.Theories;
 	import org.hamcrest.number.lessThan;
@@ -41,7 +43,7 @@ package net.digitalprimates.fluint.unitTests.theorySuite {
 
   		[Theory]
 		public function testIntOnly( value:int ):void {
-			assumeThat( value, lessThan( 200 ) );
+			assumeThat( value, lessThan( 10 ) );
 			// test which involves int value	
 			//trace( "      int case " + value );
 		}		

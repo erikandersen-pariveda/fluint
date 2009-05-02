@@ -211,7 +211,7 @@ package org.flexunit.runner {
 		
 		protected function buildILoggingTarget():ILoggingTarget {
 			var traceTarget:TraceTarget = new TraceTarget();
-			traceTarget.level = LogEventLevel.ALL;
+			traceTarget.level = LogEventLevel.INFO;
 
             traceTarget.includeDate = true;
             traceTarget.includeTime = true;

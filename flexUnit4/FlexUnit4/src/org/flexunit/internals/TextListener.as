@@ -28,8 +28,8 @@
 package org.flexunit.internals {
 	import mx.formatters.NumberFormatter;
 	import mx.logging.ILogger;
+	import mx.logging.Log;
 	
-	import org.flexunit.runner.Description;
 	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.Result;
 	import org.flexunit.runner.notification.Failure;
@@ -71,6 +71,7 @@ package org.flexunit.internals {
 		 */
 		protected function printHeader( runTime:Number ):void {
 			logger.info( "Time: {0}", elapsedTimeAsString(runTime) );
+			//trace( elapsedTimeAsString(runTime) );
 		}
 	
 		protected function printFailures( result:Result ):void {

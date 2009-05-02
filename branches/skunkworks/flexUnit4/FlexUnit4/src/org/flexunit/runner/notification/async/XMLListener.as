@@ -22,7 +22,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
- * @author     Michael Labriola <labriola@digitalprimates.net>
+ * @author     Jeff Tapper <jtapper@digitalprimates.net>
  * @version    
  **/ 
 /**
@@ -36,25 +36,25 @@
  * 
  * */
 
-package org.flexunit.internals.listeners
+package org.flexunit.runner.notification.async
 {
 	import flash.events.Event;
-	import flash.events.IEventDispatcher;
+	import flash.events.EventDispatcher;
 	import flash.events.IOErrorEvent;
 	import flash.events.SecurityErrorEvent;
 	import flash.net.XMLSocket;
 	
 	import mx.logging.ILogger;
 	
-	import org.flexunit.runner.Description;
 	import org.flexunit.runner.Descriptor;
+	import org.flexunit.runner.FlexUnitCore;
 	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.Result;
 	import org.flexunit.runner.notification.Failure;
-	import org.flexunit.runner.notification.RunListener;
+	import org.flexunit.runner.notification.IAsyncStartupRunListener;
 
 
-	public class XMLListener extends RunListener
+	public class XMLListener extends EventDispatcher implements IAsyncStartupRunListener
 	{
 		
 		private var logger:ILogger;
@@ -67,6 +67,8 @@ package org.flexunit.internals.listeners
 		
 		private var successes:Array = new Array();
 		private var ignores:Array = new Array();
+		
+		private var _ready:Boolean = false;
 		
 		private static const END_OF_TEST_RUN : String = "<endOfTestRun/>";
 		
@@ -84,63 +86,53 @@ package org.flexunit.internals.listeners
 		private var lastFailedTest:IDescription;
 		
 		private var msgQueue:Array = new Array();
-		private var dispatcher:IEventDispatcher;
-		public function XMLListener( dispatcher:IEventDispatcher ) {
-			super();
-			this.dispatcher = dispatcher;
+
+		public function XMLListener() {
 			socket = new XMLSocket ();
 	      	socket.addEventListener( Event.CONNECT, handleConnect );
-			socket.addEventListener(IOErrorEvent.IO_ERROR, errorHandler);
-			socket.addEventListener(SecurityErrorEvent.SECURITY_ERROR,errorHandler);
-   	   		socket.addEventListener(Event.CLOSE,errorHandler);
+			socket.addEventListener( IOErrorEvent.IO_ERROR, errorHandler);
+			socket.addEventListener( SecurityErrorEvent.SECURITY_ERROR,errorHandler);
+   	   		socket.addEventListener( Event.CLOSE,errorHandler);
    	   		try
    	   		{
    	   			socket.connect( server, port );
    	   		} catch (e:Error) {
    	   			trace (e.message);
    	   		}
-   	   		
-			
-		}
-		override public function testRunStarted( description:IDescription ):void{
-			
-		}
-		private function handleConnect(event:Event):void{
-			trace("socket connect");
-			dispatcher.dispatchEvent( event );
-			
-		}
-		private function errorHandler(event:Event):void{
-			trace("socket error");
-			dispatcher.dispatchEvent( event ) ;
-			throw new Error("unable to connect to flex builder to send results");
 		}
 		
-		override public function testRunFinished( result:Result ):void {
+		[Bindable(event="listenerReady")]
+		public function get ready():Boolean {
+			return _ready;
+		}
+		
+		public function testRunStarted( description:IDescription ):void{
+			
+		}
+
+		public function testRunFinished( result:Result ):void {
 			printHeader( result );
 			printResults(result);
 			printFooter( result );
 		}
-		private function getDescriptorFromDescription(description:IDescription ):Descriptor{
-			var descriptor:Descriptor = new Descriptor();
-			var descriptionArray:Array = description.displayName.split("::");
-			descriptor.path = descriptionArray[0];
-			var classMethod:String =  descriptionArray[1];
-			var classMethodArray:Array = classMethod.split(".");
-			descriptor.suite = classMethodArray[0];
-			descriptor.method = classMethodArray[1];
-			return descriptor;
+
+		public function testStarted( description:IDescription ):void {
+			
 		}
 		
-		override public function testFinished( description:IDescription ):void {
+		public function testFinished( description:IDescription ):void {
 			//logger.info( description.displayName + " ." );
 			if(description.displayName != lastFailedTest.displayName){
 				var desc:Descriptor = getDescriptorFromDescription(description);
 				msgQueue.push( "<testCase name='"+desc.method+"' testSuite='"+desc.suite+"'  status='"+SUCCESS+"'/>");
 			}
 		}
-		
-		override public function testIgnored( description:IDescription ):void {
+
+		public function testAssumptionFailure( failure:Failure ):void {
+			
+		}
+
+		public function testIgnored( description:IDescription ):void {
 			
 			var desc:Descriptor = getDescriptorFromDescription(description);
 			msgQueue.push("<testCase name='"+desc.method+"' testSuite='"+desc.suite+"'  status='"+IGNORE+"'/>");
@@ -148,7 +140,7 @@ package org.flexunit.internals.listeners
 		}
 	
 	
-		override public function testFailure( failure:Failure ):void {
+		public function testFailure( failure:Failure ):void {
 			lastFailedTest = failure.description;
 			var descriptor:Descriptor = getDescriptorFromDescription(failure.description);
 			var type : String = failure.description.displayName
@@ -169,6 +161,18 @@ package org.flexunit.internals.listeners
 		/*
 		 * Internal methods
 		 */
+
+		private function getDescriptorFromDescription(description:IDescription ):Descriptor{
+			var descriptor:Descriptor = new Descriptor();
+			var descriptionArray:Array = description.displayName.split("::");
+			descriptor.path = descriptionArray[0];
+			var classMethod:String =  descriptionArray[1];
+			var classMethodArray:Array = classMethod.split(".");
+			descriptor.suite = classMethodArray[0];
+			descriptor.method = classMethodArray[1];
+			return descriptor;
+		}
+		 
 		protected function printHeader( result:Result ):void {
 			var totalTestCount:int = result.runCount;
 			var currentProjectName:String = "currentProjectName";
@@ -193,6 +197,18 @@ package org.flexunit.internals.listeners
 				trace(msg);
 			}
 			//
+		}
+
+		private function handleConnect(event:Event):void{
+			_ready = true;
+			dispatchEvent( new Event( AsyncListenerWatcher.LISTENER_READY ) );
+			//dispatchEvent( event );
+			
+		}
+		private function errorHandler(event:Event):void{
+			dispatchEvent( new Event( AsyncListenerWatcher.LISTENER_FAILED ) );
+			//dispatchEvent( event ) ;
+			//throw new Error("unable to connect to flex builder to send results");
 		}
 	
 		

@@ -26,6 +26,7 @@
  * @version    
  **/ 
 package org.flexunit.runner {
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.utils.*;
 	
@@ -37,10 +38,13 @@ package org.flexunit.runner {
 	
 	import org.flexunit.internals.TextListener;
 	import org.flexunit.runner.notification.Failure;
+	import org.flexunit.runner.notification.IAsyncStartupRunListener;
 	import org.flexunit.runner.notification.IRunListener;
 	import org.flexunit.runner.notification.IRunNotifier;
 	import org.flexunit.runner.notification.RunListener;
 	import org.flexunit.runner.notification.RunNotifier;
+	import org.flexunit.runner.notification.async.AsyncListenerWatcher;
+	import org.flexunit.token.AsyncListenersToken;
 	import org.flexunit.token.AsyncTestToken;
 	import org.flexunit.token.ChildResult;
 	import org.flexunit.utils.ClassNameUtil;
@@ -62,6 +66,7 @@ package org.flexunit.runner {
 		private var notifier:IRunNotifier;
 		private var logTarget:ILoggingTarget;
 		private var logger:ILogger;
+		private var asyncListenerWatcher:AsyncListenerWatcher;
 		
 		private static const RUN_LISTENER:String = "runListener";
 
@@ -83,8 +88,8 @@ package org.flexunit.runner {
 					}
 				}
 				catch ( error:Error ) {
-					logger.error( "Cannot find class", ar[i] ); 
-					var desc:Description = Description.createSuiteDescription( ar[ i ] );
+					logger.error( "Cannot find class {0}", ar[i] ); 
+					var desc:IDescription = Description.createSuiteDescription( ar[ i ] );
 					var failure:Failure = new Failure( desc, error );
 					missingClasses.push( failure );
 				}
@@ -104,7 +109,7 @@ package org.flexunit.runner {
 			
 			dealWithArgArray( args, foundClasses, missingClasses );
 
-			var listener:RunListener = new TextListener( logger );
+			var listener:IRunListener = new TextListener( logger );
 			addListener( listener );
 			var result:Result = runClasses.apply( this, foundClasses );
 			
@@ -131,6 +136,17 @@ package org.flexunit.runner {
 		}
 		
 		public function runRunner( runner:IRunner ):void {
+			if ( asyncListenerWatcher.allListenersReady ) {
+				beginRunnerExecution( runner );
+			} else {
+				//we need to wait until all listeners are ready (or failed) before we can continue
+				var token:AsyncListenersToken = asyncListenerWatcher.token;
+				token.runner = runner;
+				token.addNotificationMethod( beginRunnerExecution );
+			}
+		}
+		
+		protected function beginRunnerExecution( runner:IRunner ):void {
 			var result:Result = new Result();
 			var runListener:RunListener = result.createListener();
 			addFirstListener( runListener );
@@ -148,7 +164,7 @@ package org.flexunit.runner {
 				notifier.fireTestAssumptionFailed( new Failure( runner.description, error ) );
 				notifier.fireTestRunFinished( runListener.result );
 				removeListener( runListener );
-			}
+			}			
 		}
 		
 		private function handleRunnerComplete( result:ChildResult ):void {
@@ -157,7 +173,7 @@ package org.flexunit.runner {
 			notifier.fireTestRunFinished( runListener.result );
 			removeListener( runListener );
 		}
-		
+
 		/**
 		 * Add a listener to be notified as the tests run.
 		 * @param listener the listener to add
@@ -165,10 +181,16 @@ package org.flexunit.runner {
 		 */
 		public function addListener( listener:IRunListener ):void {
 			notifier.addListener( listener );
+			if ( listener is IAsyncStartupRunListener ) {
+				asyncListenerWatcher.watchListener( listener as IAsyncStartupRunListener );
+			}
 		}
 
 		private function addFirstListener( listener:IRunListener ):void {
 			notifier.addFirstListener( listener );
+			if ( listener is IAsyncStartupRunListener ) {
+				asyncListenerWatcher.watchListener( listener as IAsyncStartupRunListener );
+			}
 		}
 
 		/**
@@ -177,6 +199,14 @@ package org.flexunit.runner {
 		 */
 		public function removeListener( listener:IRunListener ):void {
 			notifier.removeListener( listener );
+
+			if ( listener is IAsyncStartupRunListener ) {
+				asyncListenerWatcher.watchListener( listener as IAsyncStartupRunListener );
+			}			
+		}
+		
+		protected function handleAllListenersReady( event:Event ):void {
+			
 		}
 		
 		protected function buildILoggingTarget():ILoggingTarget {
@@ -201,6 +231,9 @@ package org.flexunit.runner {
 			Log.addTarget(logTarget);
 			
 			logger = Log.getLogger("FlexUnit4"); 
+			
+			asyncListenerWatcher = new AsyncListenerWatcher( notifier, logger );
+			//asyncListenerWatcher.addEventListener( AsyncListenerWatcher.ALL_LISTENERS_READY, handleAllListenersReady, false, 0, true );
 		}
 	}
 }

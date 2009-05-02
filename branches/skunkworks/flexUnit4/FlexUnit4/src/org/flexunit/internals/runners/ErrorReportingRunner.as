@@ -26,8 +26,6 @@
  * @version    
  **/ 
 package org.flexunit.internals.runners {
-	import flash.events.EventDispatcher;
-	
 	import org.flexunit.runner.Description;
 	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.IRunner;
@@ -35,7 +33,7 @@ package org.flexunit.internals.runners {
 	import org.flexunit.runner.notification.IRunNotifier;
 	import org.flexunit.token.AsyncTestToken;
 	
-	public class ErrorReportingRunner extends EventDispatcher implements IRunner {
+	public class ErrorReportingRunner implements IRunner {
 		private var _causes:Array;
 		private var _testClass:Class;
 
@@ -45,7 +43,7 @@ package org.flexunit.internals.runners {
 		}
 
 		public function get description():IDescription {
-			var description:Description = Description.createSuiteDescription( _testClass );
+			var description:IDescription = Description.createSuiteDescription( _testClass );
 
 			for ( var i:int=0; i<_causes.length; i++ ) {
 				description.addChild( describeCause( _causes[ i ] ) );

@@ -70,7 +70,7 @@ package org.flexunit.runners {
  * {@link Description}, and run children sequentially.
  */
 
-	public class ParentRunner extends EventDispatcher implements IRunner {
+	public class ParentRunner implements IRunner {
 		protected static const EACH_NOTIFIER:String = "eachNotifier";
 		
 		private var _testClass:TestClass;
@@ -101,7 +101,7 @@ package org.flexunit.runners {
 
 		public function get description():IDescription {
 			//TODO: Have an issue here, this is trying to use a createSuiteDescription which needs metadata
-			var description:Description = Description.createSuiteDescription( name, testClass.metadata?testClass.metadata[ 0 ]:null );
+			var description:IDescription = Description.createSuiteDescription( name, testClass.metadata?testClass.metadata[ 0 ]:null );
 			var filtered:Array = getFilteredChildren();
 			var child:*;
 
@@ -241,13 +241,6 @@ package org.flexunit.runners {
 			return new ChildRunnerSequencer( children, runChild, notifier );
 		}
 
-		private function handleSequenceComplete( event:ExecutionCompleteEvent ):void {
-			//trace("Sequence " + event.currentTarget + "complete in " + this );
-			event.currentTarget.removeEventListener( ExecutionCompleteEvent.COMPLETE, handleSequenceComplete );
-			
-			dispatchEvent( new ExecutionCompleteEvent() );
-		}
-	
 		private function getFilteredChildren():Array {
 			var filtered:Array = new Array();
 			var child:*;
@@ -341,7 +334,7 @@ package org.flexunit.runners {
 			throw new NoTestsRemainException();
 		}
 
-		override public function toString():String {
+		public function toString():String {
 			return "ParentRunner";
 		}
 

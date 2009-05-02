@@ -27,8 +27,6 @@
  **/ 
 package org.flexunit.runner
 {
-	import flash.events.IEventDispatcher;
-	
 	import org.flexunit.runner.notification.IRunNotifier;
 	import org.flexunit.token.AsyncTestToken;
 	
@@ -47,7 +45,7 @@ package org.flexunit.runner
 	 * 
 	 * @see org.flexunit.runner.Description
 	 */
-	public interface IRunner extends IEventDispatcher
+	public interface IRunner
 	{
 		
 		/**

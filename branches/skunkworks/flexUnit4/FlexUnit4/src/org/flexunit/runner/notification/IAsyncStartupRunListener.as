@@ -25,27 +25,10 @@
  * @author     Michael Labriola <labriola@digitalprimates.net>
  * @version    
  **/ 
-package org.flexunit.internals.builders {
-	import org.flexunit.runner.Description;
-	import org.flexunit.runner.IDescription;
-	import org.flexunit.runner.IRunner;
-	import org.flexunit.runner.notification.IRunNotifier;
-	import org.flexunit.token.AsyncTestToken;
+package org.flexunit.runner.notification {
+	import flash.events.IEventDispatcher;
 	
-	public class IgnoredClassRunner implements IRunner {
-		private var testClass:Class;
-	
-		public function IgnoredClassRunner( testClass:Class ) {
-			this.testClass = testClass;
-		}
-	
-		public function run( notifier:IRunNotifier, token:AsyncTestToken ):void {
-			notifier.fireTestIgnored( description );
-			token.sendResult();
-		}
-	
-		public function get description():IDescription {
-			return Description.createSuiteDescription( testClass );
-		}
+	public interface IAsyncStartupRunListener extends IRunListener, IEventDispatcher {
+		function get ready():Boolean;
 	}
 }

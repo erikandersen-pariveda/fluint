@@ -37,6 +37,8 @@ package org.flexunit.runner {
 	
 	import org.flexunit.internals.TextListener;
 	import org.flexunit.runner.notification.Failure;
+	import org.flexunit.runner.notification.IRunListener;
+	import org.flexunit.runner.notification.IRunNotifier;
 	import org.flexunit.runner.notification.RunListener;
 	import org.flexunit.runner.notification.RunNotifier;
 	import org.flexunit.token.AsyncTestToken;
@@ -57,7 +59,7 @@ package org.flexunit.runner {
 	 */
 
 	public class FlexUnitCore extends EventDispatcher {
-		private var notifier:RunNotifier;
+		private var notifier:IRunNotifier;
 		private var logTarget:ILoggingTarget;
 		private var logger:ILogger;
 		
@@ -161,11 +163,11 @@ package org.flexunit.runner {
 		 * @param listener the listener to add
 		 * @see org.flexunit.runner.notification.RunListener
 		 */
-		public function addListener( listener:RunListener ):void {
+		public function addListener( listener:IRunListener ):void {
 			notifier.addListener( listener );
 		}
 
-		private function addFirstListener( listener:RunListener ):void {
+		private function addFirstListener( listener:IRunListener ):void {
 			notifier.addFirstListener( listener );
 		}
 
@@ -173,7 +175,7 @@ package org.flexunit.runner {
 		 * Remove a listener.
 		 * @param listener the listener to remove
 		 */
-		public function removeListener( listener:RunListener ):void {
+		public function removeListener( listener:IRunListener ):void {
 			notifier.removeListener( listener );
 		}
 		

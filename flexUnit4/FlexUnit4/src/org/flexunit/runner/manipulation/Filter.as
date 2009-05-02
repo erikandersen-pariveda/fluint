@@ -26,7 +26,7 @@
  * @version    
  **/ 
 package org.flexunit.runner.manipulation {
-	import org.flexunit.runner.Description;
+	import org.flexunit.runner.IDescription;
 	
 	
 	/**
@@ -79,7 +79,7 @@ package org.flexunit.runner.manipulation {
 		 */
 		private static function buildAllFilter():Filter {
 			return new Filter(			
-				function( description:Description ):Boolean { return true; },
+				function( description:IDescription ):Boolean { return true; },
 				function():String { return "all tests"; } );
 		}
 		

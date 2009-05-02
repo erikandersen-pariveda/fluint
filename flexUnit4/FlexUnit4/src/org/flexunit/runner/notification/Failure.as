@@ -27,6 +27,7 @@
  **/ 
 package org.flexunit.runner.notification {
 	import org.flexunit.runner.Description;
+	import org.flexunit.runner.IDescription;
 	
 	/**
 	 * A <code>Failure</code> holds a description of the failed test and the
@@ -38,7 +39,7 @@ package org.flexunit.runner.notification {
 	 * something other than a single test.
 	 */
 	public class Failure {
-		private var _description:Description;
+		private var _description:IDescription;
 		private var _exception:Error;
 
 		/**
@@ -46,7 +47,7 @@ package org.flexunit.runner.notification {
 		 * @param description a {@link org.flexunit.runner.Description} of the test that failed
 		 * @param exception the exception that was thrown while running the test
 		 */
-		public function Failure( description:Description, exception:Error ) {
+		public function Failure( description:IDescription, exception:Error ) {
 			this._description = description;
 			this._exception = exception;
 		}
@@ -61,7 +62,7 @@ package org.flexunit.runner.notification {
 		/**
 		 * @return the raw description of the context of the failure.
 		 */
-		public function get description():Description {
+		public function get description():IDescription {
 			return _description;
 		}
 	

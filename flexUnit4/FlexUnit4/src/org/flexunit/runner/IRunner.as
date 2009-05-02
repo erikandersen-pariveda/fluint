@@ -29,7 +29,7 @@ package org.flexunit.runner
 {
 	import flash.events.IEventDispatcher;
 	
-	import org.flexunit.runner.notification.RunNotifier;
+	import org.flexunit.runner.notification.IRunNotifier;
 	import org.flexunit.token.AsyncTestToken;
 	
 	/**
@@ -55,7 +55,7 @@ package org.flexunit.runner
 		 * @param notifier will be notified of events while tests are being run--tests being 
 		 * started, finishing, and failing
 		 */
-		function run( notifier:RunNotifier, previousToken:AsyncTestToken ):void;
-		function get description():Description;
+		function run( notifier:IRunNotifier, previousToken:AsyncTestToken ):void;
+		function get description():IDescription;
 	}
 }

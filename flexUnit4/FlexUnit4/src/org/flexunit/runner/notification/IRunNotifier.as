@@ -23,31 +23,22 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
  * @author     Michael Labriola <labriola@digitalprimates.net>
- * @version    
+ * @version	   0    
  **/ 
-package org.flexunit.internals.builders {
-	import flash.events.EventDispatcher;
-	
-	import org.flexunit.runner.Description;
+package org.flexunit.runner.notification {
 	import org.flexunit.runner.IDescription;
-	import org.flexunit.runner.IRunner;
-	import org.flexunit.runner.notification.IRunNotifier;
-	import org.flexunit.token.AsyncTestToken;
+	import org.flexunit.runner.Result;
 	
-	public class IgnoredClassRunner extends EventDispatcher implements IRunner {
-		private var testClass:Class;
-	
-		public function IgnoredClassRunner( testClass:Class ) {
-			this.testClass = testClass;
-		}
-	
-		public function run( notifier:IRunNotifier, token:AsyncTestToken ):void {
-			notifier.fireTestIgnored( description );
-			token.sendResult();
-		}
-	
-		public function get description():IDescription {
-			return Description.createSuiteDescription( testClass );
-		}
+	public interface IRunNotifier {
+		function fireTestRunStarted( description:IDescription ):void;
+		function fireTestRunFinished( result:Result ):void;
+		function fireTestStarted( description:IDescription ):void;
+		function fireTestFailure( failure:Failure ):void;
+		function fireTestAssumptionFailed( failure:Failure ):void;
+		function fireTestIgnored( description:IDescription ):void;
+		function fireTestFinished( description:IDescription ):void;
+		function addListener( listener:IRunListener ):void;
+		function addFirstListener( listener:IRunListener ):void;
+		function removeListener( listener:IRunListener ):void;
 	}
 }

@@ -39,10 +39,11 @@ package org.flexunit.runners {
 	import org.flexunit.internals.runners.statements.RunBeforesClass;
 	import org.flexunit.internals.runners.statements.StatementSequencer;
 	import org.flexunit.runner.Description;
+	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.IRunner;
 	import org.flexunit.runner.manipulation.Filter;
 	import org.flexunit.runner.manipulation.NoTestsRemainException;
-	import org.flexunit.runner.notification.RunNotifier;
+	import org.flexunit.runner.notification.IRunNotifier;
 	import org.flexunit.runner.notification.StoppedByUserException;
 	import org.flexunit.runners.model.FrameworkMethod;
 	import org.flexunit.runners.model.TestClass;
@@ -98,7 +99,7 @@ package org.flexunit.runners {
 			return _testClass;
 		}
 
-		public function get description():Description {
+		public function get description():IDescription {
 			//TODO: Have an issue here, this is trying to use a createSuiteDescription which needs metadata
 			var description:Description = Description.createSuiteDescription( name, testClass.metadata?testClass.metadata[ 0 ]:null );
 			var filtered:Array = getFilteredChildren();
@@ -123,7 +124,7 @@ package org.flexunit.runners {
 		 * Returns a {@link Description} for {@code child}, which can be assumed to
 		 * be an element of the list returned by {@link ParentRunner#children()}
 		 */
-		protected function describeChild( child:* ):Description {
+		protected function describeChild( child:* ):IDescription {
 			return null
 		}
 
@@ -133,7 +134,7 @@ package org.flexunit.runners {
 		 * Subclasses are responsible for making sure that relevant test events are
 		 * reported through {@code notifier}
 		 */
-		protected function runChild( child:*, notifier:RunNotifier, childRunnerToken:AsyncTestToken ):void {
+		protected function runChild( child:*, notifier:IRunNotifier, childRunnerToken:AsyncTestToken ):void {
 		
 		}
 
@@ -154,7 +155,7 @@ package org.flexunit.runners {
 		 * @param notifier
 		 * @return {@code IStatement}
 		 */
-		protected function classBlock( notifier:RunNotifier ):IAsyncStatement {
+		protected function classBlock( notifier:IRunNotifier ):IAsyncStatement {
 			var sequencer:StatementSequencer = new StatementSequencer();
 			
 			sequencer.addStep( withBeforeClasses() );
@@ -234,7 +235,7 @@ package org.flexunit.runners {
 		 * on each object returned by {@link #children()} (subject to any imposed
 		 * filter and sort)
 		 */
-		protected function childrenInvoker( notifier:RunNotifier ):IAsyncStatement {
+		protected function childrenInvoker( notifier:IRunNotifier ):IAsyncStatement {
 			var children:Array = getFilteredChildren();
 
 			return new ChildRunnerSequencer( children, runChild, notifier );
@@ -280,7 +281,7 @@ package org.flexunit.runners {
 		}
 
 		private var currentEachNotifier:EachTestNotifier;
-		public function run( notifier:RunNotifier, parentToken:AsyncTestToken ):void {
+		public function run( notifier:IRunNotifier, parentToken:AsyncTestToken ):void {
 			var testNotifier:EachTestNotifier = new EachTestNotifier(notifier, description );
 			var resendError:Error;
 			

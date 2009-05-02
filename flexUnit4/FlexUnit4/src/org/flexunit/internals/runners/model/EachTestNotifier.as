@@ -26,15 +26,15 @@
  * @version    
  **/ 
 package org.flexunit.internals.runners.model {
-	import org.flexunit.runner.Description;
+	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.notification.Failure;
-	import org.flexunit.runner.notification.RunNotifier;
+	import org.flexunit.runner.notification.IRunNotifier;
 	
 	public class EachTestNotifier {
-		private var notifier:RunNotifier;
-		private var description:Description;
+		private var notifier:IRunNotifier;
+		private var description:IDescription;
 	
-		public function EachTestNotifier( notifier:RunNotifier, description:Description ) {
+		public function EachTestNotifier( notifier:IRunNotifier, description:IDescription ) {
 			this.notifier = notifier;
 			this.description = description;
 		}

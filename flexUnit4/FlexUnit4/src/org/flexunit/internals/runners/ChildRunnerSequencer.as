@@ -28,18 +28,17 @@
 package org.flexunit.internals.runners {
 	import flash.events.IEventDispatcher;
 	
-	import org.flexunit.internals.events.ExecutionCompleteEvent;
 	import org.flexunit.internals.runners.statements.IAsyncStatement;
 	import org.flexunit.internals.runners.statements.StatementSequencer;
-	import org.flexunit.runner.notification.RunNotifier;
+	import org.flexunit.runner.notification.IRunNotifier;
 	
 	public class ChildRunnerSequencer extends StatementSequencer implements IAsyncStatement {
 		public static const COMPLETE:String = "complete";
 		private var runChild:Function;
-		private var notifier:RunNotifier;
+		private var notifier:IRunNotifier;
 		private var parent:IEventDispatcher;
 
-		public function ChildRunnerSequencer( children:Array, runChild:Function, notifier:RunNotifier ) {
+		public function ChildRunnerSequencer( children:Array, runChild:Function, notifier:IRunNotifier ) {
 			super( children );
 			this.runChild = runChild;
 			this.notifier = notifier;

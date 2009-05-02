@@ -27,8 +27,8 @@
  **/ 
 package org.flexunit.runner.notification {
 	import org.flexunit.runner.Description;
+	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.Result;
-	import org.flexunit.runner.notification.StoppedByUserException;
 	
 	/**
 	 * If you write custom runners, you may need to notify FlexUnit of your progress running tests.
@@ -37,17 +37,17 @@ package org.flexunit.runner.notification {
 	 * move {@link #fireTestRunStarted(Description)} and {@link #fireTestRunFinished(Result)}
 	 * to a separate class since they should only be called once per run.
 	 */
-	public class RunNotifier {
+	public class RunNotifier implements IRunNotifier {
 		private var listeners:Array = new Array();
 		private var pleaseStopBool:Boolean = false;
 
 		/**
 		 * Do not invoke. 
 		 */
-		public function fireTestRunStarted( description:Description ):void {
+		public function fireTestRunStarted( description:IDescription ):void {
 			var notifier:SafeNotifier = new SafeNotifier( this, listeners );
 			
-			notifier.notifyListener = function( item:RunListener ):void {
+			notifier.notifyListener = function( item:IRunListener ):void {
 				item.testRunStarted( description );
 			}
 
@@ -60,7 +60,7 @@ package org.flexunit.runner.notification {
 		public function fireTestRunFinished( result:Result ):void {
 			var notifier:SafeNotifier = new SafeNotifier( this, listeners );
 			
-			notifier.notifyListener = function( item:RunListener ):void {
+			notifier.notifyListener = function( item:IRunListener ):void {
 				item.testRunFinished( result );
 			}
 
@@ -72,13 +72,13 @@ package org.flexunit.runner.notification {
 		 * @param description the description of the atomic test (generally a class and method name)
 		 * @throws StoppedByUserException thrown if a user has requested that the test run stop
 		 */
-		public function fireTestStarted( description:Description ):void {
+		public function fireTestStarted( description:IDescription ):void {
 			if (pleaseStopBool)
 				throw new StoppedByUserException();
 
 			var notifier:SafeNotifier = new SafeNotifier( this, listeners );
 			
-			notifier.notifyListener = function( item:RunListener ):void {
+			notifier.notifyListener = function( item:IRunListener ):void {
 				item.testStarted( description );
 			}
 
@@ -92,7 +92,7 @@ package org.flexunit.runner.notification {
 		public function fireTestFailure( failure:Failure ):void {
 			var notifier:SafeNotifier = new SafeNotifier( this, listeners );
 			
-			notifier.notifyListener = function( item:RunListener ):void {
+			notifier.notifyListener = function( item:IRunListener ):void {
 				item.testFailure(failure);
 			}
 
@@ -110,7 +110,7 @@ package org.flexunit.runner.notification {
 		public function fireTestAssumptionFailed( failure:Failure ):void {
 			var notifier:SafeNotifier = new SafeNotifier( this, listeners );
 			
-			notifier.notifyListener = function( item:RunListener ):void {
+			notifier.notifyListener = function( item:IRunListener ):void {
 				item.testAssumptionFailure(failure);
 			}
 
@@ -121,10 +121,10 @@ package org.flexunit.runner.notification {
 		 * Invoke to tell listeners that an atomic test was ignored.
 		 * @param description the description of the ignored test
 		 */
-		public function fireTestIgnored( description:Description ):void {
+		public function fireTestIgnored( description:IDescription ):void {
 			var notifier:SafeNotifier = new SafeNotifier( this, listeners );
 			
-			notifier.notifyListener = function( item:RunListener ):void {
+			notifier.notifyListener = function( item:IRunListener ):void {
 				item.testIgnored(description);
 			}
 
@@ -136,10 +136,10 @@ package org.flexunit.runner.notification {
 		 * as listeners are likely to expect them to come in pairs.
 		 * @param description the description of the test that finished
 		 */
-		public function fireTestFinished( description:Description ):void {
+		public function fireTestFinished( description:IDescription ):void {
 			var notifier:SafeNotifier = new SafeNotifier( this, listeners );
 			
-			notifier.notifyListener = function( item:RunListener ):void {
+			notifier.notifyListener = function( item:IRunListener ):void {
 				item.testFinished(description);
 			}
 
@@ -158,20 +158,20 @@ package org.flexunit.runner.notification {
 
 		/** Internal use only
 		 */
-		public function addListener( listener:RunListener ):void {
+		public function addListener( listener:IRunListener ):void {
 			listeners.push( listener );
 		}
 
 		/**
 		 * Internal use only. The Result's listener must be first.
 		 */
-		public function addFirstListener( listener:RunListener ):void {
+		public function addFirstListener( listener:IRunListener ):void {
 			listeners.unshift( listener );
 		}
 
 		/** Internal use only
 		 */
-		public function removeListener( listener:RunListener ):void {
+		public function removeListener( listener:IRunListener ):void {
 			for ( var i:int=0; i<listeners.length; i++ ) {
 				if ( listeners[ i ] == listener ) {
 					listeners.splice( i, 1 );

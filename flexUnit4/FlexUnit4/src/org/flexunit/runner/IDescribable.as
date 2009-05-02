@@ -27,6 +27,6 @@
  **/ 
 package org.flexunit.runner {
 	public interface IDescribable {
-		function get description():Description;
+		function get description():IDescription;
 	}
 }

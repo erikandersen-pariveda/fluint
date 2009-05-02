@@ -39,8 +39,9 @@ package org.flexunit.runners {
 	import org.flexunit.internals.runners.statements.StackAndFrameManagement;
 	import org.flexunit.internals.runners.statements.StatementSequencer;
 	import org.flexunit.runner.Description;
+	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.manipulation.IFilterable;
-	import org.flexunit.runner.notification.RunNotifier;
+	import org.flexunit.runner.notification.IRunNotifier;
 	import org.flexunit.runners.model.FrameworkMethod;
 	import org.flexunit.token.AsyncTestToken;
 	import org.flexunit.token.ChildResult;
@@ -80,7 +81,7 @@ package org.flexunit.runners {
 	// Implementation of ParentRunner
 	// 
 	
-		override protected function runChild( child:*, notifier:RunNotifier, childRunnerToken:AsyncTestToken ):void {
+		override protected function runChild( child:*, notifier:IRunNotifier, childRunnerToken:AsyncTestToken ):void {
 			var method:FrameworkMethod = FrameworkMethod( child ); 
 			var eachNotifier:EachTestNotifier = makeNotifier( method, notifier);
 			var error:Error;
@@ -133,7 +134,7 @@ package org.flexunit.runners {
 			token.parentToken.sendResult();
 		}
 
-		override protected function describeChild( child:* ):Description {
+		override protected function describeChild( child:* ):IDescription {
 			var method:FrameworkMethod = FrameworkMethod( child );
 			return Description.createTestDescription( testClass.asClass, method.name, method.metadata[ 0 ] );
 		}
@@ -193,8 +194,8 @@ package org.flexunit.runners {
 			return new testClass.asClass();
 		}
 
-		private function makeNotifier( method:FrameworkMethod, notifier:RunNotifier ):EachTestNotifier {
-			var description:Description = describeChild(method);
+		private function makeNotifier( method:FrameworkMethod, notifier:IRunNotifier ):EachTestNotifier {
+			var description:IDescription = describeChild(method);
 			return new EachTestNotifier(notifier, description);
 		}
 

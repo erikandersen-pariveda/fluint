@@ -30,6 +30,7 @@ package org.flexunit.internals {
 	import mx.logging.ILogger;
 	
 	import org.flexunit.runner.Description;
+	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.Result;
 	import org.flexunit.runner.notification.Failure;
 	import org.flexunit.runner.notification.RunListener;
@@ -53,7 +54,7 @@ package org.flexunit.internals {
 			printFooter( result );
 		}
 	
-		override public function testStarted( description:Description ):void {
+		override public function testStarted( description:IDescription ):void {
 			logger.info( description.displayName + " ." );
 		}
 	
@@ -61,7 +62,7 @@ package org.flexunit.internals {
 			logger.warn( failure.description.displayName + " E" );
 		}
 	
-		override public function testIgnored( description:Description ):void {
+		override public function testIgnored( description:IDescription ):void {
 			logger.info( description.displayName + " I" );
 		}
 	

@@ -205,10 +205,22 @@ package flexunit.flexui.data
 			var descriptor:Descriptor = new Descriptor();
 			var descriptionArray:Array = description.displayName.split("::");
 			descriptor.path = descriptionArray[0];
+			
+			//This code was assuming things would be in a package, which is a good call, but it crashed
+			//badly on anything in the default package
+			//It also assumes that every test would be in a suite. Also not a valid assumption
 			var classMethod:String =  descriptionArray[1];
-			var classMethodArray:Array = classMethod.split(".");
+			var classMethodArray:Array;
+			if ( classMethod ) {
+				classMethodArray = classMethod.split(".");
+			} else {
+				classMethod =  descriptionArray[0];
+				classMethodArray = classMethod.split(".");
+			}
+
 			descriptor.suite = classMethodArray[0];
 			descriptor.method = classMethodArray[1];
+
 			return descriptor;
 		}
 		

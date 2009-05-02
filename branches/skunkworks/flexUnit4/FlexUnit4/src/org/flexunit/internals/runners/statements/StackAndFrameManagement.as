@@ -35,8 +35,12 @@
  * a future version
  **/
 package org.flexunit.internals.runners.statements {
+	import flash.display.Stage;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	import flash.utils.getTimer;
+	
+	import mx.core.Application;
 	
 	import org.flexunit.token.AsyncTestToken;
 	import org.flexunit.token.ChildResult;
@@ -47,26 +51,48 @@ package org.flexunit.internals.runners.statements {
 		protected var myToken:AsyncTestToken;
 		protected var timer:Timer;
 		protected var statement:IAsyncStatement;
-
+		
+		//this can eventually be computed
+		private static var greenThreadStartTime:Number;
+  		private static var frameLength:Number = 40; //given standard frame rates for flex a frame passes every 42 or so milliseconds, so we are going to try to use about 38 of those
+  
 		public function StackAndFrameManagement( statement:IAsyncStatement ) {
 			super();
 			
 			this.statement = statement;
 			
-			timer = new Timer( 1, 1 );
-			//This timer must *NOT* have a weak reference. Sometimes things run fast enough
-			//that this class will be eligible for garbage collection in between the frames
-			//which causes the tests to cease, keeping this strong prevents collection until
-			//we are ready
-			timer.addEventListener(TimerEvent.TIMER_COMPLETE, handleTimerComplete, false, 0, false );
-			
+			if ( !greenThreadStartTime ) {
+				greenThreadStartTime = getTimer();
+			}
+
 			myToken = new AsyncTestToken( ClassNameUtil.getLoggerFriendlyClassName( this ) );
 			myToken.addNotificationMethod( handleNextExecuteComplete );
 		}
 
 		public function evaluate( previousToken:AsyncTestToken ):void {
 			parentToken = previousToken;
-			timer.start();
+			
+			var now:Number = getTimer();
+			
+			//this algorithm is still imperfect. Right now, it waits an extra frame after async tests because they always effectively
+			//took more than a frame, so we need to make this a bit better. Eventually we may need a component that actaully watches
+			//the frames directly to make better choices
+			if ( ( now - greenThreadStartTime ) > frameLength ) {
+				//If we have been going for more than 80% of the framelength, it is time to give
+				//the player a chance to catch up 
+				//This timer must *NOT* have a weak reference. Sometimes things run fast enough
+				//that this class will be eligible for garbage collection in between the frames
+				//which causes the tests to cease, keeping this strong prevents collection until
+				//we are ready
+				timer = new Timer( 5, 1 );
+				timer.addEventListener(TimerEvent.TIMER_COMPLETE, handleTimerComplete, false, 0, false );
+				timer.start();
+				greenThreadStartTime = now;
+				//trace("restart");
+			} else {
+				//trace("continue");
+				statement.evaluate( myToken );	
+			}
 		}
 
 		protected function handleTimerComplete( event:TimerEvent ):void {

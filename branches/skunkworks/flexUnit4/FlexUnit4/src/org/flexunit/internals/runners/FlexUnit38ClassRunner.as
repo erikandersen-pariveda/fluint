@@ -81,7 +81,6 @@ package org.flexunit.internals.runners {
 			totalTestCount = test.countTestCases();
 
 			test.runWithResult(result);
-			trace("All Done");
 		}
 		
 		protected function handleTestComplete( result:ChildResult ):void {

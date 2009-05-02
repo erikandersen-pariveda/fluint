@@ -36,6 +36,15 @@ package org.flexunit
 	public class Assert
 	{
 		public static var assertCount:int = 0;
+
+		public static function assertWithApply( asserter:Function, args:Array ):void {
+			asserter.apply( null, args );
+		}
+
+		public static function assertWith( asserter:Function, ...rest ):void {
+			asserter.apply( null, rest );
+		}
+
 		/**
 		 * Asserts that two provided values are equal. If three values are 
 		 * provided the first is the message to be displayed on fail.

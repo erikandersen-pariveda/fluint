@@ -54,6 +54,7 @@
     <classEntry path="org.flexunit.AssertionError"/>
     <classEntry path="org.flexunit.Assume"/>
     <classEntry path="org.flexunit.ComparisonFailure"/>
+    <classEntry path="org.flexunit.assertThat"/>
     <classEntry path="org.flexunit.assumeThat"/>
     <classEntry path="org.flexunit.async.Async"/>
     <classEntry path="org.flexunit.async.AsyncHandler"/>

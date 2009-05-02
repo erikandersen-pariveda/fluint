@@ -1,9 +1,9 @@
 package net.digitalprimates.fluint.unitTests.theorySuite {
-	import flexunit.framework.Assert;
-	
+	import org.flexunit.assertThat;
 	import org.flexunit.assumeThat;
 	import org.flexunit.experimental.theories.Theories;
 	import org.hamcrest.number.lessThan;
+	import org.hamcrest.object.instanceOf;
 	
 	[RunWith("org.flexunit.experimental.theories.Theories")]
 	public class TheorySuite {
@@ -44,6 +44,7 @@ package net.digitalprimates.fluint.unitTests.theorySuite {
   		[Theory]
 		public function testIntOnly( value:int ):void {
 			assumeThat( value, lessThan( 10 ) );
+			assertThat( value, instanceOf(int) );
 			// test which involves int value	
 			//trace( "      int case " + value );
 		}		
@@ -52,6 +53,7 @@ package net.digitalprimates.fluint.unitTests.theorySuite {
 		public function testStringOnly( value1:String ):void {
 			// test which involves int value	
 			//trace( "    string case " + value1 );
+			assertThat( value1, instanceOf(String) );
 		} 		
 
   		[Theory]

@@ -25,27 +25,44 @@
  * @author     Michael Labriola <labriola@digitalprimates.net>
  * @version    
  **/ 
-package org.flexunit.internals.builders {
-	import org.flexunit.runner.Description;
-	import org.flexunit.runner.IDescription;
+
+package org.flexunit.token {
 	import org.flexunit.runner.IRunner;
-	import org.flexunit.runner.notification.IRunNotifier;
-	import org.flexunit.token.AsyncTestToken;
 	
-	public class IgnoredClassRunner implements IRunner {
-		private var testClass:Class;
-	
-		public function IgnoredClassRunner( testClass:Class ) {
-			this.testClass = testClass;
+	public class AsyncListenersToken {
+		private var methodsEntries:Array;
+		private var _error:Error;
+		private var debugClassName:String;
+		private var _token:AsyncTestToken;
+		private var _runner:IRunner;
+
+		public function get runner():IRunner {
+			return _runner;
 		}
-	
-		public function run( notifier:IRunNotifier, token:AsyncTestToken ):void {
-			notifier.fireTestIgnored( description );
-			token.sendResult();
+		
+		public function set runner( value:IRunner ):void {
+			_runner = value;	
 		}
+
+		public function addNotificationMethod( method:Function ):AsyncListenersToken {
+			if (methodsEntries == null)
+				methodsEntries = [];
 	
-		public function get description():IDescription {
-			return Description.createSuiteDescription( testClass );
+			methodsEntries.push( method );			
+
+			return this;
+		}
+
+		public function sendReady():void {
+			if ( methodsEntries ) {
+ 				for ( var i:int=0; i<methodsEntries.length; i++ ) {
+					methodsEntries[ i ]( runner );
+				}
+ 			}
+		}
+		
+		
+		public function AsyncListenersToken() {
 		}
 	}
 }

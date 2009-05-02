@@ -121,8 +121,8 @@ package org.flexunit.runner {
 		}
 
 		public function filterWith( filterOrDescription:* ):Request {
-			if ( filterOrDescription is Description ) {
-				return filterWithDescription( filterOrDescription as Description );
+			if ( filterOrDescription is IDescription ) {
+				return filterWithDescription( filterOrDescription as IDescription );
 			} else if ( filterOrDescription is Filter ) {
 				return filterWithFilter( filterOrDescription as Filter );
 			}
@@ -161,7 +161,7 @@ package org.flexunit.runner {
 		}
 
 		public static function method( clazz:Class, methodName:String ):Request {
-			var method:Description = Description.createTestDescription( clazz, methodName );
+			var method:IDescription = Description.createTestDescription( clazz, methodName );
 			return Request.aClass(clazz).filterWith(method);
 		}
 

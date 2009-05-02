@@ -156,7 +156,7 @@ package org.flexunit.runner {
 		 * @param metaData 
 		 * @return a <code>Description</code> named <code>name</code>
 		 */
-		public static function createSuiteDescription( suiteClassOrName:*, metaData:XML=null ):Description {
+		public static function createSuiteDescription( suiteClassOrName:*, metaData:XML=null ):IDescription {
 			var description:Description;
 			if ( suiteClassOrName is String ) {
 				description = new Description( suiteClassOrName, metaData );
@@ -176,7 +176,7 @@ package org.flexunit.runner {
 		 * @param metadata meta-data about the test, for downstream interpreters
 		 * @return a <code>Description</code> named <code>name</code>
 		 */
-		public static function createTestDescription( testClassOrInstance:Class, name:String, metadata:XML=null ):Description {
+		public static function createTestDescription( testClassOrInstance:Class, name:String, metadata:XML=null ):IDescription {
 			var description:Description = new Description( getQualifiedClassName( testClassOrInstance) + '.' + name, metadata );
 			return description;
 		}

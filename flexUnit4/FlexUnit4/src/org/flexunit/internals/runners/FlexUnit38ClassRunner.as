@@ -26,7 +26,6 @@
  * @version    
  **/ 
 package org.flexunit.internals.runners {
-	import flash.events.EventDispatcher;
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 	
@@ -48,7 +47,7 @@ package org.flexunit.internals.runners {
 	import org.flexunit.token.ChildResult;
 	import org.flexunit.utils.ClassNameUtil;
 	
-	public class FlexUnit38ClassRunner extends EventDispatcher implements IRunner, IFilterable {
+	public class FlexUnit38ClassRunner implements IRunner, IFilterable {
 
 		private var test:Test;
 		private var totalTestCount:int = 0;

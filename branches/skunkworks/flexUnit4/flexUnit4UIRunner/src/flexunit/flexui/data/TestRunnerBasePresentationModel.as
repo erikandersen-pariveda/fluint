@@ -38,8 +38,8 @@ package flexunit.flexui.data
    import mx.collections.IList;
    import mx.collections.ListCollectionView;
    
-   import org.flexunit.runner.Description;
    import org.flexunit.runner.Descriptor;
+   import org.flexunit.runner.IDescription;
    import org.flexunit.runner.notification.Failure;
 
    [Event( name="rowSelectedChanged",          type="flash.events.Event")]
@@ -201,7 +201,7 @@ package flexunit.flexui.data
                TestRunnerBasePresentationModelProperyChangedEvent.TOTAL_ERRORS_CHANGED );
       }
 		
-	  private function getDescriptorFromDescription(description:Description ):Descriptor{
+	  private function getDescriptorFromDescription(description:IDescription ):Descriptor{
 			var descriptor:Descriptor = new Descriptor();
 			var descriptionArray:Array = description.displayName.split("::");
 			descriptor.path = descriptionArray[0];
@@ -213,7 +213,7 @@ package flexunit.flexui.data
 		}
 		
       public function addTestRowToHierarchicalList(
-                  description : Description, 
+                  description : IDescription, 
                   failure : Failure ) : TestFunctionRowData
       {
          var rowToAdd : TestFunctionRowData = new TestFunctionRowData();

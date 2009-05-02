@@ -9,8 +9,8 @@ package org.flexunit.listeners
 	import mx.logging.ILogger;
 	import mx.logging.Log;
 	
-	import org.flexunit.runner.Description;
 	import org.flexunit.runner.Descriptor;
+	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.Result;
 	import org.flexunit.runner.notification.Failure;
 	import org.flexunit.runner.notification.RunListener;
@@ -52,7 +52,7 @@ package org.flexunit.listeners
 			report.tests++;
 		}*/
 		
-		override public function testFinished( description:Description ):void 
+		override public function testFinished( description:IDescription ):void 
 		{
 			// Add failing method to proper TestCase in the proper TestSuite
 			var descriptor : Descriptor = getDescriptorFromDescription( description );
@@ -120,7 +120,7 @@ package org.flexunit.listeners
 
 
 		
-		private function getDescriptorFromDescription(description:Description ):Descriptor
+		private function getDescriptorFromDescription(description:IDescription ):Descriptor
 		{
 			var descriptor:Descriptor = new Descriptor();
 			var descriptionArray:Array = description.displayName.split("::");

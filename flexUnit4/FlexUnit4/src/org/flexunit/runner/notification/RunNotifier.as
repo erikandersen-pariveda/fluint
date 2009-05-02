@@ -193,13 +193,15 @@ import org.flexunit.runner.notification.Failure;
 import org.flexunit.runner.Description;
 import org.flexunit.runner.notification.RunNotifier;
 import org.flexunit.runner.Result;
+import org.flexunit.runner.notification.IRunNotifier;
+import org.flexunit.runner.notification.IRunListener;
 
 class SafeNotifier {
-	protected var notifier:RunNotifier;
+	protected var notifier:IRunNotifier;
 	protected var listenerCollection:ArrayCollection;
 	protected var iterator:IViewCursor;
 	
-	public function SafeNotifier( notifier:RunNotifier, listeners:Array ) {
+	public function SafeNotifier( notifier:IRunNotifier, listeners:Array ) {
 		listenerCollection = new ArrayCollection( listeners );
 		iterator = listenerCollection.createCursor();
 	}
@@ -207,7 +209,7 @@ class SafeNotifier {
 	public function run():void {
 		while ( !iterator.afterLast ) {
 			try {
-				notifyListener( iterator.current as RunListener );
+				notifyListener( iterator.current as IRunListener );
 				iterator.moveNext();
 			} catch ( e:Error ) {
 				iterator.remove();

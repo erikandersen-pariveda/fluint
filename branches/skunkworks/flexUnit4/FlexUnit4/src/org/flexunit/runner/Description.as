@@ -50,7 +50,7 @@ package org.flexunit.runner {
 	 * @see org.flexunit.runner.Request
 	 * @see org.flexunit.runner.Runner
 	 */
-	public class Description {
+	public class Description implements IDescription {
 		public static const EMPTY:String = "Empty";
 		public static var TEST_MECHANISM:Description = new Description("Test mechanism", null );
 
@@ -124,7 +124,7 @@ package org.flexunit.runner {
 		 * Add <code>Description</code> as a child of the receiver.
 		 * @param description the soon-to-be child.
 		 */
-		public function addChild( description:Description ):void {
+		public function addChild( description:IDescription ):void {
 			children.addItem( description );
 			
 			if ( description.isTest ) {
@@ -136,7 +136,7 @@ package org.flexunit.runner {
 		 * @return a copy of this description, with no children (on the assumption that some of the
 		 * children will be added back)
 		 */
-		public function childlessCopy():Description {
+		public function childlessCopy():IDescription {
 			trace("Method not yet implemented");
 			return new Description( _displayName, _metadata );
 		}

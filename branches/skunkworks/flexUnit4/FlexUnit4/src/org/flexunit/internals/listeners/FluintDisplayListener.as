@@ -30,6 +30,7 @@ package org.flexunit.internals.listeners
 	import mx.collections.ArrayCollection;
 	
 	import org.flexunit.runner.Description;
+	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.Result;
 	import org.flexunit.runner.notification.Failure;
 	import org.flexunit.runner.notification.RunListener;
@@ -37,28 +38,28 @@ package org.flexunit.internals.listeners
 	public class FluintDisplayListener extends RunListener
 	{
 		
-		private var lastFailedTest:Description;
+		private var lastFailedTest:IDescription;
 		
 		[Bindable]
 		public var testResults:ArrayCollection = new ArrayCollection();
 		 
-		override public function testRunStarted( description:Description ):void{
+		override public function testRunStarted( description:IDescription ):void{
 			
 		}
 		override public function testRunFinished( result:Result ):void {
 			
 		}
-		override public function testStarted( description:Description ):void {
+		override public function testStarted( description:IDescription ):void {
 		}
 	
-		override public function testFinished( description:Description ):void {
+		override public function testFinished( description:IDescription ):void {
 			
 		//	if(description.displayName != lastFailedTest.displayName){
 				testResults.addItem(description);
 		//	}
 		}
 		
-		override public function testIgnored( description:Description ):void {
+		override public function testIgnored( description:IDescription ):void {
 			testResults.addItem(description);
 		}
 		override public function testAssumptionFailure( failure:Failure ):void {

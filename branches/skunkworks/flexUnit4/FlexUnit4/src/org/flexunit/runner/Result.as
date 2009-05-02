@@ -26,8 +26,8 @@
  * @version    
  **/ 
 package org.flexunit.runner {
-	import org.flexunit.runner.notification.RunListener;
 	import org.flexunit.internals.namespaces.classInternal;
+	import org.flexunit.runner.notification.RunListener;
 	
 	use namespace classInternal;
 
@@ -106,13 +106,14 @@ import org.flexunit.runner.Description;
 import org.flexunit.runner.Result;
 import org.flexunit.runner.notification.Failure;
 import org.flexunit.internals.namespaces.classInternal;
+import org.flexunit.runner.IDescription;
 
 use namespace classInternal;
 
 class Listener extends RunListener {
 	private var fIgnoreDuringExecution:Boolean = false;
 	
-	override public function testRunStarted( description:Description ):void {
+	override public function testRunStarted( description:IDescription ):void {
 		result._startTime = getTimer();
 	}
 
@@ -121,7 +122,7 @@ class Listener extends RunListener {
 		result._runTime += endTime - result._startTime;
 	}
 
-	override public function testFinished( description:Description ):void {
+	override public function testFinished( description:IDescription ):void {
 		if (!fIgnoreDuringExecution) {
 			result._runCount++;
 		}
@@ -133,7 +134,7 @@ class Listener extends RunListener {
 		result.failures.push( failure );
 	}
 
-	override public function testIgnored( description:Description ):void {
+	override public function testIgnored( description:IDescription ):void {
 		result._ignoreCount++;
 		fIgnoreDuringExecution = false;
 	}

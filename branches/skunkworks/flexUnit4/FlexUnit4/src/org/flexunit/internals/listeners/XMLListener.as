@@ -48,6 +48,7 @@ package org.flexunit.internals.listeners
 	
 	import org.flexunit.runner.Description;
 	import org.flexunit.runner.Descriptor;
+	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.Result;
 	import org.flexunit.runner.notification.Failure;
 	import org.flexunit.runner.notification.RunListener;
@@ -80,7 +81,7 @@ package org.flexunit.internals.listeners
 		[Inspectable]
 		public var server : String = "127.0.0.1"; //this is local host. same machine
 		
-		private var lastFailedTest:Description;
+		private var lastFailedTest:IDescription;
 		
 		private var msgQueue:Array = new Array();
 		private var dispatcher:IEventDispatcher;
@@ -101,7 +102,7 @@ package org.flexunit.internals.listeners
    	   		
 			
 		}
-		override public function testRunStarted( description:Description ):void{
+		override public function testRunStarted( description:IDescription ):void{
 			
 		}
 		private function handleConnect(event:Event):void{
@@ -120,7 +121,7 @@ package org.flexunit.internals.listeners
 			printResults(result);
 			printFooter( result );
 		}
-		private function getDescriptorFromDescription(description:Description ):Descriptor{
+		private function getDescriptorFromDescription(description:IDescription ):Descriptor{
 			var descriptor:Descriptor = new Descriptor();
 			var descriptionArray:Array = description.displayName.split("::");
 			descriptor.path = descriptionArray[0];
@@ -131,7 +132,7 @@ package org.flexunit.internals.listeners
 			return descriptor;
 		}
 		
-		override public function testFinished( description:Description ):void {
+		override public function testFinished( description:IDescription ):void {
 			//logger.info( description.displayName + " ." );
 			if(description.displayName != lastFailedTest.displayName){
 				var desc:Descriptor = getDescriptorFromDescription(description);
@@ -139,7 +140,7 @@ package org.flexunit.internals.listeners
 			}
 		}
 		
-		override public function testIgnored( description:Description ):void {
+		override public function testIgnored( description:IDescription ):void {
 			
 			var desc:Descriptor = getDescriptorFromDescription(description);
 			msgQueue.push("<testCase name='"+desc.method+"' testSuite='"+desc.suite+"'  status='"+IGNORE+"'/>");

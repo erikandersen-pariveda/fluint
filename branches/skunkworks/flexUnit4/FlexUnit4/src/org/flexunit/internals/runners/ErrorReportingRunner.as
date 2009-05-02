@@ -29,9 +29,10 @@ package org.flexunit.internals.runners {
 	import flash.events.EventDispatcher;
 	
 	import org.flexunit.runner.Description;
+	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.IRunner;
 	import org.flexunit.runner.notification.Failure;
-	import org.flexunit.runner.notification.RunNotifier;
+	import org.flexunit.runner.notification.IRunNotifier;
 	import org.flexunit.token.AsyncTestToken;
 	
 	public class ErrorReportingRunner extends EventDispatcher implements IRunner {
@@ -43,7 +44,7 @@ package org.flexunit.internals.runners {
 			_causes = getCauses(cause);
 		}
 
-		public function get description():Description {
+		public function get description():IDescription {
 			var description:Description = Description.createSuiteDescription( _testClass );
 
 			for ( var i:int=0; i<_causes.length; i++ ) {
@@ -53,7 +54,7 @@ package org.flexunit.internals.runners {
 			return description;
 		}
 
-		public function run( notifier:RunNotifier, token:AsyncTestToken ):void {
+		public function run( notifier:IRunNotifier, token:AsyncTestToken ):void {
 			for ( var i:int=0; i<_causes.length; i++ ) {
 				description.addChild( describeCause( _causes[ i ] ) );
 				runCause( _causes[ i ], notifier );
@@ -80,12 +81,12 @@ package org.flexunit.internals.runners {
 			return [ cause ];
 		}
 
-		private function describeCause( child:Error ):Description {
+		private function describeCause( child:Error ):IDescription {
 			return Description.createTestDescription( _testClass, "initializationError");
 		}
 	
-		private function runCause( child:Error, notifier:RunNotifier ):void {
-			var description:Description = describeCause(child);
+		private function runCause( child:Error, notifier:IRunNotifier ):void {
+			var description:IDescription = describeCause(child);
 			notifier.fireTestStarted( description );
 			notifier.fireTestFailure( new Failure(description, child) );
 			notifier.fireTestFinished( description );

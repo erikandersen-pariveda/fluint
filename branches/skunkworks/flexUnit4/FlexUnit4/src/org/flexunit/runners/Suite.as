@@ -26,13 +26,11 @@
  * @version    
  **/ 
 package org.flexunit.runners {
-	import flash.utils.getDefinitionByName;
-	
 	import flex.lang.reflect.Klass;
 	
-	import org.flexunit.runner.Description;
+	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.IRunner;
-	import org.flexunit.runner.notification.RunNotifier;
+	import org.flexunit.runner.notification.IRunNotifier;
 	import org.flexunit.runners.model.IRunnerBuilder;
 	import org.flexunit.token.AsyncTestToken;
 	
@@ -51,11 +49,11 @@ package org.flexunit.runners {
 			return _runners;
 		}
 
-		override protected function describeChild( child:* ):Description {
+		override protected function describeChild( child:* ):IDescription {
 			return IRunner( child ).description;
 		}
 
-		override protected function runChild( child:*, notifier:RunNotifier, childRunnerToken:AsyncTestToken ):void {
+		override protected function runChild( child:*, notifier:IRunNotifier, childRunnerToken:AsyncTestToken ):void {
 			IRunner( child ).run( notifier, childRunnerToken );
 		}
 

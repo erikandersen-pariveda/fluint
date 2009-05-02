@@ -27,6 +27,7 @@
  **/ 
 package org.flexunit.runner.notification {
 	import org.flexunit.runner.Description;
+	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.Result;
 	
 	/**
@@ -63,7 +64,7 @@ package org.flexunit.runner.notification {
 		 * Called before any tests have been run.
 		 * @param description describes the tests to be run
 		 */
-		public function testRunStarted( description:Description ):void {
+		public function testRunStarted( description:IDescription ):void {
 		}
 		
 		/**
@@ -78,14 +79,14 @@ package org.flexunit.runner.notification {
 		 * @param description the description of the test that is about to be run 
 		 * (generally a class and method name)
 		 */
-		public function testStarted( description:Description ):void {
+		public function testStarted( description:IDescription ):void {
 		}
 	
 		/**
 		 * Called when an atomic test has finished, whether the test succeeds or fails.
 		 * @param description the description of the test that just ran
 		 */
-		public function testFinished( description:Description ):void {
+		public function testFinished( description:IDescription ):void {
 		}
 	
 		/** 
@@ -112,7 +113,7 @@ package org.flexunit.runner.notification {
 		 * 
 		 * @param description describes the test that will not be run
 		 */
-		public function testIgnored( description:Description ):void {
+		public function testIgnored( description:IDescription ):void {
 		}
 	}
 }

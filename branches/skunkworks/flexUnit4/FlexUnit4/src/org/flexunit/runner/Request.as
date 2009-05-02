@@ -95,15 +95,15 @@ package org.flexunit.runner {
 		 * @param desiredDescription {@link Description} of those tests that should be run
 		 * @return the filtered Request
 		 */
-		protected function filterWithDescription( desiredDescription:Description ):Request {
+		protected function filterWithDescription( desiredDescription:IDescription ):Request {
 			var filter:Filter = new Filter(
-				function( description:Description ):Boolean {
+				function( description:IDescription ):Boolean {
 					if ( description.isTest )
 						return desiredDescription.equals(description);
 					
 					// explicitly check if any children want to run
 					for ( var i:int=0; i<description.children.length; i++ ) {
-						var item:Description = description.children[ i ] as Description;
+						var item:IDescription = description.children[ i ] as IDescription;
 						
 						if ( this.shouldRun( item ) ) {
 							return true;

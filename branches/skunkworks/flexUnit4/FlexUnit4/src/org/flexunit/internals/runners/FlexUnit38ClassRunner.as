@@ -38,9 +38,11 @@ package org.flexunit.internals.runners {
 	
 	import org.flexunit.runner.Description;
 	import org.flexunit.runner.IDescribable;
+	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.IRunner;
 	import org.flexunit.runner.manipulation.Filter;
 	import org.flexunit.runner.manipulation.IFilterable;
+	import org.flexunit.runner.notification.IRunNotifier;
 	import org.flexunit.runner.notification.RunNotifier;
 	import org.flexunit.token.AsyncTestToken;
 	import org.flexunit.token.ChildResult;
@@ -69,7 +71,7 @@ package org.flexunit.internals.runners {
 			return getDefinitionByName( name ) as Class;		
 		}
 
-		public function run( notifier:RunNotifier, previousToken:AsyncTestToken ):void {
+		public function run( notifier:IRunNotifier, previousToken:AsyncTestToken ):void {
 			var token:AsyncTestToken = new AsyncTestToken( ClassNameUtil.getLoggerFriendlyClassName( this ) );
 			token.parentToken = previousToken;
 			token.addNotificationMethod( handleTestComplete );
@@ -92,15 +94,15 @@ package org.flexunit.internals.runners {
 			}
 		}
 
-		public static function createAdaptingListener( notifier:RunNotifier, token:AsyncTestToken ):TestListener {
+		public static function createAdaptingListener( notifier:IRunNotifier, token:AsyncTestToken ):TestListener {
 			return new OldTestClassAdaptingListener(notifier, token );
 		}
 		
-		public function get description():Description {
+		public function get description():IDescription {
 			return makeDescription( test );
 		}
 	
-		private function makeDescription( test:Test ):Description {
+		private function makeDescription( test:Test ):IDescription {
 			if ( test is TestCase ) {
 				var tc:TestCase = TestCase( test );
 				//return null;
@@ -108,7 +110,7 @@ package org.flexunit.internals.runners {
 			} else if ( test is TestSuite ) {
 				var ts:TestSuite = TestSuite( test );
 				var name:String = ts.className == null ? "" : ts.className;
-				var description:Description = Description.createSuiteDescription(name);
+				var description:IDescription = Description.createSuiteDescription(name);
 				var n:int = ts.testCount();
 				var tests:Array = ts.getTests();
 				for ( var i:int = 0; i < n; i++)
@@ -151,13 +153,15 @@ import flexunit.framework.TestCase;
 import org.flexunit.runner.IDescribable;
 import flexunit.framework.AssertionFailedError;
 import org.flexunit.internals.runners.FlexUnit38ClassRunner;
-import org.flexunit.token.AsyncTestToken;	
+import org.flexunit.token.AsyncTestToken;
+import org.flexunit.runner.notification.IRunNotifier;
+import org.flexunit.runner.IDescription;	
 
 class OldTestClassAdaptingListener implements TestListener {
-	private var notifier:RunNotifier;
+	private var notifier:IRunNotifier;
 	private var token:AsyncTestToken;
 
-	public function OldTestClassAdaptingListener( notifier:RunNotifier, token:AsyncTestToken ) {
+	public function OldTestClassAdaptingListener( notifier:IRunNotifier, token:AsyncTestToken ) {
 		this.notifier = notifier;
 		this.token = token;
 	}
@@ -177,7 +181,7 @@ class OldTestClassAdaptingListener implements TestListener {
 		notifier.fireTestFailure(failure);
 	}
 
-	private function asDescription( test:Test ):Description {
+	private function asDescription( test:Test ):IDescription {
 		if (test is IDescribable) {
 			var facade:IDescribable = test as IDescribable;
 			return facade.description;

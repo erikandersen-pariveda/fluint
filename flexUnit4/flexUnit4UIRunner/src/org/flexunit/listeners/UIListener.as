@@ -1,6 +1,7 @@
 package org.flexunit.listeners
 {
 	import org.flexunit.runner.Description;
+	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.Result;
 	import org.flexunit.runner.notification.Failure;
 	import org.flexunit.runner.notification.IRunListener;
@@ -16,7 +17,7 @@ package org.flexunit.listeners
 			this.uiListener = uiListener;
 		}
 		
-		override public function testRunStarted( description:Description ):void {
+		override public function testRunStarted( description:IDescription ):void {
 			this.uiListener.testRunStarted( description );
 		}
 		
@@ -24,11 +25,11 @@ package org.flexunit.listeners
 			this.uiListener.testRunFinished( result );
 		}
 		
-		override public function testStarted( description:Description ):void {
+		override public function testStarted( description:IDescription ):void {
 			this.uiListener.testStarted(description );
 		}
 	
-		override public function testFinished( description:Description ):void {
+		override public function testFinished( description:IDescription ):void {
 			this.uiListener.testFinished( description );
 		}
 	
@@ -40,7 +41,7 @@ package org.flexunit.listeners
 			this.uiListener.testAssumptionFailure( failure );
 		}
 	
-		override public function testIgnored( description:Description ):void {
+		override public function testIgnored( description:IDescription ):void {
 			this.uiListener.testIgnored( description );
 		}
 	}

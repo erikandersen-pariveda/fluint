@@ -29,6 +29,7 @@ package flex.lang.reflect {
 	import flash.utils.Dictionary;
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;
 	
 	import flex.lang.reflect.utils.MetadataTools;
 
@@ -129,6 +130,12 @@ package flex.lang.reflect {
 			
 			return _classDef;
 		}
+		
+		public function descendsFrom( clazz:Class ):Boolean {
+			var className:String = getQualifiedClassName( clazz );	
+
+			return MetadataTools.classExtendsFromNode( classXML.factory[ 0 ], className );
+		}
 
 		private static function getDotPathFromName( name:String ):String {
 			var colonReplace:RegExp = /::/g;
@@ -204,7 +211,7 @@ package flex.lang.reflect {
 			return getXMLForClass( clazz );
 		} 
 
-		internal static function getXMLForClass( clazz:Class ):XML {			
+		internal static function getXMLForClass( clazz:Class ):XML {
 			return metaDataCache[ clazz ];
 		} 
 		

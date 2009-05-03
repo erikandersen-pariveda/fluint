@@ -52,16 +52,15 @@ package org.flexunit.internals.runners {
 		private var test:Test;
 		private var totalTestCount:int = 0;
 		private var numTestsRun:int = 0;
-		
+
 		public function FlexUnit38ClassRunner( klassOrTest:* ) {
-			
 			super();
 
 			if ( klassOrTest is Test ) {
-				this.test = new TestSuite( klassOrTest );
-				//in this case, we need to make a suite
+				this.test = klassOrTest;
 			} else {
-				this.test = test;
+				//in this case, we need to make a suite
+				this.test = new TestSuite( klassOrTest );
 			}
 		}
 

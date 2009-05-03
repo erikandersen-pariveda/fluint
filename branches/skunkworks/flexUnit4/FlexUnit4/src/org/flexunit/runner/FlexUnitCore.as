@@ -164,7 +164,7 @@ package org.flexunit.runner {
 				notifier.fireTestAssumptionFailed( new Failure( runner.description, error ) );
 				notifier.fireTestRunFinished( runListener.result );
 				removeListener( runListener );
-			}			
+			}
 		}
 		
 		private function handleRunnerComplete( result:ChildResult ):void {

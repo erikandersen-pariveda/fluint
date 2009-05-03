@@ -202,6 +202,7 @@ class SafeNotifier {
 	protected var iterator:IViewCursor;
 	
 	public function SafeNotifier( notifier:IRunNotifier, listeners:Array ) {
+		this.notifier = notifier;
 		listenerCollection = new ArrayCollection( listeners );
 		iterator = listenerCollection.createCursor();
 	}

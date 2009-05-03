@@ -5,13 +5,11 @@
 	
 	<mx:Script>
 		<![CDATA[
-			import flexunit.framework.TestAssert;
-			import org.flexunit.runner.notification.async.WaitingListener;
-			import org.flexunit.listeners.JUnitListener;
+			import flexUnitTests.flexUnit4.suites.frameworkSuite.FrameworkSuite;
+			//import org.flexunit.listeners.JUnitListener;
 			import org.flexunit.runner.notification.async.XMLListener;
 			import org.flexunit.listeners.UIListener;
 			import org.flexunit.runner.Request;
-			import net.digitalprimates.fluint.unitTests.frameworkSuite.FrameworkSuite;
 
 			import org.flexunit.runner.FlexUnitCore;
 			private var core:FlexUnitCore;

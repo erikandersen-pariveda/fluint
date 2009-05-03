@@ -221,7 +221,7 @@ package net.digitalprimates.fluint.ui {
 			if ( event.kind == CollectionEventKind.RESET ) {
 				this.invalidateDisplayList();
 			} else if ( event.kind == CollectionEventKind.UPDATE ) {
-				trace("Update value");
+				//trace("Update value");
 				this.invalidateDisplayList();
 			}
 		}

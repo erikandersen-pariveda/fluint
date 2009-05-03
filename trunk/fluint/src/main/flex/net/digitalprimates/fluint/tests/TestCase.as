@@ -76,8 +76,16 @@ package net.digitalprimates.fluint.tests {
         /**
          * @private
          */
-		protected var testMonitor:TestMonitor = TestMonitor.getInstance(); 
+        protected var _testMonitor:TestMonitor;
 
+        public function get testMonitor():TestMonitor {
+        	return _testMonitor;
+        }
+        
+        public function set testMonitor( value:TestMonitor ):void {
+        	_testMonitor = value; 
+        }
+		
         /**
          * @private
          */

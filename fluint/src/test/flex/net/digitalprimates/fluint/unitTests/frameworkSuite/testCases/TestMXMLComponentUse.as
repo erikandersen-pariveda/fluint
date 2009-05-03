@@ -65,7 +65,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 	    	passThroughData.username = 'myuser1';
 	    	passThroughData.password = 'somepsswd';
 	    	
-	    	trace("Set at same time");
+	    	//trace("Set at same time");
 	    	loginForm.addEventListener( "loginRequested", asyncHandler( handleLoginEvent, LONG_TIME, passThroughData, handleLoginTimeout ), false, 0, true );
 	    	loginForm.usernameTI.text = passThroughData.username;
 	    	loginForm.passwordTI.text = passThroughData.password;
@@ -164,13 +164,13 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 	    }
 
 	    protected function handleLoginEvent( event:Event, passThroughData:Object ):void {
-	    	trace("Login Event Occurred " + event.type );
+	    	//trace("Login Event Occurred " + event.type );
 	    	assertEquals( passThroughData.username, event.target.username );
 	    	assertEquals( passThroughData.password, event.target.password );
 	    }
 
 	    protected function handleValidEvent( event:Event, passThroughData:Object ):void {
-	    	trace("Valid Event Occurred " + event.type );
+	    	//trace("Valid Event Occurred " + event.type );
 	    	assertEquals( passThroughData.username, loginForm.username );
 	    	assertEquals( passThroughData.password, loginForm.password );
 	    }

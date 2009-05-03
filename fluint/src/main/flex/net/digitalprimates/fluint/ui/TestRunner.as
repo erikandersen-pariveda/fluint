@@ -52,7 +52,17 @@ package net.digitalprimates.fluint.ui {
         /**
          * @private
          */
-		protected var testMonitor:TestMonitor = TestMonitor.getInstance(); 
+        protected var _testMonitor:TestMonitor;
+
+		[Bindable('testMonitorChanged')]
+        public function get testMonitor():TestMonitor {
+        	return _testMonitor;
+        }
+        
+        public function set testMonitor( value:TestMonitor ):void {
+        	_testMonitor = value; 
+        	dispatchEvent( new Event( 'testMonitorChanged' ) );
+        }
 
         /**
          * @private
@@ -160,6 +170,7 @@ package net.digitalprimates.fluint.ui {
 
 				if ( value ) {
 					testMonitor.createTestCaseResult( testSuite, value );
+					value.testMonitor = testMonitor; 
 				}
 
 				if ( lastTestCase ) {
@@ -310,6 +321,7 @@ package net.digitalprimates.fluint.ui {
 					if ( !testSuite ) {
 						//we are all done
 						schedulerTimer.stop();
+						trace("All done");
 						return;
 					}					
 				}
@@ -322,9 +334,6 @@ package net.digitalprimates.fluint.ui {
 		protected function runSetup():void {
 			trace( "Now Setting Up " + testMethod.methodName );
 			
-			if ( testMethod.methodName == "testInValidationSequence" ) {
-				trace("here");
-			}
 			testCase.addEventListener( TestCase.TEST_COMPLETE, handleTestProcess, false, 0, true );
 			testCase.runSetup();
 		}
@@ -333,10 +342,6 @@ package net.digitalprimates.fluint.ui {
 		 * Starts running the method phase of a given test method 
 		 */
 		protected function runTestMethod():void {
-			if ( testMethod.methodName == "testInValidationSequence" ) {
-				trace("here");
-			}
-
 			trace( "Now Running " + testMethod.methodName );
 			testCase.addEventListener( TestCase.TEST_COMPLETE, handleTestProcess, false, 0, true );
 			testCase.runTestMethod( testMethod.method );
@@ -404,6 +409,8 @@ package net.digitalprimates.fluint.ui {
 			
 			schedulerTimer = new Timer( 5, 0 );
 			schedulerTimer.addEventListener(TimerEvent.TIMER, handleTimerTick );
+			
+			testMonitor = new TestMonitor();
 		}
 	}
 }

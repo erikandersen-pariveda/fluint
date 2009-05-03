@@ -91,19 +91,19 @@ package net.digitalprimates.fluint.monitor {
         /**
          * @private
          */
-		private static var instance:TestMonitor;
+		//private static var instance:TestMonitor;
 
 		/**
 		 * Returns the single instance of the class. This was a singleton class.
 		 *  This is deprecated now. Normal instances if this class are made as needed
 		 */		
-		public static function getInstance():TestMonitor {
+/* 		public static function getInstance():TestMonitor {
 			if ( !instance ) {
 				instance = new TestMonitor();
 			}
 
 			return instance;
-		}
+		} */
 		
 		/**
 		 * Creates a new instance of the TestSuiteResult class. 

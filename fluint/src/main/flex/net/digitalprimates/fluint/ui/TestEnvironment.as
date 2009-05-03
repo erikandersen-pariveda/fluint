@@ -36,7 +36,7 @@ package net.digitalprimates.fluint.ui {
         /**
          * @private
          */
-		protected static var instance:TestEnvironment; 
+		//protected static var instance:TestEnvironment; 
 
 		/** 
 		 * Returns a reference to the single instance of this class 
@@ -44,12 +44,12 @@ package net.digitalprimates.fluint.ui {
 		 * 
 		 * @return A reference to the TestEnvironment class.
 		 */
-		public static function getInstance():TestEnvironment {
+/* 		public static function getInstance():TestEnvironment {
 			if ( !instance ) {
 				instance = new TestEnvironment();
 			}
 			
 			return instance;
-		}
+		} */
 	}
 }

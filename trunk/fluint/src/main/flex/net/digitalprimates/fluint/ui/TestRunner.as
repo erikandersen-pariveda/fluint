@@ -24,6 +24,7 @@
  **/ 
 package net.digitalprimates.fluint.ui {
 	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import flash.events.TimerEvent;
 	import flash.utils.*;
 	
@@ -31,7 +32,7 @@ package net.digitalprimates.fluint.ui {
 	import mx.collections.CursorBookmark;
 	import mx.collections.IViewCursor;
 	import mx.collections.Sort;
-	import mx.core.UIComponent;
+	import mx.core.IMXMLObject;
 	
 	import net.digitalprimates.fluint.monitor.TestCaseResult;
 	import net.digitalprimates.fluint.monitor.TestMonitor;
@@ -46,7 +47,7 @@ package net.digitalprimates.fluint.ui {
 	 * TestSuite is executed and the results are aggragated 
 	 */
 	[Event(name="testsComplete",type="flash.events.Event")]
-	public class TestRunner extends UIComponent {
+	public class TestRunner extends EventDispatcher implements IMXMLObject {
 		public static const TESTS_COMPLETE:String = "testsComplete";
 		
         /**
@@ -62,6 +63,18 @@ package net.digitalprimates.fluint.ui {
         public function set testMonitor( value:TestMonitor ):void {
         	_testMonitor = value; 
         	dispatchEvent( new Event( 'testMonitorChanged' ) );
+        }
+
+        protected var _testEnvironment:TestEnvironment;
+
+		[Bindable('testEnvironmentChanged')]
+        public function get testEnvironment():TestEnvironment {
+        	return _testEnvironment;
+        }
+        
+        public function set testEnvironment( value:TestEnvironment ):void {
+        	_testEnvironment = value; 
+        	dispatchEvent( new Event( 'testEnvironmentChanged' ) );
         }
 
         /**
@@ -170,7 +183,8 @@ package net.digitalprimates.fluint.ui {
 
 				if ( value ) {
 					testMonitor.createTestCaseResult( testSuite, value );
-					value.testMonitor = testMonitor; 
+					value.testMonitor = testMonitor;
+					value.testEnvironment = testEnvironment; 
 				}
 
 				if ( lastTestCase ) {
@@ -216,6 +230,7 @@ package net.digitalprimates.fluint.ui {
 				return testSuite;
 			} 
 			this.dispatchEvent(new Event(TESTS_COMPLETE));
+			trace("All done");
 			return null;			
 		}
 
@@ -321,7 +336,6 @@ package net.digitalprimates.fluint.ui {
 					if ( !testSuite ) {
 						//we are all done
 						schedulerTimer.stop();
-						trace("All done");
 						return;
 					}					
 				}
@@ -385,24 +399,16 @@ package net.digitalprimates.fluint.ui {
 			}
 		}
 
-        /**
-         * @private
-         */
-		override protected function createChildren():void {
-			super.createChildren();
-			
-			var testEnvironment:TestEnvironment = TestEnvironment.getInstance(); 
-			this.addChild( testEnvironment );
-		}
-
+		private var id:String;
+		private var document:Object;
+		public function initialized(document:Object, id:String):void {
+			this.document = document;
+			this.id = id;
+		} 
         /**
          * Constructor.
          */
 		public function TestRunner() {
-			this.width = 0;
-			this.height = 0;
-			this.visible = false;
-			
 			var progressionArray:Array = [ runSetup, runTestMethod, runTearDown ];
 			testProgression = new ArrayCollection( progressionArray );
 			progressCursor = testProgression.createCursor();

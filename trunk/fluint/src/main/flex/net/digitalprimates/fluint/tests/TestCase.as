@@ -469,7 +469,15 @@ package net.digitalprimates.fluint.tests {
 		 * A singleton container that exists to allow visual children to be
 		 * created and tested. 
 		 */
-		protected var testEnvironment:TestEnvironment = TestEnvironment.getInstance();
+        protected var _testEnvironment:TestEnvironment;
+
+        public function get testEnvironment():TestEnvironment {
+        	return _testEnvironment;
+        }
+        
+        public function set testEnvironment( value:TestEnvironment ):void {
+        	_testEnvironment = value; 
+        }
 		
 	    /**
 	     *  Adds a child DisplayObject to the TestEnvironment.

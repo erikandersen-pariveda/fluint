@@ -47,13 +47,13 @@ package org.flexunit.internals.runners {
 	import org.flexunit.token.ChildResult;
 	import org.flexunit.utils.ClassNameUtil;
 	
-	public class FlexUnit38ClassRunner implements IRunner, IFilterable {
+	public class FlexUnit1ClassRunner implements IRunner, IFilterable {
 
 		private var test:Test;
 		private var totalTestCount:int = 0;
 		private var numTestsRun:int = 0;
 
-		public function FlexUnit38ClassRunner( klassOrTest:* ) {
+		public function FlexUnit1ClassRunner( klassOrTest:* ) {
 			super();
 
 			if ( klassOrTest is Test ) {
@@ -149,7 +149,7 @@ import org.flexunit.runner.notification.Failure;
 import flexunit.framework.TestCase;
 import org.flexunit.runner.IDescribable;
 import flexunit.framework.AssertionFailedError;
-import org.flexunit.internals.runners.FlexUnit38ClassRunner;
+import org.flexunit.internals.runners.FlexUnit1ClassRunner;
 import org.flexunit.token.AsyncTestToken;
 import org.flexunit.runner.notification.IRunNotifier;
 import org.flexunit.runner.IDescription;	
@@ -184,7 +184,7 @@ class OldTestClassAdaptingListener implements TestListener {
 			return facade.description;
 		}
 
-		return Description.createTestDescription( FlexUnit38ClassRunner.getClassFromTest( test ), getName(test));
+		return Description.createTestDescription( FlexUnit1ClassRunner.getClassFromTest( test ), getName(test));
 	}
 
 

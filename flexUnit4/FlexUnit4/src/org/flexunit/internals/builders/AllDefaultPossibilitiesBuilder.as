@@ -43,8 +43,8 @@ package org.flexunit.internals.builders {
 					ignoredBuilder(),
 					metaDataBuilder(),
 					suiteMethodBuilder(),
-					flexUnit3Builder(),
-					fluintBuilder(),
+					flexUnit1Builder(),
+					fluint1Builder(),
 					flexUnit4Builder());
 	
 			for ( var i:int=0; i<builders.length; i++ ) {
@@ -71,13 +71,12 @@ package org.flexunit.internals.builders {
 			return new NullBuilder();
 		}		
 	
-		protected function flexUnit3Builder():FlexUnit3Builder {
-			return new FlexUnit3Builder();
+		protected function flexUnit1Builder():FlexUnit1Builder {
+			return new FlexUnit1Builder();
 		}
 	
-		protected function fluintBuilder():IRunnerBuilder {
-			//Brian, here is the tie in point for the new Fluint Builder
-			return new NullBuilder();
+		protected function fluint1Builder():IRunnerBuilder {
+			return new Fluint1Builder();
 		}		
 
 		protected function flexUnit4Builder():FlexUnit4Builder {

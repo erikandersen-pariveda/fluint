@@ -22,15 +22,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  **/ 
-package net.digitalprimates.fluint.sequence {
-	import flash.events.IEventDispatcher;
+ package org.fluint.sequence {
 	
-	public interface ISequenceStep {
+	/**
+	 * Interface defined by any step who's primary purpose is to pend 
+	 * (or wait) for an action to occur before continuing the test.
+	 */
+	public interface ISequencePend extends ISequenceStep {
+		/** 
+		 * The name of the event that this step is pending upon.
+		 */
+		function get eventName():String;
 
 		/** 
-		 * The target eventDispatcher which the implementing classes will manipulate, use to boradcast events or 
-		 * listen to for events
+		 * Time in milliseconds this operation is allowed before it is considered a 
+		 * failure.
 		 */
-		function get target():IEventDispatcher;
+		function get timeout():int;
+	
+		/** 
+		 * Event handler to call on a timeout.
+		 */
+		function get timeoutHandler():Function;
+		
+		/** 
+		 * Called to cause implementors to setup their wait conditions.
+		 */
+		function setupListeners( testCase:*, sequence:SequenceRunner ):void;
 	}
 }

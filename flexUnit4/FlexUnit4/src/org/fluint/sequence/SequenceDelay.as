@@ -28,7 +28,7 @@
  * @modified Michael Labriola <labriola@digitalprimates.net>
  * @purpose changes for FlexUnit 4 integration
  **/ 
-package net.digitalprimates.fluint.sequence {
+package org.fluint.sequence {
 
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;

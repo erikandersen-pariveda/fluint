@@ -31,7 +31,7 @@ package org.flexunit.internals.runners.statements
 	
 	import mx.rpc.IResponder;
 	
-	import net.digitalprimates.fluint.sequence.SequenceRunner;
+	import org.fluint.sequence.SequenceRunner;
 	
 	public interface IAsyncHandlingStatement
 	{

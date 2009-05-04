@@ -31,9 +31,6 @@ package org.flexunit.internals.runners.statements {
 	import mx.events.PropertyChangeEvent;
 	import mx.rpc.IResponder;
 	
-	import net.digitalprimates.fluint.sequence.SequenceBindingWaiter;
-	import net.digitalprimates.fluint.sequence.SequenceRunner;
-	
 	import org.flexunit.Assert;
 	import org.flexunit.async.AsyncHandler;
 	import org.flexunit.async.AsyncLocator;
@@ -47,6 +44,8 @@ package org.flexunit.internals.runners.statements {
 	import org.flexunit.token.AsyncTestToken;
 	import org.flexunit.token.ChildResult;
 	import org.flexunit.utils.ClassNameUtil;
+	import org.fluint.sequence.SequenceBindingWaiter;
+	import org.fluint.sequence.SequenceRunner;
 	
 	use namespace flexunit_internal;
 

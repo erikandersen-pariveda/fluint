@@ -22,7 +22,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  **/ 
-package net.digitalprimates.fluint.ui {
+package org.fluint.uiImpersonation {
 	import mx.core.ApplicationGlobals;
 	import mx.core.Container;
 	import mx.events.FlexEvent;

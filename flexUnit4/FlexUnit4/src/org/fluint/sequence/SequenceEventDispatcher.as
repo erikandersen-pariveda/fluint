@@ -22,7 +22,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  **/ 
-package net.digitalprimates.fluint.sequence
+package org.fluint.sequence
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2007 Digital Primates IT Consulting Group
+ * Copyright (c) 2009 Digital Primates IT Consulting Group
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -21,19 +21,36 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * @author     Michael Labriola <labriola@digitalprimates.net>
+ * @version    
  **/ 
-package net.digitalprimates.fluint.sequence {
-	import flash.events.IEventDispatcher;
+package org.flexunit.internals.builders {
+	import flash.utils.*;
+	
+	import flex.lang.reflect.Klass;
+	
+	import net.digitalprimates.fluint.tests.TestCase;
+	import net.digitalprimates.fluint.tests.TestSuite;
+	
+	import org.flexunit.internals.runners.Fluint1ClassRunner;
+	import org.flexunit.runner.IRunner;
+	import org.flexunit.runners.model.RunnerBuilderBase;
 
-	/** 
-	 * Interface that defines the requisite methods for the sequence classes.
-	 * 
-	 * Any sequence can have (n) action classes.
-	 */
-	public interface ISequenceAction extends ISequenceStep {
-		/**
-		 * Called to instruct implementing object to execute its code.
-		 */
-		function execute():void;
+	public class Fluint1Builder extends RunnerBuilderBase {
+
+		override public function runnerForClass( testClass:Class ):IRunner {
+			var klassInfo:Klass = new Klass( testClass );
+
+			if (isFluintSuiteOrCase(klassInfo))
+				return new Fluint1ClassRunner(testClass);
+			return null;
+		}
+	
+		public function isFluintSuiteOrCase( klassInfo:Klass ):Boolean {
+ 			var testCase:Boolean = klassInfo.descendsFrom( net.digitalprimates.fluint.tests.TestCase );
+			var testSuite:Boolean = klassInfo.descendsFrom( net.digitalprimates.fluint.tests.TestSuite );
+			return ( testCase || testSuite );  
+		}		
 	}
 }

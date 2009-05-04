@@ -121,7 +121,7 @@ package net.digitalprimates.fluint.unitTests.frameworkSuite.testCases
 	    }
 
 	    protected function handlePropertySetEvent( event:Event, passThroughData:Object ):void {
-	    	trace("Property Changed Event Occurred " + event.type );
+	    	//trace("Property Changed Event Occurred " + event.type );
 	    	assertEquals( passThroughData.firstName, event.target.firstName );
 	    }
 

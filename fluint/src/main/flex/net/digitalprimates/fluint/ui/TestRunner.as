@@ -230,7 +230,7 @@ package net.digitalprimates.fluint.ui {
 				return testSuite;
 			} 
 			this.dispatchEvent(new Event(TESTS_COMPLETE));
-			trace("All done");
+			//trace("All done");
 			return null;			
 		}
 
@@ -346,7 +346,7 @@ package net.digitalprimates.fluint.ui {
 		 * Starts running the setup phase of a given test method 
 		 */
 		protected function runSetup():void {
-			trace( "Now Setting Up " + testMethod.methodName );
+			//trace( "Now Setting Up " + testMethod.methodName );
 			
 			testCase.addEventListener( TestCase.TEST_COMPLETE, handleTestProcess, false, 0, true );
 			testCase.runSetup();
@@ -356,7 +356,7 @@ package net.digitalprimates.fluint.ui {
 		 * Starts running the method phase of a given test method 
 		 */
 		protected function runTestMethod():void {
-			trace( "Now Running " + testMethod.methodName );
+			//trace( "Now Running " + testMethod.methodName );
 			testCase.addEventListener( TestCase.TEST_COMPLETE, handleTestProcess, false, 0, true );
 			testCase.runTestMethod( testMethod.method );
 		}
@@ -365,7 +365,7 @@ package net.digitalprimates.fluint.ui {
 		 * Starts running the teardown phase of a given test method 
 		 */
 		protected function runTearDown():void {
-			trace( "Now Tearing Down " + testMethod.methodName );
+			//trace( "Now Tearing Down " + testMethod.methodName );
 			testCase.addEventListener( TestCase.TEST_COMPLETE, handleTestProcess, false, 0, true );
 			testCase.runTearDown();
 		}
@@ -408,7 +408,7 @@ package net.digitalprimates.fluint.ui {
         /**
          * Constructor.
          */
-		public function TestRunner() {
+		public function TestRunner( monitor:TestMonitor=null ) {
 			var progressionArray:Array = [ runSetup, runTestMethod, runTearDown ];
 			testProgression = new ArrayCollection( progressionArray );
 			progressCursor = testProgression.createCursor();
@@ -416,7 +416,11 @@ package net.digitalprimates.fluint.ui {
 			schedulerTimer = new Timer( 5, 0 );
 			schedulerTimer.addEventListener(TimerEvent.TIMER, handleTimerTick );
 			
-			testMonitor = new TestMonitor();
+			if ( monitor ) {
+				testMonitor = monitor; 
+			} else {
+				testMonitor = new TestMonitor();
+			}
 		}
 	}
 }

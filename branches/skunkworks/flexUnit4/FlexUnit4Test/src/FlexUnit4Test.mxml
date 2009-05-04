@@ -5,7 +5,7 @@
 	
 	<mx:Script>
 		<![CDATA[
-			import flexUnitTests.flexUnit4.suites.frameworkSuite.FrameworkSuite;
+			import flexUnitTests.flexUnit4.suites.frameworkSuite.FlexUnit4Suite;
 			//import org.flexunit.listeners.JUnitListener;
 			import org.flexunit.runner.notification.async.XMLListener;
 			import org.flexunit.listeners.UIListener;
@@ -24,7 +24,7 @@
 
 				//Listener for the UI
 				core.addListener( new UIListener( uiListener ));
-				core.run( FrameworkSuite );
+				core.run( FlexUnit4Suite );
 
 				//The run method can take a single class or suite
 				//core.run( FrameworkSuite ); or core.run( TestAssert );

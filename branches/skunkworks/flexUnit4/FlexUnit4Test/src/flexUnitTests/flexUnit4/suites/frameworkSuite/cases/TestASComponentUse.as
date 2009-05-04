@@ -29,10 +29,9 @@ package flexUnitTests.flexUnit4.suites.frameworkSuite.cases
 	import mx.controls.TextInput;
 	import mx.events.FlexEvent;
 	
-	import net.digitalprimates.fluint.uiImpersonation.UIImpersonator;
-	
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
+	import org.fluint.uiImpersonation.UIImpersonator;
 	
     /**
      * @private

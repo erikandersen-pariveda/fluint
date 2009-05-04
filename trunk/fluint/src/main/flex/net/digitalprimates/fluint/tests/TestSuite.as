@@ -28,6 +28,7 @@ package net.digitalprimates.fluint.tests
 	
 	import mx.collections.ArrayCollection;
 	import mx.collections.CursorBookmark;
+	import mx.collections.ICollectionView;
 	import mx.collections.IViewCursor;
 	import mx.collections.Sort;
 	
@@ -50,6 +51,14 @@ package net.digitalprimates.fluint.tests
          * @private
          */
 		protected var cursor:IViewCursor;
+
+		/** 
+		 * Gets the collection of test cases. Used for integration with FlexUnit4
+		 * 
+		 */
+		public function getTests():ICollectionView {
+			return caseCollection;
+		}
 
 		/** 
 		 * Gets a count of all tests contained within all TestCases 

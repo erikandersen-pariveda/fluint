@@ -32,15 +32,14 @@ package flexUnitTests.flexUnit4.suites.frameworkSuite.cases
 	import mx.events.FlexEvent;
 	import mx.events.ValidationResultEvent;
 	
-	import net.digitalprimates.fluint.sequence.SequenceCaller;
-	import net.digitalprimates.fluint.sequence.SequenceEventDispatcher;
-	import net.digitalprimates.fluint.sequence.SequenceRunner;
-	import net.digitalprimates.fluint.sequence.SequenceSetter;
-	import net.digitalprimates.fluint.sequence.SequenceWaiter;
-	import net.digitalprimates.fluint.uiImpersonation.UIImpersonator;
-	
 	import org.flexunit.Assert;
 	import org.flexunit.async.Async;
+	import org.fluint.sequence.SequenceCaller;
+	import org.fluint.sequence.SequenceEventDispatcher;
+	import org.fluint.sequence.SequenceRunner;
+	import org.fluint.sequence.SequenceSetter;
+	import org.fluint.sequence.SequenceWaiter;
+	import org.fluint.uiImpersonation.UIImpersonator;
 
     /**
      * @private

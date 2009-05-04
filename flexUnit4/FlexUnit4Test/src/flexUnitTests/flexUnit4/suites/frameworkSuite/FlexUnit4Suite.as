@@ -46,7 +46,7 @@ package flexUnitTests.flexUnit4.suites.frameworkSuite
     /**
      * @private
      */
-	public class FrameworkSuite {
+	public class FlexUnit4Suite {
 		public var testAssert:TestAssert;
 		public var testIgnore:TestIgnore;
 		public var testMethodOrder:TestMethodOrder;

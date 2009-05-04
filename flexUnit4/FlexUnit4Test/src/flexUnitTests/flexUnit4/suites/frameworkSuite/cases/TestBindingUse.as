@@ -28,11 +28,10 @@ package flexUnitTests.flexUnit4.suites.frameworkSuite.cases
 	
 	import flexUnitTests.flexUnit4.suites.frameworkSuite.cases.valueObject.Person;
 	
-	import net.digitalprimates.fluint.sequence.SequenceBindingWaiter;
-	import net.digitalprimates.fluint.sequence.SequenceRunner;
-	import net.digitalprimates.fluint.sequence.SequenceSetter;
-	
 	import org.flexunit.Assert;
+	import org.fluint.sequence.SequenceBindingWaiter;
+	import org.fluint.sequence.SequenceRunner;
+	import org.fluint.sequence.SequenceSetter;
 
     /**
      * @private

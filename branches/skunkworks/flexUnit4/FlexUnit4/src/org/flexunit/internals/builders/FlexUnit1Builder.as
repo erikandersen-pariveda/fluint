@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2007 Digital Primates IT Consulting Group
+ * Copyright (c) 2009 Digital Primates IT Consulting Group
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -21,33 +21,33 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * @author     Michael Labriola <labriola@digitalprimates.net>
+ * @version    
  **/ 
- package net.digitalprimates.fluint.sequence {
+package org.flexunit.internals.builders {
+	import flash.utils.*;
 	
-	/**
-	 * Interface defined by any step who's primary purpose is to pend 
-	 * (or wait) for an action to occur before continuing the test.
-	 */
-	public interface ISequencePend extends ISequenceStep {
-		/** 
-		 * The name of the event that this step is pending upon.
-		 */
-		function get eventName():String;
+	import flex.lang.reflect.Klass;
+	
+	import flexunit.framework.TestCase;
+	
+	import org.flexunit.internals.runners.FlexUnit1ClassRunner;
+	import org.flexunit.runner.IRunner;
+	import org.flexunit.runners.model.RunnerBuilderBase;
 
-		/** 
-		 * Time in milliseconds this operation is allowed before it is considered a 
-		 * failure.
-		 */
-		function get timeout():int;
+	public class FlexUnit1Builder extends RunnerBuilderBase {
+
+		override public function runnerForClass( testClass:Class ):IRunner {
+			var klassInfo:Klass = new Klass( testClass );
+
+			if (isPre4Test(klassInfo))
+				return new FlexUnit1ClassRunner(testClass);
+			return null;
+		}
 	
-		/** 
-		 * Event handler to call on a timeout.
-		 */
-		function get timeoutHandler():Function;
-		
-		/** 
-		 * Called to cause implementors to setup their wait conditions.
-		 */
-		function setupListeners( testCase:*, sequence:SequenceRunner ):void;
+		public function isPre4Test( klassInfo:Klass ):Boolean {
+			return klassInfo.descendsFrom( flexunit.framework.TestCase );
+		}		
 	}
 }

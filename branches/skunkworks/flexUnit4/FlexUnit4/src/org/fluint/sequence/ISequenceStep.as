@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009 Digital Primates IT Consulting Group
+ * Copyright (c) 2007 Digital Primates IT Consulting Group
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -21,37 +21,16 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- * 
- * @author     Michael Labriola <labriola@digitalprimates.net>
- * @version    
  **/ 
-package org.flexunit.internals.runners {
-	import flex.lang.reflect.Klass;
-	import flex.lang.reflect.Method;
+package org.fluint.sequence {
+	import flash.events.IEventDispatcher;
 	
-	import flexunit.framework.Test;
-	
-	
-	public class SuiteMethod extends FlexUnit1ClassRunner {
-		public function SuiteMethod( klass:Class ) {
-			super( testFromSuiteMethod( klass ) );
-		}
-	
-		public static function testFromSuiteMethod( clazz:Class ):Test {
-			var suiteMethod:Method = null;
-			var suite:Test = null;
-			var klass:Klass = new Klass( clazz );
+	public interface ISequenceStep {
 
-			try {
-				suiteMethod = klass.getMethod("suite");
-				if ( !suiteMethod.isStatic ) {
-					throw new Error( klass.name + ".suite() must be static");
-				}
-				suite = Test( suiteMethod.invoke(null) );
-			} catch ( e:Error ) {
-				throw e;
-			}
-			return suite;
-		}
+		/** 
+		 * The target eventDispatcher which the implementing classes will manipulate, use to boradcast events or 
+		 * listen to for events
+		 */
+		function get target():IEventDispatcher;
 	}
 }

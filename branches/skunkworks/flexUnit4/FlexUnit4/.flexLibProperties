@@ -6,18 +6,6 @@
 <classEntry path="flex.lang.reflect.Klass"/>
 <classEntry path="flex.lang.reflect.Method"/>
 <classEntry path="flex.lang.reflect.utils.MetadataTools"/>
-<classEntry path="net.digitalprimates.fluint.sequence.ISequenceAction"/>
-<classEntry path="net.digitalprimates.fluint.sequence.ISequencePend"/>
-<classEntry path="net.digitalprimates.fluint.sequence.ISequenceStep"/>
-<classEntry path="net.digitalprimates.fluint.sequence.SequenceBindingWaiter"/>
-<classEntry path="net.digitalprimates.fluint.sequence.SequenceCaller"/>
-<classEntry path="net.digitalprimates.fluint.sequence.SequenceDelay"/>
-<classEntry path="net.digitalprimates.fluint.sequence.SequenceEventDispatcher"/>
-<classEntry path="net.digitalprimates.fluint.sequence.SequenceRunner"/>
-<classEntry path="net.digitalprimates.fluint.sequence.SequenceSetter"/>
-<classEntry path="net.digitalprimates.fluint.sequence.SequenceWaiter"/>
-<classEntry path="net.digitalprimates.fluint.ui.TestEnvironment"/>
-<classEntry path="net.digitalprimates.fluint.uiImpersonation.UIImpersonator"/>
 <classEntry path="org.flexunit.Assert"/>
 <classEntry path="org.flexunit.AssertionError"/>
 <classEntry path="org.flexunit.Assume"/>
@@ -59,8 +47,9 @@
 <classEntry path="org.flexunit.internals.RealSystem"/>
 <classEntry path="org.flexunit.internals.TextListener"/>
 <classEntry path="org.flexunit.internals.builders.AllDefaultPossibilitiesBuilder"/>
-<classEntry path="org.flexunit.internals.builders.FlexUnit3Builder"/>
+<classEntry path="org.flexunit.internals.builders.FlexUnit1Builder"/>
 <classEntry path="org.flexunit.internals.builders.FlexUnit4Builder"/>
+<classEntry path="org.flexunit.internals.builders.Fluint1Builder"/>
 <classEntry path="org.flexunit.internals.builders.IgnoredBuilder"/>
 <classEntry path="org.flexunit.internals.builders.IgnoredClassRunner"/>
 <classEntry path="org.flexunit.internals.builders.MetaDataBuilder"/>
@@ -79,7 +68,8 @@
 <classEntry path="org.flexunit.internals.runners.ClassRoadie"/>
 <classEntry path="org.flexunit.internals.runners.ErrorReportingRunner"/>
 <classEntry path="org.flexunit.internals.runners.FailedBefore"/>
-<classEntry path="org.flexunit.internals.runners.FlexUnit38ClassRunner"/>
+<classEntry path="org.flexunit.internals.runners.FlexUnit1ClassRunner"/>
+<classEntry path="org.flexunit.internals.runners.Fluint1ClassRunner"/>
 <classEntry path="org.flexunit.internals.runners.InitializationError"/>
 <classEntry path="org.flexunit.internals.runners.MethodRoadie"/>
 <classEntry path="org.flexunit.internals.runners.MethodValidator"/>
@@ -145,6 +135,18 @@
 <classEntry path="org.flexunit.token.AsyncTestToken"/>
 <classEntry path="org.flexunit.token.ChildResult"/>
 <classEntry path="org.flexunit.utils.ClassNameUtil"/>
+<classEntry path="org.fluint.sequence.ISequenceAction"/>
+<classEntry path="org.fluint.sequence.ISequencePend"/>
+<classEntry path="org.fluint.sequence.ISequenceStep"/>
+<classEntry path="org.fluint.sequence.SequenceBindingWaiter"/>
+<classEntry path="org.fluint.sequence.SequenceCaller"/>
+<classEntry path="org.fluint.sequence.SequenceDelay"/>
+<classEntry path="org.fluint.sequence.SequenceEventDispatcher"/>
+<classEntry path="org.fluint.sequence.SequenceRunner"/>
+<classEntry path="org.fluint.sequence.SequenceSetter"/>
+<classEntry path="org.fluint.sequence.SequenceWaiter"/>
+<classEntry path="org.fluint.uiImpersonation.TestEnvironment"/>
+<classEntry path="org.fluint.uiImpersonation.UIImpersonator"/>
 </includeClasses>
 <includeResources/>
 <namespaceManifests/>

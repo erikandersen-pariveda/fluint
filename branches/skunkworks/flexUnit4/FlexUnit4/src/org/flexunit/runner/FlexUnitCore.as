@@ -85,6 +85,13 @@ package org.flexunit.runner {
 						foundClasses.push( ar[ i ] ); 
 					} else if ( ar[ i ] is Class ) {
 						foundClasses.push( ar[ i ] ); 
+					} else if ( ar[ i ] is Object ) {
+						//this is actually likely an instance.
+						//eventually we intend to have more evolved support for
+						//this, but, for right now, just try to make it a class
+						var className:String = getQualifiedClassName( ar[ i ] );
+						var definition:* = getDefinitionByName( className );
+						foundClasses.push( definition );
 					}
 				}
 				catch ( error:Error ) {

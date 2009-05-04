@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2009 Digital Primates IT Consulting Group
+ * Copyright (c) 2007 Digital Primates IT Consulting Group
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -21,33 +21,19 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- * 
- * @author     Michael Labriola <labriola@digitalprimates.net>
- * @version    
  **/ 
-package org.flexunit.internals.builders {
-	import flash.utils.*;
-	
-	import flex.lang.reflect.Klass;
-	
-	import flexunit.framework.TestCase;
-	
-	import org.flexunit.internals.runners.FlexUnit38ClassRunner;
-	import org.flexunit.runner.IRunner;
-	import org.flexunit.runners.model.RunnerBuilderBase;
+package org.fluint.sequence {
+	import flash.events.IEventDispatcher;
 
-	public class FlexUnit3Builder extends RunnerBuilderBase {
-
-		override public function runnerForClass( testClass:Class ):IRunner {
-			var klassInfo:Klass = new Klass( testClass );
-
-			if (isPre4Test(klassInfo))
-				return new FlexUnit38ClassRunner(testClass);
-			return null;
-		}
-	
-		public function isPre4Test( klassInfo:Klass ):Boolean {
-			return klassInfo.descendsFrom( TestCase );
-		}		
+	/** 
+	 * Interface that defines the requisite methods for the sequence classes.
+	 * 
+	 * Any sequence can have (n) action classes.
+	 */
+	public interface ISequenceAction extends ISequenceStep {
+		/**
+		 * Called to instruct implementing object to execute its code.
+		 */
+		function execute():void;
 	}
 }

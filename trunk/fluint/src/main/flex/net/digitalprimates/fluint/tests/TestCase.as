@@ -29,6 +29,7 @@ package net.digitalprimates.fluint.tests {
 	import flash.utils.*;
 	
 	import mx.collections.CursorBookmark;
+	import mx.collections.ICollectionView;
 	import mx.collections.IViewCursor;
 	import mx.collections.Sort;
 	import mx.collections.SortField;
@@ -96,6 +97,14 @@ package net.digitalprimates.fluint.tests {
          */
 		private var testCollection:XMLListCollection;
 
+		/** 
+		 * Gets the collection of test cases. Used for integration with FlexUnit4
+		 * 
+		 */
+		public function getTests():ICollectionView {
+			return testCollection;
+		}
+		
         /**
          * @private
          */

@@ -1,0 +1,5 @@
+## Test Method ##
+
+A TestMethod is the smallest unit of the testing framework. A test method exercises code and checks an outcome. At the end of the test method we generally make an assertion, stating that we expect the outcome to be in a specific state. We might expect a value to be true or false, null or not null, perhaps even equal to another variable. If the assertion is valid, the test passes. If the assertion does not logically work (e.g., we specify it should be false but it is really true), the test fails.
+
+Though a single test method may setup several conditions, exercise several pieces of code, or even wait for an asynchronous event, it should ultimately make only a single assertion. This is a point of contention and many disagree, but a single assertion per method ensures the best granularity in resolving test failures, among other benefits.
